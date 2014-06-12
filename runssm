@@ -1,0 +1,10 @@
+#!/bin/bash
+echo "compiling program..."
+runhaskell Spla $1
+echo "  DONE"
+echo ""
+
+echo "running program..."
+java -jar ssm.jar --cli --file $1.ssm
+echo "  DONE"
+echo ""

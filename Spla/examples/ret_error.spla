@@ -1,0 +1,21 @@
+
+(unit -> int) main = fun (u) {
+    int x = 5;
+    (int -> int) h = fun (y) {
+        {
+          int z = 7;
+          print(-3);
+          return x + y; // after return, this block is control lexical environment
+        }
+      };
+
+    (int, int) check_and_eleven = f(h);
+    print(check_and_eleven.fst);          // correct = 8, wrong = 7 (or 2025 ?!?!?!)
+    return check_and_eleven.snd;          // 11
+  };
+
+((int -> int) -> (int, int)) f = fun (g) {
+    int z = 8;
+    int k = g(6);
+    return (z, k);
+  };

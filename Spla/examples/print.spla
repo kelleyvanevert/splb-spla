@@ -1,0 +1,11 @@
+
+(int -> int) f = fun (x, y, z) {
+    print(x);
+    print(y);
+    print(z);
+    return 7;
+  };
+
+(unit -> int) main = fun (u) {
+    return f(4, 5, 6);
+  };

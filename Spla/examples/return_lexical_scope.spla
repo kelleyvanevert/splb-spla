@@ -1,0 +1,19 @@
+
+/**
+  This example tests whether the return lexical scope is correctly applied
+*/
+
+(unit -> int) main = fun (u) {
+    int x = 5;
+    return x;                     // 5 = correct
+                                  // 6 = WRONG
+  };
+
+(unit -> unit) f = fun () {
+    int x = 6;
+    {
+      {
+        return;
+      }
+    }
+  };

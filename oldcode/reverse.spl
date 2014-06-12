@@ -1,0 +1,15 @@
+
+[t] accu = [];
+
+[t] reverse ([t] list) {
+  [t] accu = [];
+  while (!isEmpty(list)) {
+    accu = list.hd : accu;
+    list = list.tl;
+  }
+  return accu;
+}
+
+[t] reverse_dummy ([t] list) {
+  return 0;
+}

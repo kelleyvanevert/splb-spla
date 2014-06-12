@@ -1,0 +1,13 @@
+
+(unit -> int) main = fun (u) {
+    [int] list = 2 : 3 : 4 : [];
+    printList(list);
+  };
+
+([t] -> unit) printList = fun (list) {
+    if (!isEmpty(list)) {
+      print(list.hd);
+      printList(list.tl);
+    }
+    return ();
+  };

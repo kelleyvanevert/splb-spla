@@ -1,0 +1,11 @@
+
+(unit -> int) main = fun () {
+    int x = 4;                  // 4
+    int y = 5;                  // 8
+    int z = 6;                  // 9
+    {
+      int x = 7;                // 7
+      y = 8;
+    }
+    z = 9;
+  };

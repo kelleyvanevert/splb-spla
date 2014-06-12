@@ -1,0 +1,181 @@
+// 
+// (unit -> int) main = fun () {
+//     int x = 5;
+//     (int -> int) h = fun (y) {
+//         return x + y;
+//       };
+//     return f(h);                     // 11
+//   };
+// 
+// ((int -> int) -> int) f = fun (g) {
+//     return g(6);
+//   };
+// 
+
+            ldc 0     // 0 DUMMY parent context
+            ldc 0     // 1 main
+            ldc 0     // 2 f
+            stmh 3
+            annote HP -3 -1 gray "lexical"
+            ldc 2
+            sub
+            str MP    // create global context
+
+            bsr __main
+            ldr RR    // main code location
+            ldr MP    // current context
+            stmh 2    // store (main code loc, current context) in heap
+            annote HP -2 -1 gray "fun main"
+            ldc 1
+            sub
+            stl 1     // init main
+
+            bsr __f
+            ldr RR    // f code location
+            ldr MP    // current context
+            stmh 2    // store (f code loc, current context) in heap
+            annote HP -2 -1 gray "fun f"
+            ldc 1
+            sub
+            stl 2     // init f
+
+            ldc 0     // unit arg for main
+            ldr MP
+            lda 1
+            lda 0     // load main code location (to jumpt into, later)
+            ldr MP       // create fun exec indrection frame [fun def ctxt, return ctxt]
+            lda 1
+            lda 1
+            ldr MP
+            stmh 2
+            annote HP -2 -1 gray "indirection for main"
+            ldc 1
+            sub
+            str MP       // /create
+            jsr
+            ajs -1
+
+            ldr RR
+            trap 0
+            halt
+
+__main:     ldr PC
+            ldc 6
+            add
+            str RR
+            ret
+
+_main:      ldr MP    // 0 parent context
+            lds -2    // 1 arg
+            ldc 0     // 2 x
+            ldc 0     // 3 h
+            stmh 4
+            annote HP -4 -1 gray "lexical main.b1"
+            ldc 3
+            sub
+            str MP    // create execution context
+
+            ldc 5
+            stl 2     // init x
+
+            bsr __main_h
+            ldr RR    // h code location
+            ldr MP    // current context
+            stmh 2    // store (h code loc, current context) in heap
+            annote HP -2 -1 gray "fun main.h"
+            ldc 1
+            sub
+            stl 3     // init h
+
+            ldr MP
+            lda 3     // h arg for f
+            ldr MP
+            lda 0
+            lda 0 // extra skip, through main fun exec indirection frame
+            lda 2
+            lda 0     // load f code location (to jump into, later)
+            ldr MP       // create fun exec indrection frame [fun def ctxt, return ctxt]
+            lda 1
+            lda 1
+            ldr MP
+            stmh 2
+            annote HP -2 -1 gray "indirection for f"
+            ldc 1
+            sub
+            str MP       // /create
+            jsr
+            ajs -1
+
+            ldr MP    // = current fn lexical context
+            lda 0     // = current fn lexical indirection
+            lda 1     // = calling function lexical context
+            str MP    // restore it
+            ret       // then return
+
+__main_h:   ldr PC
+            ldc 6
+            add
+            str RR
+            ret
+
+_main_h:    ldr MP    // 0 parent context
+            lds -2    // 1 arg y
+            stmh 2
+            annote HP -2 -1 gray "lexical main.h"
+            ldc 1
+            sub
+            str MP    // create execution context
+
+            ldr MP    // = lexical main.h
+            lda 0     // = indirection main.h
+            lda 0     // = lexical main
+            lda 2     // get x
+            ldr MP    // = lexical main.h
+            lda 1     // get y
+            add
+            str RR
+
+            ldr MP    // = current fn lexical context
+            lda 0     // = current fn lexical indirection
+            lda 1     // = calling function lexical context
+            str MP    // restore it
+            ret       // then return
+
+__f:        ldr PC
+            ldc 6
+            add
+            str RR
+            ret
+
+_f:         ldr MP    // 0 parent context
+            lds -2    // 1 arg g
+            stmh 2
+            annote HP -2 -1 gray "lexical f"
+            ldc 1
+            sub
+            str MP    // create execution context
+
+            ldc 6     // arg for g
+            ldr MP
+            lda 1
+            lda 0     // load g code location (to jump into, later)
+            ldr MP       // create fun exec indrection frame [fun def ctxt, return ctxt]
+            lda 1
+            lda 1
+            ldr MP
+            stmh 2
+            annote HP -2 -1 gray "indirection for g"
+            ldc 1
+            sub
+            str MP       // /create
+            jsr
+            ajs -1
+
+            ldr RR
+            str RR
+
+            ldr MP    // = current fn lexical context
+            lda 0     // = current fn lexical indirection
+            lda 1     // = calling function lexical context
+            str MP    // restore it
+            ret       // then return

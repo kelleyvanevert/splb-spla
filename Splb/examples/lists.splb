@@ -1,0 +1,16 @@
+
+int main () {
+  [[int]] x;
+  x := [] : [];
+  x.hd := 5 : [];
+  f(x);
+  // x = [[5, 5]]
+  print (x.hd.hd);           // 5
+  print (x.hd.tl.hd);        // 5
+  return 1;                  // 1
+}
+
+unit f ([[a]] x) {
+  x.hd := x.hd.hd : x.hd;
+  return ();
+}

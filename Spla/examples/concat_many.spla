@@ -1,0 +1,36 @@
+
+(unit -> int) main = fun (u) {
+    [int] xs = 3:4:[];
+    [int] ys = 5:6:[];
+    
+    map(print, concat(xs, ys));             // 3, 4, 5, 6
+    map(print, concat_many(xs : ys : []));  // 3, 4, 5, 6
+    return 0;
+  };
+
+
+// List operations
+
+((a -> b) -> [a] -> [b]) map = fun (f, list) {
+    if (isEmpty(list)) {
+      return [];
+    } else {
+      return f(list.hd) : map(f, list.tl);
+    }
+  };
+
+([a] -> [a] -> [a]) concat = fun (xs, ys) {
+    if (isEmpty(xs)) {
+      return ys;
+    } else {
+      return xs.hd : concat(xs.tl, ys);
+    }
+  };
+
+([[a]] -> [a]) concat_many = fun (lists) {
+    if (isEmpty(lists)) {
+      return [];
+    } else {
+      return concat(lists.hd, concat_many(lists.tl));
+    }
+  };

@@ -1,0 +1,108 @@
+
+- TODO
+  - UNIT arg
+  - clean up lexical contexts
+    - w/o children
+
+- Type aliases
+  - meaning
+    - for convenience, but not theoretically interesting
+    - cannot be partially applied
+    - just rewriting rules
+    - no circularity allowed
+    - parsed from top to bottom
+  - pragmatics
+    - ugly parsing hacks
+    - cannot parse @a @b @c, must force (parse_t_closed) e.g. @a (@b) (@c)
+
+- Blocks / lexical issues
+  - lexical contexts are: global, block, let
+  - reserve/shadow all locals -- TODO
+  - functions pull in their arguments
+  - use MP to store lexical contexts on the heap AND ALSO FUNCTION EXECUTION INDIRECTION frames
+  - context layout:
+    - is function context?    (look for this flag when returning from function)
+    - parent lexical context, for lexical lookups
+    - return lexical context, to be restored after exit
+    - locals
+  - instantiated for block:
+    - 0
+    - parent context
+    - parent context
+    - locals
+  - instantiated for let:
+    - 0
+    - parent context
+    - parent context
+    - let var
+  - instantiated for function:
+    - 1
+    - parent context
+    - previous context (control)
+    - let var
+
+- intermediary assembly:
+  - enter_ctxt n :: n -> 0
+      // create & enter new lexical context, containing the top n values on the stack
+  - exit_ctxt i :: 0 -> 0
+      // exit lexical context, i to indicates offset of previous MP in current lexical context
+  - lexical_load up i :: 0 -> 1
+      // gets variable/element #i (zero based) of #up'th anscestor of current lexical scope
+  - lexical_store up i :: 1 -> 0
+      // puts variable/element #i (zero based) of #up'th anscestor of current lexical scope
+  - return :: 0 -> 0
+      // walks up the lexical tree to find indirection frame, restores calling scope, and returns
+  
+- [[ e ]] :: 0 -> 1
+  [[ s ]] :: 0 -> 0
+
+- Never use ldl n, always
+    ldr MP // current context
+    ldh 0  // parent context, however many times...
+    lda n
+
+- Static analysis
+  - does not check initializedness ????
+
+- Partial application ????
+- & function overlaps ????
+
+- Calling convention OLD OLD OLD OLD OLD !!!!
+  - call f(arg 1 ... arg n)
+      <load args to stack>
+      <load f to stack>
+      jsr
+      ajs -n // result is in RR
+  - enter f(arg 1 ... arg n)
+      // INVARIANT:
+      // - SP value
+      // <locals> is the number of direct locals
+      ldr MP
+      ldc 0 // do this <locals> times
+      stmh {1 + <locals>} // store frame of heap with MP + locals
+      ldc <locals>
+      sub
+      str MP              // set new MP
+  - compute f(a, b)
+      // INVARIANTS?
+  - exit f(a, b)
+      // INVARIANTS?
+      ldr MP
+      ldh 0
+      str MP     // restore old MP
+      ldr R5
+      ldh 0
+      str R5     // restore old R5
+      ret
+
+- Function code address retrieval
+  - Each function f with code label <f> is preceded directly with:
+      _<f>: ldr PC
+            ldc 6
+            add
+            str RR
+            ret
+  - When declaring a function [.. f = ..]:
+      bsr _<f>
+      ldr RR    // gets location of function code
+  - TODO inline function expressions ????

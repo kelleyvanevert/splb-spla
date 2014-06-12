@@ -1,0 +1,10 @@
+
+int main () {
+  int x;
+  x := 6;
+  while (x > 0) {
+    x := x - 1;
+    print(x);      // 5, 4, 3, 2, 1, 0
+  }
+  return 8;        // 8
+}

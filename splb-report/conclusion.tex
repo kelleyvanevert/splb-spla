@@ -1,0 +1,12 @@
+% !TeX root = status1.tex
+% !TeX encoding = UTF-8 Unicode
+
+\section{Conclusion}
+
+We have found that methods for checking language equivalence of NFAs can be applied to SFAs as well. A symbolic automaton can be canonically transformed to a nondeterministic automaton in such a manner that the language is preserved.
+
+An optimization was also provided which captures the essentials of the alphabet of a symbolic automaton, thereby preserving the efficient nature of symbolic automata on large alphabets.
+
+We believe also that these transformations shed light on the nature of SFAs, and allow us to study them as related to their NFA counterparts, thereby providing theoretic guidance as well, instead of just being able to apply NFA property checking methods.
+
+A possible topic for further investigation is related to Diagram \ref{diagram}. To make it into a commutative square, one needs to define a transformation from SFAs to NFAs. This gives another algorithm which computes the optimization, and that algorithm might outperform in some cases.

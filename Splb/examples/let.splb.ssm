@@ -1,0 +1,77 @@
+           link 0     // enter program
+           ldc 0      // unit arg for main()
+           bsr _main  // call main()
+           ldr RR     
+           trap 0     
+           halt       
+                      
+_main:     link 8     // enter fn, allocate locals
+           annote MP 1 1 orange "local x" 
+           annote MP 3 3 orange "local let x_orig" 
+           annote MP 5 5 orange "local let x" 
+           annote MP 7 7 orange "local let y" 
+           annote MP 2 2 orange "init? local x" 
+           annote MP 4 4 orange "init? local let x_orig" 
+           annote MP 6 6 orange "init? local let x" 
+           annote MP 8 8 orange "init? local let y" 
+           ldc 2      
+           stl 1      
+           ldc 1      
+           stl 2      
+           ldl 2      
+           brf _EXCEPTION_UninitiatedVar 
+           ldl 1      
+           stl 3      
+           ldc 1      
+           stl 4      
+           ldl 2      
+           brf _EXCEPTION_UninitiatedVar 
+           ldl 1      
+           ldc 1      
+           add        
+           stl 5      
+           ldc 1      
+           stl 6      
+           ldl 4      
+           brf _EXCEPTION_UninitiatedVar 
+           ldl 3      
+           stl 7      
+           ldc 1      
+           stl 8      
+           ldl 6      
+           brf _EXCEPTION_UninitiatedVar 
+           ldl 5      
+           ldl 4      
+           brf _EXCEPTION_UninitiatedVar 
+           ldl 3      
+           add        
+           ldc 5      
+           add        
+           str RR     
+           unlink     
+           ret        
+                      
+                      // ====== BUILTINS ====== //
+                      
+_print:    link 0     
+           ldl -2     
+           trap 0     
+           ajs 1      
+           str RR     
+           unlink     
+           ret        
+                      
+_isEmpty:  link 0     
+           ldl -2     
+           ldc 0      
+           eq         
+           str RR     
+           unlink     
+           ret        
+                      
+_EXCEPTION_EmptyList: annote SP 0 0 red "EXCEPTION empty list" 
+           trap 0     
+           halt       
+_EXCEPTION_UninitiatedVar: annote SP 0 0 red "EXCEPTION uninitialized var" 
+           trap 0     
+           halt       

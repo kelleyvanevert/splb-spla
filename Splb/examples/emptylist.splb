@@ -1,0 +1,9 @@
+
+int main () {
+  [a] x;
+  x := [];
+  print(isEmpty(x)); // -1
+  x := 5 : [];
+  print(isEmpty(x)); //  0
+  return 1;          //  1
+}

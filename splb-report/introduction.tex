@@ -1,0 +1,29 @@
+% !TeX root = status1.tex
+% !TeX encoding = UTF-8 Unicode
+
+\section{Introduction}
+
+Symbolic automata are a variation of normal automata originally designed to efficiently cope with large, potentially infinite alphabets, and to model automata-like systems with more complexity than can be captured by a normal automaton. Symbolic automata differ from ordinary automata in that their alphabet is a Boolean algebra instead of just a set, providing extended meaning to the transitions in the automaton.
+
+The notion of symbolic automata has been introduced and applied many times over the past few years by Margus Veanes and fellow researchers, see e.g.~\citep{veanes2}, \citep{veanes3}, and \citep{veanes}. Applications include, amongst others, regular expression analysis for web security reasons, where the alphabet contains the full range of possible integer values on an operating system.
+
+As the alphabet changes the meaning of the transitions, so does language acceptance of symbolic automata with it. Therefore, existing methods for deciding properties of automata need not be useful for symbolic automata. Specifically, deciding language equivalence turns out to be always sound but not necessarily complete. The main objective of this article is to adapt existing language equivalence deciding methods to symbolic automata, and moreover to do this in an efficient manner.
+
+We show how a canonical transformation can be applied to symbolic automata, after which existing language equivalence methods can be successfully applied. We give a detailed example involving HKC, a well-known language equivalence checking algorithm.
+
+This canonical transformation, however, nullifies the efficiency that was obtained by using symbolic automata in the first place, as it implies converting the whole alphabet into arrows in the resutling automaton. Therefore, we introduce a second transformation, which optimizes the Boolean alphabet relative to the automaton by means of a notion of \emph{minterms}, also introduced by Veanes.
+
+We believe that this second, optimizing transformation, and our theory of minterms, capture concisely the efficient nature of symbolic automata.
+
+
+
+\subsection*{Outline}
+
+In Section \ref{sect-prelim} we lay out the standard definitions of Boolean algebras, automata and present the Hopcroft-Karp algorithm. Also, we present the notion of minterms and build up some theory regarding minterms and minimal, generated Boolean algebras.
+
+Then, in Section \ref{sect-transform}, we present the mentioned transformations, and wrap up with a main theorem regarding their meaning.
+
+The appendix contains an argument for our simplified alternative definition of symbolic automata involving a single Boolean algebra, as opposed to Veanes' more complicated Effective Boolean Algebras, which involve an interpretation function as well as a domain.
+
+
+

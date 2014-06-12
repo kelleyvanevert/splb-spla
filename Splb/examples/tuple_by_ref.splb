@@ -1,0 +1,12 @@
+
+int main () {
+  (int, int) tuple;
+  tuple := (4, 5);
+  f(tuple);
+  return tuple.fst; // should return 3
+}
+
+unit f ((int, int) t) {
+  t.fst := 3;
+  return #;
+}

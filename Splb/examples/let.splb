@@ -1,0 +1,10 @@
+
+int main () {
+  int x;
+  x := 2;
+  return
+    let x_orig := x in
+    let x := x + 1 in
+    let y := x_orig in
+      x + x_orig + 5;   // 10
+}

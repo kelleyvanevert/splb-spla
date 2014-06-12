@@ -1,0 +1,10 @@
+
+type @parser s a = s -> [(a, s)];
+type @char       = @int;
+type @string     = [@char];
+
+
+
+(unit -> int) main = fun (x) {
+  return 1;
+};

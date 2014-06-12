@@ -1,0 +1,67 @@
+% !TeX root = status1.tex
+
+\section{Note on Veanes' Effective Boolean Algebras}
+\label{sect-veanes}
+
+In \cite{veanes} symbolic automata are defined in a different way using \emph{effective Boolean algebras} in stead of finitely generated free Boolean algebras. In this appendix we relate these two notions.
+
+\begin{definition}[Effective Boolean Algebra]
+Let $D$ be an arbitrary recursively enumerable (r.e.) set. Then a $D$-\emph{effective Boolean algebra} (abbreviated to EBA) consists of an ordinary Boolean algebra $(B, \bot, \top, \vee, \wedge, \neg)$ and a recursive enumerable \emph{interpretation function} $\llbracket \ \cdot \ \rrbracket : B \rightarrow \mathcal{P}(D)$ such that $B$ is r.e. and the following relations are satisfied for all $\phi, \psi \in B$:
+\[ \llbracket \bot \rrbracket = \emptyset, \quad \llbracket \top \rrbracket = D, \quad \llbracket \phi \vee \psi \rrbracket = \llbracket \phi \rrbracket \cup \llbracket \psi \rrbracket, \quad \llbracket \phi \wedge \psi \rrbracket = \llbracket \phi \rrbracket \cap \llbracket \psi \rrbracket, \quad \llbracket \neg \phi \rrbracket = D \setminus \llbracket \phi \rrbracket.\]
+\end{definition}
+
+\begin{definition}[Equivalence]
+Let $B$ be any $D$-effective Boolean algebra, and let $\phi, \psi \in B$. Then we say $\phi$ and $\psi$ are \emph{equivalent}, which we denote by $\phi \equiv \psi$ iff $\llbracket \phi \rrbracket = \llbracket \psi \rrbracket$.
+\end{definition}
+
+\begin{definition}[Quotient Boolean Algebra]
+Given any $D$-effective Boolean algebra $B$, we define the \emph{quotient Boolean algebra} as $B/{\equiv}$. For equivalence classes $[\phi], [\psi] \in B/{\equiv}$ we define
+\[[\phi] \vee [\psi] = [\phi \vee \psi], \quad [\phi] \wedge [\psi] = [\phi \wedge \psi], \quad \neg [\phi] = [\neg \phi], \quad \llbracket [\phi ] \rrbracket = \llbracket \phi \rrbracket.\]
+\end{definition}
+
+\begin{proposition}
+The quotient Boolean algebra of any $D$-effective Boolean algebra $B$ is indeed an effective Boolean algebra if $\equiv$ is decidable.
+\end{proposition}
+
+\begin{proof}
+If we check these operations are well-defined, then the required laws for a Boolean algebra follow easily. Let $\phi, \psi, \chi, \zeta \in B$ be arbitrary such that $\phi \equiv \psi$ and $\zeta \equiv \chi$. Then we have:
+\[\llbracket \phi \wedge \chi \rrbracket = \llbracket \phi \rrbracket \cap \llbracket \chi \rrbracket = \llbracket \psi \rrbracket \cap \llbracket \zeta \rrbracket = \llbracket \psi \wedge \zeta \rrbracket.\]
+In a similar way we can prove the other operations are well-defined. Notice that the interpretation function is r.e. on equivalence classes, because we can perform the interpretation function on the representative. Also, because $\equiv$ is decidable, the equivalence classes are recursively enumerable. Therefore, $B/{\equiv}$ is indeed an effective Boolean algebra. 
+\end{proof}
+
+Notice that $\equiv$ is decidable if $D$ is finite. Because for any $\phi$ the set $(\phi)$ is finite, it is decidable. Equality of finite sets is decidable as well, so $\equiv$ is decidable. 
+
+\begin{definition}[Sub Boolean Algebra]
+Let $B$ be any $D$-effective Boolean algebra. A \emph{sub Boolean algebra} of $B$ is any subset $C \subseteq B$ such that $C$ is a $D$-effective Boolean algebra with the induced operations.
+\end{definition}
+
+This means that $\bot, \top \in C$ and whenever $\phi, \psi \in C$, we have that $\{\neg \phi, \phi \vee \phi, \phi \wedge \phi\} \subseteq C$.
+
+\begin{definition}[Boolean Algebra Morphism]
+Let $B_1$ and $B_2$ be $D$-effective Boolean algebras and let a function $f : B_1 \rightarrow B_2$ be given. Then we call $f$ a \emph{morphism of Boolean algebras} iff for every $b, c \in B_1$ we have:
+\[f(\bot) = \bot, \quad f(\top) = \top, \quad f(\neg b) = \neg f(b), \quad f(b \vee c) = f(b) \vee f(c), \quad f(b \wedge c) = f(b) \wedge f(c).\]
+\end{definition}
+
+Notice that we have a category of $D$-effective Boolean algebras for every set $D$.
+
+\begin{lem}
+If a morphism $f$ between $D$-effective Boolean algebra is invertible, then it is an isomorphism.
+\end{lem}
+
+\begin{proof}
+Let $f$ be any invertible morphism between two $D$-effective Boolean algebras $B_1$ and $B_2$, and let $f^{-1}$ be its inverse. Let $c_1, c_2 \in B_2$ be arbitrary, and take $b_1, b_2 \in B_1$ such that $f(b_1) = c_1$ and $f(b_2) = c_2$. Then we have $f(b_1 \wedge b_2) = c_1 \wedge c_2$, and this:
+\[f^{-1}(c_1 \wedge c_2) = b_1 \wedge b_2 = f^{-1}(c_1) \wedge f^{-1}(c_2).\]
+For the other operations it is similar, and thus its inverse is a morphism between Boolean algebras. Hence, $f$ is an isomorphism. 
+\end{proof}
+
+\begin{proposition}
+Let an effective Boolean algebra $B$ over a finite set $D$ be given. Then it is isomorphic to a sub Boolean algebra of the free Boolean algebra over $D$.
+\end{proposition}
+
+\begin{proof}
+Because $D$ is finite, the free Boolean algebra over $D$ is $\mathcal{P}(D)$ with the expected operations, and the relation $\equiv$ on $B$ is decidable. Consider the induced map:
+\[f : B/{\equiv} \rightarrow \mathcal{P}(D), [x] \mapsto \llbracket x \rrbracket.\]
+Notice that the image of $f$ is a sub Boolean algebra $C$ of $\mathcal{P}(D)$, and thus the restricted map $f : B/{\equiv} \rightarrow C$ is surjective. Also, $f$ is injective, because whenever $f([x]) = f([y])$, we must have $\llbracket x \rrbracket = \llbracket y \rrbracket$ which precisely means $x \equiv y$. Lastly, notice that $f$ is obviously a morphism between Boolean algebras. Therefore, $f$ is an isomorphism, and thus $B$ is isomorphic with a sub Boolean algebra of $\mathcal{P}(D)$.
+\end{proof}
+
+If $D$ would be infinite, then the free Boolean algebra over $D$ would be the collection of finite subsets of $D$, and this argument would not work in that case. The map might not be well-defined.

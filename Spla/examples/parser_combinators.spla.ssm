@@ -1,0 +1,2767 @@
+           ldc 0 -- DUMMY 
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 36    
+           annote HP -36 -36 gray "lexical block" 
+           ldc 35     
+           sub        
+           str MP     
+           bsr __fun1 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 3      
+           bsr __fun2 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 4      
+           bsr __fun3 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 5      
+           bsr __fun4 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 6      
+           bsr __fun5 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 7      
+           bsr __fun10 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 8      
+           bsr __fun11 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 9      
+           bsr __fun12 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 10     
+           bsr __fun13 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 11     
+           bsr __fun18 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 12     
+           bsr __fun23 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 13     
+           bsr __fun28 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 14     
+           bsr __fun33 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 15     
+           bsr __fun38 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 16     
+           bsr __fun42 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 17     
+           bsr __fun44 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 18     
+           bsr __fun47 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 19     
+           bsr __fun48 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 20     
+           bsr __fun50 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 21     
+           bsr __fun51 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 22     
+           bsr __fun56 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 23     
+           bsr __fun57 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 24     
+           bsr __fun63 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 25     
+           bsr __fun65 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 26     
+           ldr MP     
+           lda 24     
+           lda 1      
+           ldr MP     
+           lda 26     
+           ldr MP     
+           lda 24     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 27     
+           bsr __fun66 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 28     
+           ldr MP     
+           lda 24     
+           lda 1      
+           ldr MP     
+           lda 28     
+           ldr MP     
+           lda 24     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 29     
+           ldr MP     
+           lda 24     
+           lda 1      
+           bsr __fun67 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           lda 24     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 30     
+           ldr MP     
+           lda 20     
+           lda 1      
+           ldr MP     
+           lda 29     
+           ldr MP     
+           lda 30     
+           ldr MP     
+           lda 20     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           sta 31     
+           ldr MP     
+           lda 20     
+           lda 1      
+           ldr MP     
+           lda 31     
+           ldr MP     
+           lda 27     
+           ldr MP     
+           lda 20     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           sta 32     
+           bsr __fun68 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 33     
+           bsr __fun75 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 34     
+           ldr MP     
+           lda 22     
+           lda 1      
+           ldr MP     
+           lda 31     
+           ldr MP     
+           lda 22     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 35     
+           ldr MP     
+           lda 6      
+           lda 1      
+           ldc 0      
+           ldr MP     
+           lda 6      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           ldr RR     
+           trap 0     
+           halt       
+                      
+__fun75:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun75:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 21     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 14     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 33     
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 14     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 21     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun68:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun68:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else73 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 17     
+           lda 1      
+           ldc 0      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 17     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end74 
+_else73:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 18     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 25     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 25     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bsr __fun71 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 18     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end74:    ajs 0      // endif
+                      
+__fun71:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun71:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 18     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 33     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 33     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bsr __fun72 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 18     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun72:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun72:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 17     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 17     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun67:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun67:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           ldc 65     
+           ge         
+           ldr MP     
+           lda 3      
+           ldc 90     
+           le         
+           and        
+           str RR     
+           bra __ret  
+                      
+__fun66:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun66:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           ldc 97     
+           ge         
+           ldr MP     
+           lda 3      
+           ldc 122    
+           le         
+           and        
+           str RR     
+           bra __ret  
+                      
+__fun65:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun65:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           ldc 48     
+           ge         
+           ldr MP     
+           lda 3      
+           ldc 57     
+           le         
+           and        
+           str RR     
+           bra __ret  
+                      
+__fun63:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun63:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 24     
+           lda 1      
+           bsr __fun64 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           lda 1      
+           lda 24     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun64:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun64:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 3      
+           eq         
+           str RR     
+           bra __ret  
+                      
+__fun57:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun57:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           bsr __fun58 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           str RR     
+           bra __ret  
+                      
+__fun58:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun58:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else61 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 23     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 23     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end62 
+_else61:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end62:    ajs 0      // endif
+                      
+__fun56:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun56:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ajs -1     // start save tuple
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end save tuple
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+                      
+__fun51:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun51:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           bsr __fun52 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           str RR     
+           bra __ret  
+                      
+__fun52:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun52:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           ldc 0      
+           ldc 0      
+           stmh 6     
+           annote HP -6 -6 gray "lexical fun" 
+           ldc 5      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 4      
+           ldc 0      
+           ldr MP     
+           sta 5      
+_while54:  ajs 0      // while
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           not        
+           brf _end55 // do
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldh 0      // access fst
+           ldr MP     
+           lda 1      
+           lda 5      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           sta 5      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldh 1      // access snd
+           ldr MP     
+           lda 1      
+           sta 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           sta 4      
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _while54 
+_end55:    ajs 0      // endwhile
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 16     
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 16     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 3      
+           ajs -1     // start save tuple
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end save tuple
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+                      
+__fun50:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun50:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 15     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 20     
+           ldr MP     
+           lda 1      
+           lda 19     
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 15     
+           lda 0      
+           jsr        
+           ajs -4     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun48:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun48:    ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           bsr __fun49 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           str RR     
+           bra __ret  
+                      
+__fun49:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun49:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 12     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 12     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun47:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun47:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun44:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun44:    ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           bsr __fun45 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           str RR     
+           bra __ret  
+                      
+__fun45:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun45:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 13     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 14     
+           lda 1      
+           bsr __fun46 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 14     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 13     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun46:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun46:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 4      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldh 0      // access fst
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 4      
+           ldr MP     
+           lda 4      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldh 1      // access snd
+           ldr MP     
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun42:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun42:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           bsr __fun43 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           str RR     
+           bra __ret  
+                      
+__fun43:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun43:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 3      
+           ajs -1     // start save tuple
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end save tuple
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+                      
+__fun38:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun38:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 0      
+           ldr MP     
+           sta 4      
+_while40:  ajs 0      // while
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           not        
+           brf _end41 // do
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 4      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           sta 4      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           sta 3      
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _while40 
+_end41:    ajs 0      // endwhile
+           ldr MP     
+           lda 4      
+           str RR     
+           bra __ret  
+                      
+__fun33:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun33:    ajs 0      
+           ldc 1      
+           lds -5     
+           ldr MP     
+           lds -6     
+           lds -6     
+           lds -6     
+           stmh 6     
+           annote HP -6 -6 gray "lexical fun" 
+           ldc 5      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else36 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end37 
+_else36:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 15     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 5      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 15     
+           lda 0      
+           jsr        
+           ajs -4     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end37:    ajs 0      // endif
+                      
+__fun28:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun28:    ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else31 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end32 
+_else31:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 14     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 14     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end32:    ajs 0      // endif
+                      
+__fun23:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun23:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else26 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end27 
+_else26:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 12     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 13     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 13     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 12     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end27:    ajs 0      // endif
+                      
+__fun18:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun18:    ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else21 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end22 
+_else21:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 12     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 12     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end22:    ajs 0      // endif
+                      
+__fun13:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun13:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else16 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end17 
+_else16:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 11     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 11     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           add        
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end17:    ajs 0      // endif
+                      
+__fun12:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun12:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldc 10     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun11:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun11:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 14     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 14     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldc 10     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun10:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun10:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 14     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 14     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun5:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun5:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else8 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 9      
+           lda 1      
+           ldc 110    
+           ldc 111    
+           ldc 32     
+           ldc 109    
+           ldc 111    
+           ldc 114    
+           ldc 101    
+           ldc 32     
+           ldc 114    
+           ldc 101    
+           ldc 115    
+           ldc 117    
+           ldc 108    
+           ldc 116    
+           ldc 115    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 9      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end9  
+_else8:    ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical block" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           sta 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 8      
+           lda 1      
+           ldc 42     
+           ldc 32     
+           ldc 114    
+           ldc 101    
+           ldc 115    
+           ldc 117    
+           ldc 108    
+           ldc 116    
+           ldc 58     
+           ldc 32     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 8      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 9      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldh 0      // access fst
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 9      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 8      
+           lda 1      
+           ldc 32     
+           ldc 32     
+           ldc 114    
+           ldc 101    
+           ldc 115    
+           ldc 116    
+           ldc 58     
+           ldc 32     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 8      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 9      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldh 1      // access snd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 9      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 7      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 7      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+_end9:     ajs 0      // endif
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun4:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun4:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           ldc 0      
+           ldc 0      
+           stmh 6     
+           annote HP -6 -6 gray "lexical fun" 
+           ldc 5      
+           sub        
+           str MP     
+           ldc 105    
+           ldc 110    
+           ldc 116    
+           ldc 32     
+           ldc 45     
+           ldc 62     
+           ldc 32     
+           ldc 105    
+           ldc 110    
+           ldc 116    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 4      
+           ldr MP     
+           lda 1      
+           lda 35     
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 35     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           sta 5      
+           ldr MP     
+           lda 1      
+           lda 7      
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 7      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun3:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun3:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           ldc 0      
+           eq         
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+                      
+__fun2:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun2:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           trapchr 0  
+           ldc 0      
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+                      
+__fun1:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun1:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           trap 0     
+           ldc 0      
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+                      
+                      // ====== BUILTINS ====== //
+                      
+__ret:     ldr MP     
+           lda 0      
+           brf __ret_cont 
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+__ret_cont: ldr MP     
+           lda 1      
+           str MP     
+           bra __ret  
+                      
+_EXCEPTION_EmptyList: ajs 0      
+           annote SP 0 0 red "EXCEPTION empty list" 
+           trap 0     
+           halt       

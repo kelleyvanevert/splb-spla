@@ -1,0 +1,6 @@
+
+int main (unit x) {
+  unit y;
+  y := x;
+  return 1;         // 1
+}

@@ -1,0 +1,291 @@
+
+type @parser s a = s -> [(a, s)];
+type @char       = int;
+type @string     = [@char];
+
+
+
+(unit -> int) main = fun (u) {
+  //(@string) input = "int -> int";
+  //(@parser (@string) (@string)) p = mplus(pstring("in"), pstring("int"));
+
+  (@string) input = "int -> int";
+  //(@parser (@string) (@string)) p = pmost(lower);
+  
+  [(@string, @string)] results = parse_ident(input);
+  printresults(results);
+
+  return 0;
+};
+
+
+
+
+// Printing utils
+// ==============
+
+([(@string, @string)] -> unit) printresults = fun (results) {
+    if (isEmpty(results)) {
+      printlnstr("no more results");
+    } else {
+      (@string, @string) first = results.hd;
+      printstr("* result: ");
+      printlnstr(first.fst);
+      printstr("  rest: ");
+      printlnstr(first.snd);
+
+      printresults(results.tl);
+    }
+
+    return;
+  };
+
+(@string -> unit) printstr = fun (s) {
+    map(printchr, s);
+    return;
+  };
+
+(@string -> unit) printlnstr = fun (s) {
+    map(printchr, s);
+    printchr(10);
+    return;
+  };
+
+(@string -> unit) printlnchr = fun (c) {
+    printchr(c);
+    printchr(10);
+    return;
+  };
+
+
+
+// List operations
+// ===============
+
+([t] -> int) length =
+  fun (list) {
+    if (isEmpty(list)) {
+      return 0;
+    } else {
+      return 1 + length(list.tl);
+    }
+  };
+
+([t] -> [t] -> [t]) concat =
+  fun (a, b) {
+    if (isEmpty(a)) {
+      return b;
+    } else {
+      return a.hd : concat(a.tl, b);
+    }
+  };
+
+([[t]] -> [t]) concat_many =
+  fun (lists) {
+    if (isEmpty(lists)) {
+      return [];
+    } else {
+      return concat(lists.hd, concat_many(lists.tl));
+    }
+  };
+
+((a -> b) -> [a] -> [b]) map =
+  fun (f, list) {
+    if (isEmpty(list)) {
+      return [];
+    } else {
+      return f(list.hd) : map(f, list.tl);
+    }
+  };
+
+((a -> b -> a) -> a -> [b] -> a) foldl =
+  fun (f, e, list) {
+    if (isEmpty(list)) {
+      return e;
+    } else {
+      return foldl(f, f(e, list.hd), list.tl);
+    }
+  };
+
+([a] -> [a]) reverse = fun (list) {
+    [a] rev = [];
+    while (!isEmpty(list)) {
+      rev = list.hd : rev;
+      list = list.tl;
+    }
+    return rev;
+  };
+
+
+
+// The parser monad
+// ================
+
+(a -> @parser s a) mreturn =
+  fun (e) {
+    return fun (input) {
+      return (e, input) : [];
+    };
+  };
+
+(@parser s a -> (a -> @parser s b) -> @parser s b) mbind =
+  fun (p, f) {
+    return fun (input) {
+      return concat_many(map(fun (r) {
+        (@parser s b) g = f(r.fst);
+        return g(r.snd);
+      }, p(input)));
+    };
+  };
+
+(@parser s a) mzero =
+  fun (input) {
+    return [];
+  };
+
+(@parser s a -> @parser s a -> @parser s a) mplus =
+  fun (p, q) {
+    return fun(input) {
+      return concat(p(input), q(input));
+    };
+  };
+
+([@parser s a] -> @parser s a) mplus_list =
+  fun (parsers) {
+    return foldl(mplus, mzero, parsers);
+  };
+
+
+
+// Generic parser combinators
+// ==========================
+
+(@parser s a -> @parser s [a]) pmost =
+  fun (p) {
+    return fun (input) {
+      [(a, s)] results = p(input);
+      [a] as = [];
+      while (!isEmpty(results)) {
+        as = results.hd.fst : as;
+        input = results.hd.snd;
+        results = p(input);
+      }
+      return (reverse(as), input) : [];
+    };
+  };
+
+//(@parser s a -> @parser s a) pfirst =
+//  fun (p) {
+//    return fun (input) {
+//      [(a, s)] results = p(input);
+//      if (isEmpty(results)) {
+//        return results;
+//      } else {
+//        return results.hd : [];
+//      }
+//    };
+//  };
+//
+//(@parser s a -> @parser s [a]) pmany =
+//  fun (p) {
+//    return fun (input) {
+//      [(a, s)] results = p(input);
+//      if (isEmpty(results)) {
+//        return results;
+//      } else {
+//        return concat();
+//      }
+//    };
+//    return mplus(pmany1(p), mreturn([]));
+//  };
+//
+//(@parser s a -> @parser s [a]) pmany1 =
+//  fun (p) {
+//    return mbind(p, fun (a) {
+//      return mbind(pmany(p), fun (as) {
+//        return a : as;
+//      });
+//    });
+//  };
+
+
+
+// List input parsers
+// ==================
+
+(@parser [t] t) next =
+  fun (input) {
+    return (input.hd, input.tl) : [];
+  };
+
+((t -> bool) -> @parser [t] t) sat =
+  fun (P) {
+    return fun (input) {
+      if (P(input.hd)) {
+        return next(input);
+      } else {
+        return [];
+      }
+    };
+  };
+
+(t -> @parser [t] t) element =
+  fun (e1) {
+    return sat(fun (e2) {
+      return (e1 == e2);
+    });
+  };
+
+
+
+// String input parsers
+// ====================
+
+(@char -> bool) is_digit =
+  fun (c) {
+    return c >= 48 && c <= 57;
+  };
+(@parser (@string) (@char)) digit =
+  sat(is_digit);
+
+(@char -> bool) is_lower =
+  fun (c) {
+    return c >= 97 && c <= 122;
+  };
+(@parser (@string) (@char)) lower =
+  sat(is_lower);
+
+(@parser (@string) (@char)) upper =
+  sat(fun (c) {
+    return c >= 65 && c <= 90;
+  });
+
+(@parser (@string) (@char)) alpha =
+  mplus(lower, upper);
+
+(@parser (@string) (@char)) alphanum =
+  mplus(alpha, digit);
+
+(@string -> @parser (@string) (@string)) pstring =
+  fun (match) {
+    if (isEmpty(match)) {
+      return mreturn([]);
+    } else {
+      return mbind(element(match.hd), fun (x) {
+        return mbind(pstring(match.tl), fun (x) {
+          return mreturn(match);
+        });
+      });
+    }
+  };
+
+([@string] -> @parser (@string) (@string)) pstring_any =
+  fun (match_any) {
+    return mplus_list(map(pstring, match_any));
+  };
+
+
+
+// Spla parsers
+
+(@parser (@string) (@string)) parse_ident = pmost(alpha);

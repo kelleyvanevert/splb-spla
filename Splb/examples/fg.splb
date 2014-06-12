@@ -1,0 +1,18 @@
+
+int main () {
+  int x;
+  x := f(2, 3);
+  return x;             // 6
+}
+
+int f (int a, int b) {
+  return a + g(b);
+}
+
+int g (int c) {
+  return c + h();
+}
+
+int h () {
+  return 1;
+}

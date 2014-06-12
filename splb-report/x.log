@@ -1,0 +1,29 @@
+This is XeTeX, Version 3.1415926-2.5-0.9999.3 (TeX Live 2013) (format=xelatex 2014.5.23)  28 MAY 2014 18:08
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**report.
+(/usr/local/texlive/2013/texmf-dist/tex/latex/tools/x.tex
+! Interruption.
+<to be read again> 
+                   \begingroup 
+l.1 
+    %%
+? 
+! Emergency stop.
+<to be read again> 
+                   \begingroup 
+l.1 
+    %%
+End of file on the terminal!
+
+ 
+Here is how much of TeX's memory you used:
+ 8 strings out of 493918
+ 182 string characters out of 6148599
+ 52462 words of memory out of 5000000
+ 3428 multiletter control sequences out of 15000+600000
+ 3640 words of font info for 14 fonts, out of 8000000 for 9000
+ 1144 hyphenation exceptions out of 8191
+ 3i,0n,1p,16b,6s stack positions out of 5000i,500n,10000p,200000b,80000s
+No pages of output.

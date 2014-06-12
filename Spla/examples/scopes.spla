@@ -1,0 +1,8 @@
+
+(unit -> int) main = fun () {
+  int x = 4;
+  (int -> int) f = fun (y) {
+    return x + y;
+  };
+  return f(5);                  // 9
+};

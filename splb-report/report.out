@@ -1,0 +1,16 @@
+\BOOKMARK [1][-]{section.1}{The\040Splb\040language}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Language\040overview}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Safety}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Formal\040specification}{section.1}% 4
+\BOOKMARK [1][-]{section.2}{Notation\040and\040conventions}{}% 5
+\BOOKMARK [1][-]{section.3}{Semantics}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Valid\040programs}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Dynamic\040exceptions}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Variable\040lifetime\040and\040lexical\040scoping}{section.3}% 9
+\BOOKMARK [2][-]{subsection.3.4}{Typing\040system}{section.3}% 10
+\BOOKMARK [1][-]{section.4}{SSM\040compilation}{}% 11
+\BOOKMARK [2][-]{subsection.4.1}{Compilation\040schemes}{section.4}% 12
+\BOOKMARK [2][-]{subsection.4.2}{Calling\040convention}{section.4}% 13
+\BOOKMARK [2][-]{subsection.4.3}{Heap\040/\040by-reference\040data\040types}{section.4}% 14
+\BOOKMARK [1][-]{section.5}{LLVM\040IR\040compilation}{}% 15
+\BOOKMARK [1][-]{appendix.A}{Code}{}% 16

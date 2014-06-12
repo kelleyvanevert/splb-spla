@@ -1,0 +1,71 @@
+
+type @listmonad a = [a];
+
+(unit -> int) main = fun (u) {
+    map(print, replicate_two(3));                                     // 3, 3
+    map(print, mbind(4 : [], replicate_two));                         // 4, 4
+    map(print, mbind(mbind(5 : [], replicate_two), replicate_two));   // 5, 5, 5, 5
+    return 0;                                                         // 0
+  };
+
+(int -> a -> [a]) replicate = fun (n, x) {
+    if (n == 0) {
+      return [];
+    } else {
+      return x : replicate(n - 1, x);
+    }
+  };
+
+(a -> [a]) replicate_two = fun (x) {
+    return replicate(2, x);
+  };
+
+
+// List operations
+
+((a -> b) -> [a] -> [b]) map =
+  fun (f, list) {
+    if (isEmpty(list)) {
+      return [];
+    } else {
+      return f(list.hd) : map(f, list.tl);
+    }
+  };
+
+([a] -> [a] -> [a]) concat =
+  fun (xs, ys) {
+    if (isEmpty(xs)) {
+      return ys;
+    } else {
+      return xs.hd : concat(xs.tl, ys);
+    }
+  };
+
+([[a]] -> [a]) concat_many =
+  fun (lists) {
+    if (isEmpty(lists)) {
+      return [];
+    } else {
+      return concat(lists.hd, concat_many(lists.tl));
+    }
+  };
+
+
+
+// Monad
+
+(a -> @listmonad a) mreturn =
+  fun (x) {
+    return x : [];
+  };
+
+(@listmonad a -> (a -> @listmonad b) -> @listmonad b) mbind =
+  fun (list, f) {
+    return concat_many(map(f, list));
+  };
+
+(@listmonad a) mzero =
+  [];
+
+(@listmonad a -> @listmonad a -> @listmonad a) mplus =
+  concat;

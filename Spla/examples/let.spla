@@ -1,0 +1,6 @@
+
+(unit -> int) main = fun () {
+    int x = 2;
+    int y = 3;
+    return let x = 4 in x + y;  // 7
+  };

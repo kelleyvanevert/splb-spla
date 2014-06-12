@@ -1,0 +1,10 @@
+
+var facR :: int -> int;
+
+facR := fun (n :: int) {
+  if (n < 2) {
+    return 1;
+  } else {
+    return n * facr(n - 1);
+  }
+};
