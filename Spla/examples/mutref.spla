@@ -1,0 +1,24 @@
+
+/*
+(int -> int) g = fun (x) {
+  return f(x);
+};
+
+(int -> int) f = fun (x) {
+  return g(x);
+};
+*/
+
+
+(int -> int, int -> int) gf = (
+  fun (x) { return gf.snd(x); },
+  fun (x) { return gf.fst(x); }
+);
+(int -> int) g = gf.fst;
+(int -> int) f = gf.snd;
+
+
+(unit -> int) main = fun () {
+  return f(1);
+};
+
