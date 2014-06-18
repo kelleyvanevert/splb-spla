@@ -207,10 +207,10 @@ explodeAccess (FieldAccess a d) =
 data Let a = Let String Expr a
   deriving (Eq, Ord)
 
-instance (Show a) => Show (Let a) where
+instance Show a => Show (Let a) where
   show (Let x e h) = "let " ++ x ++ " = " ++ (show e) ++ " in\n" ++ indent (show h)
 
-instance (LexicalVars a) => LexicalVars (Let a) where
+instance LexicalVars a => LexicalVars (Let a) where
   fv (Let x e h) = (fv e) `Set.union` (Set.delete x $ fv h)
   subst (ExprSubst s) (Let x e h) = (Let x (subst (ExprSubst s) e) (subst (ExprSubst s') h))
     where s' = Map.delete x s
@@ -219,12 +219,12 @@ instance (LexicalVars a) => LexicalVars (Let a) where
 data Match a = Match Expr [MatchRule a]
   deriving (Eq, Ord)
 
-instance (Show a) => Show (Match a) where
+instance Show a => Show (Match a) where
   show (Match e rules) = "match " ++ (show e) ++ " {\n" ++
     (intercalate "\n" (map show rules)) ++
     "\n}"
 
-instance (LexicalVars a) => LexicalVars (Match a) where
+instance LexicalVars a => LexicalVars (Match a) where
   fv (Match e rules) = (fv e) `Set.union` (Set.unions $ map fv rules)
   subst s (Match e rules) = Match (subst s e) (map (subst s) rules)
 
@@ -232,10 +232,10 @@ instance (LexicalVars a) => LexicalVars (Match a) where
 data MatchRule a = MatchRule Expr a
   deriving (Eq, Ord)
 
-instance (Show a) => Show (MatchRule a) where
+instance Show a => Show (MatchRule a) where
   show (MatchRule e to) = "  | " ++ (show e) ++ " -> " ++ (show to)
 
-instance (LexicalVars a) => LexicalVars (MatchRule a) where
+instance LexicalVars a => LexicalVars (MatchRule a) where
   fv (MatchRule e to) = (fv to) `Set.difference` (fv e)
   subst s (MatchRule e to) = MatchRule e (subst s' to)
     where s' = foldl (.) (\x -> x) (map substRemove $ Set.elems (fv e)) $ s

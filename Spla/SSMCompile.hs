@@ -130,11 +130,20 @@ collectConstructors (ADT _ _ cs : adts) = do
   collectConstructors adts
 
 
+instance Compileable a => Compileable [a] where
+  compile hs = foldM (\asm h -> [ asm ++ ch | ch <- compile h ]) [] hs
+
+
 --      [[ h ]] :: 0 -> k
 -- ---------------------------
 -- [[ match ... h ]] :: 0 -> k
 instance Compileable a => Compileable (Match a) where
-  compile m = return []
+  compile (Match e rules) = do
+    ce <- compile e
+    return []
+
+instance Compileable a => Compileable (MatchRule a) where
+  compile (MatchRule m to) = return []
 
 
 -- [[ s ]] :: 0 -> 0
@@ -170,7 +179,7 @@ instance Compileable Stmt where
       modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
 
       -- compute body asm
-      cstmts <- foldM (\asm stmt -> [ asm ++ cstmt | cstmt <- compile stmt ]) [] stmts
+      cstmts <- compile stmts
 
       -- restore location and environment
       modify $ \s -> s { cLocation = oldLocation }
@@ -317,7 +326,7 @@ instance Compileable Expr where
       modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
 
       -- compute body asm
-      cstmts <- foldM (\asm stmt -> [ asm ++ cstmt | cstmt <- compile stmt ]) [] stmts
+      cstmts <- compile stmts
 
       -- restore location and environment
       modify $ \s -> s { cLocation = oldLocation }
@@ -424,7 +433,7 @@ compileFunCall f@(FunCall id args) = do
 
 compileData :: Int -> Int -> [Expr] -> Compiler Asm
 compileData adtSize cNo args = do
-  cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compile arg ]) [] args
+  cargs <- compile args
   return $
     [ "ldc " ++ show cNo ++ " // save data" ] ++
     cargs ++
@@ -439,7 +448,7 @@ compileRealFunCall f@(FunCall id args_) =
       n = length args
     in do
     cid <- compile (E_Access (Ident id))
-    cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compile arg ]) [] args
+    cargs <- compile args
 
     return $                      -- [0]
       cid ++                      -- [1]             pointer to function object
