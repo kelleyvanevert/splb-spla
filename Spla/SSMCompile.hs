@@ -1,7 +1,7 @@
 {-# LANGUAGE MonadComprehensions, TypeSynonymInstances, FlexibleInstances #-}
 
 module Spla.SSMCompile where
-  -- compile :: Program -> String
+  -- compileP :: Program -> String
 
 -- TODO garbage collection
 
@@ -33,6 +33,10 @@ machineUnit = 0
 
 machineEmptyList :: Int
 machineEmptyList = 0
+
+
+class Compileable a where
+  compile :: a -> Compiler Asm
 
 
 type Asm = [String]
@@ -95,25 +99,25 @@ addFunctionCode asm = do
   modify $ \s -> s { cFunctionCode = asm : existingFunctionCode }
 
 
-compile :: Program -> String
-compile p = unlines . beautifyAsm $ evalState (compileProgram p) emptyCompileState
+compileP :: Program -> String
+compileP p = unlines . beautifyAsm $ evalState (compile p) emptyCompileState
 
 
-compileProgram :: Program -> Compiler Asm
-compileProgram (Program typedecls stmts) = do
-  collectConstructors (foldl (\adts t -> case t of { TD_ADT adt -> adt:adts; _ -> adts }) [] typedecls)
-  let mainCall = S_FunCall $ FunCall "main" [E_Lit L_Unit]
-  cb <- compileStmt (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
-  functionsCode <- gets cFunctionCode
-  return $
-    [ "ldc 0 -- DUMMY",
-      "str MP" ] ++
-    cb ++
-    [ "ldr RR",
-      "trap 0",
-      "halt" ] ++
-    concat functionsCode ++
-    builtinAsm
+instance Compileable Program where
+  compile (Program typedecls stmts) = do
+    collectConstructors (foldl (\adts t -> case t of { TD_ADT adt -> adt:adts; _ -> adts }) [] typedecls)
+    let mainCall = S_FunCall $ FunCall "main" [E_Lit L_Unit]
+    cb <- compile (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
+    functionsCode <- gets cFunctionCode
+    return $
+      [ "ldc 0 -- DUMMY",
+        "str MP" ] ++
+      cb ++
+      [ "ldr RR",
+        "trap 0",
+        "halt" ] ++
+      concat functionsCode ++
+      builtinAsm
 
 
 collectConstructors :: [ADT] -> Compiler ()
@@ -126,264 +130,288 @@ collectConstructors (ADT _ _ cs : adts) = do
   collectConstructors adts
 
 
+--      [[ h ]] :: 0 -> k
+-- ---------------------------
+-- [[ match ... h ]] :: 0 -> k
+instance Compileable a => Compileable (Match a) where
+  compile m = return []
+
+
 -- [[ s ]] :: 0 -> 0
-compileStmt :: Stmt -> Compiler Asm
+instance Compileable Stmt where
 
--- assembly
--- HACKY
-compileStmt (S_Asm asm) = return asm
+  -- match
+  compile (S_Let l) = compile l
 
--- skip
-compileStmt S_Skip = return $ [ "ajs 0 // skip" ]
+  -- match
+  compile (S_Match m) = compile m
 
--- block
-compileStmt (S_Block stmts) = do
-  oldLocation <- gets cLocation
-  oldLocalsEnv <- gets cLocalsEnv
+  -- assembly
+  -- HACKY
+  compile (S_Asm asm) = return asm
 
-  blockLocationLabel <- freshLabel "block"
+  -- skip
+  compile S_Skip = return $ [ "ajs 0 // skip" ]
 
-  let newLocation = oldLocation ++ [blockLocationLabel]
-      newLocals = blockVars (S_Block stmts)
-      newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i id -> (newLocation, i + 2)) newLocals
-    in do
+  -- block
+  compile (S_Block stmts) = do
+    oldLocation <- gets cLocation
+    oldLocalsEnv <- gets cLocalsEnv
 
-    -- update location and environment
-    modify $ \s -> s { cLocation = newLocation }
-    modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
+    blockLocationLabel <- freshLabel "block"
 
-    -- compute body asm
-    cstmts <- foldM (\asm stmt -> [ asm ++ cstmt | cstmt <- compileStmt stmt ]) [] stmts
+    let newLocation = oldLocation ++ [blockLocationLabel]
+        newLocals = blockVars (S_Block stmts)
+        newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i id -> (newLocation, i + 2)) newLocals
+      in do
 
-    -- restore location and environment
-    modify $ \s -> s { cLocation = oldLocation }
-    modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
+      -- update location and environment
+      modify $ \s -> s { cLocation = newLocation }
+      modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
 
-    return $
-      [ "ldc 0" ] ++                          -- [1] 0. (not a function)
-      [ "ldr MP" ] ++                         -- [2] 1. parent context
-      [ "ldr MP" ] ++                         -- [3] 2. return context = parent context
-      replicate (length newLocals) "ldc 0" ++
-      asm_enter_ctxt (3 + length newLocals) "lexical block" ++
-      cstmts ++
-      asm_exit_ctxt
+      -- compute body asm
+      cstmts <- foldM (\asm stmt -> [ asm ++ cstmt | cstmt <- compile stmt ]) [] stmts
 
--- declare
-compileStmt (S_Declare _ id e) = compileStmt (S_Assign (Ident id) e)
+      -- restore location and environment
+      modify $ \s -> s { cLocation = oldLocation }
+      modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
 
--- assign, shallow
-compileStmt (S_Assign (Ident id) e) = do
-  currentLocation <- gets cLocation
-  (varLocation, i) <- envLookup id
-  ce <- compileExpr e
-  return $
-    ce ++
-    asm_lexical_store (length currentLocation - length varLocation) i
+      return $
+        [ "ldc 0" ] ++                          -- [1] 0. (not a function)
+        [ "ldr MP" ] ++                         -- [2] 1. parent context
+        [ "ldr MP" ] ++                         -- [3] 2. return context = parent context
+        replicate (length newLocals) "ldc 0" ++
+        asm_enter_ctxt (3 + length newLocals) "lexical block" ++
+        cstmts ++
+        asm_exit_ctxt
 
--- assign, deep
-compileStmt (S_Assign a e) =
-  let (id, d:ds) = explodeAccess a in do
+  -- declare
+  compile (S_Declare _ id e) = compile (S_Assign (Ident id) e)
+
+  -- assign, shallow
+  compile (S_Assign (Ident id) e) = do
     currentLocation <- gets cLocation
     (varLocation, i) <- envLookup id
-    ce <- compileExpr e
-    return $                                                          -- [0]
-      ce ++                                                           -- [1] expression value
-      asm_lexical_load (length currentLocation - length varLocation) i ++ -- [2] pointer to list/tuple
-      concat (map compileOp ds) ++                                    -- [2] pointer to save location
-      fieldStoreInstructions d                                        -- save (? TODO)
+    ce <- compile e
+    return $
+      ce ++
+      asm_lexical_store (length currentLocation - length varLocation) i
 
--- function call
-compileStmt (S_FunCall f) = compileFunCall f
+  -- assign, deep
+  compile (S_Assign a e) =
+    let (id, d:ds) = explodeAccess a in do
+      currentLocation <- gets cLocation
+      (varLocation, i) <- envLookup id
+      ce <- compile e
+      return $                                                          -- [0]
+        ce ++                                                           -- [1] expression value
+        asm_lexical_load (length currentLocation - length varLocation) i ++ -- [2] pointer to list/tuple
+        concat (map compileOp ds) ++                                    -- [2] pointer to save location
+        fieldStoreInstructions d                                        -- save (? TODO)
 
--- return
-compileStmt (S_Return e) = do
-  ce <- compileExpr e
-  return $
-    ce ++
-    [ "str RR" ] ++
-    [ "bra __ret" ]
+  -- function call
+  compile (S_FunCall f) = compileFunCall f
 
--- if branch
-compileStmt (S_If e b1 b2) = do
-  ce <- compileExpr e
-  
-  thenBody <- compileStmt b1
-  elseBody <- compileStmt b2
+  -- return
+  compile (S_Return e) = do
+    ce <- compile e
+    return $
+      ce ++
+      [ "str RR" ] ++
+      [ "bra __ret" ]
 
-  elseLabel <- freshLabel "_else"
-  endLabel <- freshLabel "_end"
+  -- if branch
+  compile (S_If e b1 b2) = do
+    ce <- compile e
+    
+    thenBody <- compile b1
+    elseBody <- compile b2
 
-  return $
-    [ "ajs 0 // if" ] ++
-    ce ++
-    [ "brf " ++ elseLabel ++ " // then" ] ++
-    thenBody ++
-    [ "bra " ++ endLabel ] ++
-    [ elseLabel ++ ": ajs 0 // else:" ] ++
-    elseBody ++
-    [ endLabel ++ ": ajs 0 // endif" ]
+    elseLabel <- freshLabel "_else"
+    endLabel <- freshLabel "_end"
 
--- while branch
-compileStmt (S_While e b) = do
-  ce <- compileExpr e
-  body <- compileStmt b
+    return $
+      [ "ajs 0 // if" ] ++
+      ce ++
+      [ "brf " ++ elseLabel ++ " // then" ] ++
+      thenBody ++
+      [ "bra " ++ endLabel ] ++
+      [ elseLabel ++ ": ajs 0 // else:" ] ++
+      elseBody ++
+      [ endLabel ++ ": ajs 0 // endif" ]
 
-  whileLabel <- freshLabel "_while"
-  endLabel <- freshLabel "_end"
+  -- while branch
+  compile (S_While e b) = do
+    ce <- compile e
+    body <- compile b
 
-  return $
-    [ whileLabel ++ ": ajs 0 // while" ] ++
-    ce ++
-    [ "brf " ++ endLabel ++ " // do" ] ++
-    body ++
-    [ "bra " ++ whileLabel,
-      endLabel ++ ": ajs 0 // endwhile" ]
+    whileLabel <- freshLabel "_while"
+    endLabel <- freshLabel "_end"
+
+    return $
+      [ whileLabel ++ ": ajs 0 // while" ] ++
+      ce ++
+      [ "brf " ++ endLabel ++ " // do" ] ++
+      body ++
+      [ "bra " ++ whileLabel,
+        endLabel ++ ": ajs 0 // endwhile" ]
 
 
 -- [[ e ]] :: 0 -> 1
-compileExpr :: Expr -> Compiler Asm
+instance Compileable Expr where
 
--- literals
-compileExpr (E_Lit (L_Int n))   = return $ [ "ldc " ++ show n ] -- TODO don't allow overflowing values
-compileExpr (E_Lit (L_Bool b))  = return $ [ "ldc " ++ show (if b then machineTrue else machineFalse) ]
-compileExpr (E_Lit L_Unit)      = return $ [ "ldc " ++ show machineUnit ]
-compileExpr (E_Lit L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
+  -- let
+  compile (E_Let l) = compile l
 
--- access
-compileExpr (E_Access (Ident id)) = do
-  constructors <- gets cConstructors
-  case Map.lookup id constructors of
-    Just (adtSize, cNo) -> do
-      cd <- compileData adtSize cNo []
+  -- match
+  compile (E_Match m) = compile m
+
+  -- literals
+  compile (E_Lit (L_Int n))   = return $ [ "ldc " ++ show n ] -- TODO don't allow overflowing values
+  compile (E_Lit (L_Bool b))  = return $ [ "ldc " ++ show (if b then machineTrue else machineFalse) ]
+  compile (E_Lit L_Unit)      = return $ [ "ldc " ++ show machineUnit ]
+  compile (E_Lit L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
+
+  -- access
+  compile (E_Access (Ident id)) = do
+    constructors <- gets cConstructors
+    case Map.lookup id constructors of
+      Just (adtSize, cNo) -> do
+        cd <- compileData adtSize cNo []
+        return $
+          cd ++
+          [ "ldr RR" ]
+      Nothing -> do
+        currentLocation <- gets cLocation
+        (location, i) <- envLookup id
+        return $ asm_lexical_load (length currentLocation - length location) i
+
+  compile (E_Access (FieldAccess a field)) = do
+    c <- compile (E_Access a)
+    return $
+      c ++
+      compileOp field
+
+  -- function call
+  compile (E_FunCall f) = do
+    c <- compileFunCall f
+    return $
+      c ++
+      [ "ldr RR" ]
+
+  -- function expression, take 2
+  compile (E_Fun params (S_Block stmts)) = do
+    oldLocation <- gets cLocation
+    oldLocalsEnv <- gets cLocalsEnv
+
+    functionLabel <- freshLabel "fun"
+
+    let newLocation = oldLocation ++ [functionLabel]
+        blockLocals = blockVars (S_Block stmts)
+        newLocals = params ++ blockLocals
+        newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i x -> (newLocation, i + 2)) newLocals
+      in do
+
+      -- update location and environment
+      modify $ \s -> s { cLocation = newLocation }
+      modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
+
+      -- compute body asm
+      cstmts <- foldM (\asm stmt -> [ asm ++ cstmt | cstmt <- compile stmt ]) [] stmts
+
+      -- restore location and environment
+      modify $ \s -> s { cLocation = oldLocation }
+      modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
+
+      -- store code
+      addFunctionCode $
+        [ "",
+          "__" ++ functionLabel ++ ": ldr PC",
+          "ldc 6",
+          "add",
+          "str RR",
+          "ret",
+          "",
+          "_" ++ functionLabel ++ ": ajs 0",
+          "ldc 1",                                                          -- [1] 0. function context flag
+          "lds " ++ show (- 2 - length params),                             -- [2] 1. parent context (defining context)
+          "ldr MP" ] ++                                                     -- [3] 2. return context
+        replicate (length params) ("lds " ++ show (- 3 - length params)) ++ --        formal arguments
+        replicate (length blockLocals) "ldc 0" ++                           --        block locals
+        asm_enter_ctxt (3 + length newLocals) "lexical fun" ++
+        cstmts
+        --asm_exit_ctxt ++  -- this is not really needed, as every function
+        --[ "bra __ret" ]   --  must have a return statement
+
+      -- return pointer to function object
       return $
-        cd ++
-        [ "ldr RR" ]
-    Nothing -> do
-      currentLocation <- gets cLocation
-      (location, i) <- envLookup id
-      return $ asm_lexical_load (length currentLocation - length location) i
+        [ "bsr __" ++ functionLabel,
+          "ldr RR", -- [1] 0. pointer to function code
+          "ldr MP", -- [2] 1. defining lexical context
+          "stmh 2", -- [1]
+          "annote HP -2 -2 gray \"fun object\"",
+          "ldc 1",  -- [2]
+          "sub" ]   -- [1] pointer to function object
 
-compileExpr (E_Access (FieldAccess a field)) = do
-  c <- compileExpr (E_Access a)
-  return $
-    c ++
-    compileOp field
+  compile (E_Fun params s) = do
+    error $ "should not occur, block: " ++ (show s)
 
--- function call
-compileExpr (E_FunCall f) = do
-  c <- compileFunCall f
-  return $
-    c ++
-    [ "ldr RR" ]
+  -- operations
+  compile (E_BinOp op e1 e2) = do
+    ce1 <- compile e1
+    ce2 <- compile e2
+    return $ ce1 ++ ce2 ++ compileOp op
+  compile (E_UnOp op e) = do
+    ce <- compile e
+    return $ ce ++ compileOp op
 
--- function expression, take 2
-compileExpr (E_Fun params (S_Block stmts)) = do
-  oldLocation <- gets cLocation
-  oldLocalsEnv <- gets cLocalsEnv
-
-  functionLabel <- freshLabel "fun"
-
-  let newLocation = oldLocation ++ [functionLabel]
-      blockLocals = blockVars (S_Block stmts)
-      newLocals = params ++ blockLocals
-      newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i x -> (newLocation, i + 2)) newLocals
-    in do
-
-    -- update location and environment
-    modify $ \s -> s { cLocation = newLocation }
-    modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
-
-    -- compute body asm
-    cstmts <- foldM (\asm stmt -> [ asm ++ cstmt | cstmt <- compileStmt stmt ]) [] stmts
-
-    -- restore location and environment
-    modify $ \s -> s { cLocation = oldLocation }
-    modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
-
-    -- store code
-    addFunctionCode $
-      [ "",
-        "__" ++ functionLabel ++ ": ldr PC",
-        "ldc 6",
-        "add",
-        "str RR",
-        "ret",
-        "",
-        "_" ++ functionLabel ++ ": ajs 0",
-        "ldc 1",                                                          -- [1] 0. function context flag
-        "lds " ++ show (- 2 - length params),                             -- [2] 1. parent context (defining context)
-        "ldr MP" ] ++                                                     -- [3] 2. return context
-      replicate (length params) ("lds " ++ show (- 3 - length params)) ++ --        formal arguments
-      replicate (length blockLocals) "ldc 0" ++                           --        block locals
-      asm_enter_ctxt (3 + length newLocals) "lexical fun" ++
-      cstmts
-      --asm_exit_ctxt ++  -- this is not really needed, as every function
-      --[ "bra __ret" ]   --  must have a return statement
-
-    -- return pointer to function object
+  compile (E_Tuple e1 e2) = do
+    ce1 <- compile e1
+    ce2 <- compile e2
     return $
-      [ "bsr __" ++ functionLabel,
-        "ldr RR", -- [1] 0. pointer to function code
-        "ldr MP", -- [2] 1. defining lexical context
-        "stmh 2", -- [1]
-        "annote HP -2 -2 gray \"fun object\"",
-        "ldc 1",  -- [2]
-        "sub" ]   -- [1] pointer to function object
-
-compileExpr (E_Fun params s) = do
-  error $ "should not occur, block: " ++ (show s)
-
--- operations
-compileExpr (E_BinOp op e1 e2) = do
-  ce1 <- compileExpr e1
-  ce2 <- compileExpr e2
-  return $ ce1 ++ ce2 ++ compileOp op
-compileExpr (E_UnOp op e) = do
-  ce <- compileExpr e
-  return $ ce ++ compileOp op
-
-compileExpr (E_Tuple e1 e2) = do
-  ce1 <- compileExpr e1
-  ce2 <- compileExpr e2
-  return $
-    ce1 ++
-    ce2 ++
-    [ "ajs -1 // start save tuple",
-      "sth",
-      "ajs 1",
-      "sth",
-      "ajs -1 // end save tuple" ]
-
-compileExpr (E_Let x e1 e2) = do
-  oldLocation <- gets cLocation
-  oldLocalsEnv <- gets cLocalsEnv
-
-  letLocationLabel <- freshLabel "let"
-
-  ce1 <- compileExpr e1
-
-  let newLocation = oldLocation ++ [letLocationLabel]
-    in do
-
-    -- update location and environment
-    modify $ \s -> s { cLocation = newLocation }
-    modify $ \m -> m { cLocalsEnv = Map.insert x (newLocation, 3) oldLocalsEnv }
-
-    -- compute body asm
-    ce2 <- compileExpr e2
-
-    -- restore location and environment
-    modify $ \s -> s { cLocation = oldLocation }
-    modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
-
-    return $
-      [ "ldc 0" ] ++                          -- [1] 0. (not a function)
-      [ "ldr MP" ] ++                         -- [2] 1. parent context
-      [ "ldr MP" ] ++                         -- [3] 2. return context = parent context
       ce1 ++
-      asm_enter_ctxt 4 "lexical let" ++
       ce2 ++
-      asm_exit_ctxt
+      [ "ajs -1 // start save tuple",
+        "sth",
+        "ajs 1",
+        "sth",
+        "ajs -1 // end save tuple" ]
+
+
+--       [[ h ]] :: 0 -> k
+-- ----------------------------
+-- [[ let ... in h ]] :: 0 -> k
+instance Compileable a => Compileable (Let a) where
+  compile (Let x e h) = do
+    oldLocation <- gets cLocation
+    oldLocalsEnv <- gets cLocalsEnv
+
+    letLocationLabel <- freshLabel "let"
+
+    ce <- compile e
+
+    let newLocation = oldLocation ++ [letLocationLabel]
+      in do
+
+      -- update location and environment
+      modify $ \s -> s { cLocation = newLocation }
+      modify $ \m -> m { cLocalsEnv = Map.insert x (newLocation, 3) oldLocalsEnv }
+
+      -- compute body asm
+      ch <- compile h
+
+      -- restore location and environment
+      modify $ \s -> s { cLocation = oldLocation }
+      modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
+
+      return $
+        [ "ldc 0" ] ++                          -- [1] 0. (not a function)
+        [ "ldr MP" ] ++                         -- [2] 1. parent context
+        [ "ldr MP" ] ++                         -- [3] 2. return context = parent context
+        ce ++
+        asm_enter_ctxt 4 "lexical let" ++
+        ch ++
+        asm_exit_ctxt
 
 
 compileFunCall :: FunCall -> Compiler Asm
@@ -396,7 +424,7 @@ compileFunCall f@(FunCall id args) = do
 
 compileData :: Int -> Int -> [Expr] -> Compiler Asm
 compileData adtSize cNo args = do
-  cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compileExpr arg ]) [] args
+  cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compile arg ]) [] args
   return $
     [ "ldc " ++ show cNo ++ " // save data" ] ++
     cargs ++
@@ -410,8 +438,8 @@ compileRealFunCall f@(FunCall id args_) =
   let args = (if length args_ == 0 then [E_Lit L_Unit] else args_)
       n = length args
     in do
-    cid <- compileExpr (E_Access (Ident id))
-    cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compileExpr arg ]) [] args
+    cid <- compile (E_Access (Ident id))
+    cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compile arg ]) [] args
 
     return $                      -- [0]
       cid ++                      -- [1]             pointer to function object
@@ -510,8 +538,8 @@ compileOp "tl"  = [ "lds 0 // check list non-emptyness",
 fieldStoreInstructions :: String -> Asm
 
 -- No check needed for initializedness of tuple,
---  because [compileStmt (S_Assign (FieldAccess a field) e)]
---  first evaluates [compileExpr (E_Access a)], where
+--  because [compile (S_Assign (FieldAccess a field) e)]
+--  first evaluates [compile (E_Access a)], where
 --  the check is already done.
 fieldStoreInstructions "fst"  = [ "sta 0 // start save fst",
                                   "lds 2 // end save fst" ]

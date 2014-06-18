@@ -46,6 +46,13 @@ parse_match_rule parse_to = [ MatchRule e to | e <- parse_expr "match",
                                                Tk_Symbol "->" <- next,
                                                to <- parse_to ]
 
+parse_let :: Parser [Token] a => Parser [Token] (Let a)
+parse_let parse_body = [ Let x e h | Tk_Keyword "let" <- next,
+                                     Tk_Ident x <- next,
+                                     Tk_Symbol "=" <- next,
+                                     e <- parse_expr "all",
+                                     Tk_Keyword "in" <- next,
+                                     h <- parse_body  ]
 
 
 {-
@@ -104,7 +111,7 @@ parse_statement = first $ list_or [
                     (parse_funcall "all" <^^ (element $ Tk_Symbol ";")) |> S_FunCall,
                     parse_return,
                     parse_match parse_statement |> S_Match,
-                    parse_let_stmt
+                    parse_let parse_statement |> S_Let
                   ]
 
 parse_skip :: Parser [Token] Stmt
@@ -152,14 +159,6 @@ parse_block :: Parser [Token] Stmt
 parse_block = [ S_Block stmts | Tk_Symbol "{" <- next,
                                 stmts <- many parse_statement,
                                 Tk_Symbol "}" <- next ]
-
-parse_let_stmt :: Parser [Token] Stmt
-parse_let_stmt = [ S_Let x e s | Tk_Keyword "let" <- next,
-                                 Tk_Ident x <- next,
-                                 Tk_Symbol "=" <- next,
-                                 e <- parse_expr "all",
-                                 Tk_Keyword "in" <- next,
-                                 s <- parse_statement  ]
 
 
 
@@ -343,12 +342,7 @@ parse_closed = \s -> first $ list_or [
                        b <- parse_block ],
     -- let
     if s == "match" then mzero else
-    [ E_Let id e1 e2 | Tk_Keyword "let" <- next,
-                       Tk_Ident id <- next,
-                       Tk_Symbol "=" <- next,
-                       e1 <- parse_expr s,
-                       Tk_Keyword "in" <- next,
-                       e2 <- parse_expr s ],
+    parse_let (parse_expr s) |> E_Let,
     (parse_funcall s |> E_FunCall),
     (parse_access s |> E_Access),
     -- tuple

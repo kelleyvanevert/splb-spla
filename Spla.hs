@@ -51,11 +51,11 @@ testParseTwice     = test ((\ps -> ps == (concat $ map (parseProgramCode . show)
 
 testDesugar        = test (desugar . parseProgram)
 
-testCompile        = test (SSM.compile . parseProgram)
+testCompile        = test (SSM.compileP . parseProgram)
 testCompileWrite f = do
   code <- readFile f
   let program = parseProgram code in
-    writeFile (addExtension f "ssm") (SSM.compile program)
+    writeFile (addExtension f "ssm") (SSM.compileP program)
 
 parseExpr :: String -> Expr
 parseExpr = head . map fst . concat . map (parse (successful $ parse_expr "all")) . splalex

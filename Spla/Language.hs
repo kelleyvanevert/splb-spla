@@ -204,6 +204,18 @@ explodeAccess (FieldAccess a d) =
   let (id, ds) = explodeAccess a in (id, d:ds)
 
 
+data Let a = Let String Expr a
+  deriving (Eq, Ord)
+
+instance (Show a) => Show (Let a) where
+  show (Let x e h) = "let " ++ x ++ " = " ++ (show e) ++ " in\n" ++ indent (show h)
+
+instance (LexicalVars a) => LexicalVars (Let a) where
+  fv (Let x e h) = (fv e) `Set.union` (Set.delete x $ fv h)
+  subst (ExprSubst s) (Let x e h) = (Let x (subst (ExprSubst s) e) (subst (ExprSubst s') h))
+    where s' = Map.delete x s
+
+
 data Match a = Match Expr [MatchRule a]
   deriving (Eq, Ord)
 
@@ -235,7 +247,7 @@ data Expr = E_Access Access
           | E_BinOp String Expr Expr
           | E_UnOp String Expr
           | E_Tuple Expr Expr
-          | E_Let String Expr Expr
+          | E_Let (Let Expr)
           | E_FunCall FunCall
           | E_Data String [Expr]
           | E_Match (Match Expr)
@@ -249,7 +261,7 @@ instance Show Expr where
   show (E_BinOp op e1 e2) = (showBracket e1) ++ " " ++ op ++ " " ++ (showBracket e2)
   show (E_UnOp op e)      = op ++ (showBracket e)
   show (E_Tuple e1 e2)    = "(" ++ (show e1) ++ ", " ++ (show e2) ++ ")"
-  show (E_Let id e1 e2)   = "let " ++ id ++ " = " ++ (show e1) ++ " in " ++ (show e2)
+  show (E_Let l)          = show l
   show (E_FunCall fc)     = show fc
   show (E_Match m)        = show m
   show (E_MatchWildcard)  = "_"
@@ -265,7 +277,7 @@ instance LexicalVars Expr where
   fv (E_Tuple e1 e2)   = (fv e1) `Set.union` (fv e2)
   fv (E_Lit lit)       = Set.empty
   fv (E_FunCall f)     = fv f
-  fv (E_Let id e1 e2)  = (fv e1) `Set.union` ((fv e2) `Set.difference` (Set.singleton id))
+  fv (E_Let l)         = fv l
   fv (E_Fun params b)  = (fv b) `Set.difference` (Set.fromList params)
   fv (E_Match m)       = fv m
   fv (E_MatchWildcard) = Set.empty
@@ -278,8 +290,7 @@ instance LexicalVars Expr where
   subst s (E_FunCall f)      = (E_FunCall (subst s f))
   subst s (E_Fun params b)   = E_Fun params (subst s' b)
     where s' = foldl (.) (\x -> x) (map substRemove params) $ s
-  subst (ExprSubst s) (E_Let id e1 e2) = (E_Let id (subst (ExprSubst s) e1) (subst (ExprSubst s') e2))
-    where s' = Map.delete id s
+  subst s (E_Let l)          = E_Let (subst s l)
   subst s (E_Match m)        = E_Match (subst s m)
   subst s (E_MatchWildcard)  = E_MatchWildcard
 
@@ -350,7 +361,7 @@ data Stmt = S_Declare Type String Expr
           | S_Assign Access Expr
           | S_FunCall FunCall
           | S_Return Expr
-          | S_Let String Expr Stmt
+          | S_Let (Let Stmt)
           | S_Skip
           | S_Match (Match Stmt)
           | S_Asm [String]
@@ -364,7 +375,7 @@ instance Show Stmt where
   show (S_Assign a e)    = (show a) ++ " = " ++ (show e) ++ ";"
   show (S_Return e)      = "return " ++ (showBracket e) ++ ";"
   show (S_FunCall fc)    = (show fc) ++ ";"
-  show (S_Let x e s)     = "let " ++ x ++ " = " ++ (show e) ++ " in\n" ++ indent (show s)
+  show (S_Let l)         = show l
   show (S_Skip)          = "skip;"
   show (S_Match m)       = show m
 
@@ -376,7 +387,7 @@ instance LexicalVars Stmt where
   fv (S_Assign a e)    = (fv a) `Set.union` (fv e)
   fv (S_FunCall f)     = fv f
   fv (S_Return e)      = fv e
-  fv (S_Let x e s)     = (fv e) `Set.union` (Set.delete x $ fv s)
+  fv (S_Let l)         = fv l
   fv (S_Skip)          = Set.empty
   fv (S_Match m)       = fv m
 
@@ -388,8 +399,7 @@ instance LexicalVars Stmt where
   subst s (S_Assign a e)    = S_Assign (subst s a) (subst s e)
   subst s (S_FunCall f)     = S_FunCall (subst s f)
   subst s (S_Return e)      = S_Return (subst s e)
-  subst (ExprSubst s) (S_Let id e stmt) = (S_Let id (subst (ExprSubst s) e) (subst (ExprSubst s') stmt))
-    where s' = Map.delete id s
+  subst s (S_Let l)         = S_Let (subst s l)
   subst s (S_Skip)          = S_Skip
   subst s (S_Match m)       = S_Match (subst s m)
 

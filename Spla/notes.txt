@@ -26,6 +26,13 @@
     - match expression functions must be constructors
 
 
+- PATTERNS
+  - class TRAIT a / instances, e.g.
+    - Compileable (Program, Stmt, Expr, Let, Match)
+    - LexicalVars (Access, Stmt, Expr, Let, Match, MatchRule, FunCall)
+    - Desugareable (...)
+
+
 - fn: always >= 1 arg
 
 
