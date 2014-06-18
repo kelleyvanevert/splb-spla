@@ -24,6 +24,8 @@ import Spla.Language
 import Spla.Lexer      --(splalex)
 import Spla.Parser     --(splaparse,     parse_expr, parse_type, parse_type_env, parse_type_scheme, parse_subst)
 
+import Spla.Desugar    --(desugar)
+
 --import Spla.TypeCheck  --(typeCheck)
 
 import qualified Spla.SSMCompile  as SSM  --(compile)
@@ -47,6 +49,8 @@ testParse          = test parseProgram
 testParseCount     = test (length . parseProgramCode)
 testParseTwice     = test ((\ps -> ps == (concat $ map (parseProgramCode . show) ps)) . parseProgramCode)
 
+testDesugar        = test (desugar . parseProgram)
+
 testCompile        = test (SSM.compile . parseProgram)
 testCompileWrite f = do
   code <- readFile f
@@ -62,10 +66,10 @@ parseMatchExpr = head . map fst . concat . map (parse (successful $ parse_expr "
 parseStmt :: String -> Stmt
 parseStmt = head . map fst . concat . map (parse (successful parse_statement)) . splalex
 
-parseProgramCode :: String -> [Program]
+parseProgramCode :: String -> [AST_Program]
 parseProgramCode = map fst . concat . map (parse splaparse) . splalex
 
-parseProgram :: String -> Program
+parseProgram :: String -> AST_Program
 parseProgram = head . parseProgramCode
 
 --parseType :: String -> Type

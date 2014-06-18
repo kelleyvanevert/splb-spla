@@ -91,12 +91,12 @@ addFunctionCode asm = do
   modify $ \s -> s { cFunctionCode = asm : existingFunctionCode }
 
 
-compile :: Program -> String
+compile :: AST_Program -> String
 compile p = unlines . beautifyAsm $ evalState (compileProgram p) emptyCompileState
 
 
-compileProgram :: Program -> Compiler Asm
-compileProgram (Program _ stmts) =
+compileProgram :: AST_Program -> Compiler Asm
+compileProgram (AST_Program _ stmts) =
   let mainCall = S_FunCall $ FunCall "main" [E_Lit L_Unit]
     in do
     cb <- compileStmt (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))

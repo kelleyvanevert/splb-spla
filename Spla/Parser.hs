@@ -53,26 +53,45 @@ parse_match_rule parse_to = [ MatchRule e to | e <- parse_expr "match",
   ====================
 -}
 
-splaparse :: Parser [Token] Program
+splaparse :: Parser [Token] AST_Program
 splaparse = parse_program
 
-parse_program :: Parser [Token] Program
+parse_program :: Parser [Token] AST_Program
 parse_program =
   successful $
-  [ Program typeAliasDecls stmts | typeAliasDecls <- many $ parse_type_decl,
-                                   stmts <- many $ parse_statement ]
+  [ AST_Program typeAliasDecls stmts | typeAliasDecls <- many $ parse_type_decl,
+                                       stmts <- many $ parse_statement ]
 
 parse_type_decl :: Parser [Token] TypeDecl
-parse_type_decl = [ TypeAliasDecl t1 t2 | Tk_Keyword "type" <- next,
-                                          t1 <- parse_type,
-                                          Tk_Symbol "=" <- next,
-                                          t2 <- parse_type,
-                                          Tk_Symbol ";" <- next ]
-              ||| [ ADTDecl adt constructions | Tk_Keyword "data" <- next,
-                                                adt <- parse_type,
-                                                Tk_Symbol "=" <- next,
-                                                constructions <- parse_type `sepby` (element $ Tk_Symbol "|"),
-                                                Tk_Symbol ";" <- next ]
+parse_type_decl = [ TD_TypeAlias (TypeAlias name (map (\(T_Var x) -> x) params') meaning)
+                      | Tk_Keyword "type" <- next,
+                        T_Op (T_Concrete name) params' <- parse_type,
+                        all (\p -> case p of { T_Var _ -> True; _ -> False }) params',
+                        Tk_Symbol "=" <- next,
+                        meaning <- parse_type,
+                        Tk_Symbol ";" <- next ]
+              ||| [ TD_TypeAlias (TypeAlias name [] meaning)
+                      | Tk_Keyword "type" <- next,
+                        T_Concrete name <- parse_type,
+                        Tk_Symbol "=" <- next,
+                        meaning <- parse_type,
+                        Tk_Symbol ";" <- next ]
+              ||| [ TD_ADT (ADT name (map (\(T_Var x) -> x) params') constructors)
+                      | Tk_Keyword "data" <- next,
+                        T_Op (T_Concrete name) params' <- parse_type,
+                        all (\p -> case p of { T_Var _ -> True; _ -> False }) params',
+                        Tk_Symbol "=" <- next,
+                        constructors <- [ Constructor name args | (T_Op (T_Concrete name) args) <- parse_type ]
+                                          `sepby` (element $ Tk_Symbol "|"),
+                        Tk_Symbol ";" <- next ]
+              ||| [ TD_ADT (ADT name [] constructors)
+                      | Tk_Keyword "data" <- next,
+                        T_Concrete name <- parse_type,
+                        Tk_Symbol "=" <- next,
+                        constructors <- ([ Constructor name args | (T_Op (T_Concrete name) args) <- parse_type ]
+                                         ||| [ Constructor name [T_Concrete "unit"] | T_Concrete name <- parse_type ])
+                                          `sepby` (element $ Tk_Symbol "|"),
+                        Tk_Symbol ";" <- next ]
 
 parse_statement :: Parser [Token] Stmt
 parse_statement = first $ list_or [

@@ -1,0 +1,7 @@
+
+(unit -> int) main = fun () {
+    match x {
+      [] -> return 1;
+      _ -> return 2;
+    }
+  };

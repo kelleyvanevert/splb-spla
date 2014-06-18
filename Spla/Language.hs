@@ -296,24 +296,52 @@ instance Show Lit where
   show (L_Unit)      = "()"
 
 
-data TypeDecl = TypeAliasDecl Type Type
-              | ADTDecl Type [Type]
-  deriving Eq
+data ADT = ADT String [String] [Constructor]
+  deriving (Eq, Ord)
 
-instance Show TypeDecl where
-  show (TypeAliasDecl alias meaning) = "type " ++ (show alias) ++ " = " ++ (show meaning) ++ ";"
-  show (ADTDecl adt constructions) =
-    let x = "data " ++ (show adt) ++ " "
+instance Show ADT where
+  show (ADT name params constructors) =
+    let x = "data " ++ (show $ T_Op (T_Concrete name) (map T_Var params)) ++ " "
         len = length x
     in
-      x ++ "= " ++ (intercalate ("\n" ++ replicate len ' ' ++ "| ") $ map show constructions) ++ ("\n" ++ replicate len ' ' ++ ";")
+      x ++ "= " ++ (intercalate ("\n" ++ replicate len ' ' ++ "| ") $ map show constructors) ++ ("\n" ++ replicate len ' ' ++ ";")
 
 
-data Program = Program [TypeDecl] [Stmt]
-  deriving Eq
+data Constructor = Constructor String [Type]
+  deriving (Eq, Ord)
 
-instance Show Program where
-  show (Program tds stmts) =
+instance Show Constructor where
+  show (Constructor name args) = show $ T_Op (T_Concrete name) args
+
+
+data TypeAlias = TypeAlias String [String] Type
+  deriving (Eq, Ord)
+
+instance Show TypeAlias where
+  show (TypeAlias name params meaning) =
+    "type " ++ (show $ T_Op (T_Concrete name) (map T_Var params)) ++ " = " ++ (show meaning) ++ ";"
+
+
+data TypeDecl = TD_TypeAlias TypeAlias
+              | TD_ADT ADT
+  deriving (Eq, Ord)
+
+instance Show TypeDecl where
+  show (TD_TypeAlias alias) = show alias
+  show (TD_ADT adt) = show adt
+
+
+data Program = Program {
+    typedecls :: [TypeDecl],
+    program :: [Stmt]
+  }
+
+
+data AST_Program = AST_Program [TypeDecl] [Stmt]
+  deriving (Eq, Ord)
+
+instance Show AST_Program where
+  show (AST_Program tds stmts) =
     (intercalate "\n\n" (map show tds)) ++ "\n\n" ++
     (intercalate "\n\n" (map show stmts))
 
@@ -338,7 +366,8 @@ instance Show Stmt where
   show (S_Assign a e)    = (show a) ++ " = " ++ (show e) ++ ";"
   show (S_Return e)      = "return " ++ (showBracket e) ++ ";"
   show (S_FunCall fc)    = (show fc) ++ ";"
-  show S_Skip            = "skip;"
+  show (S_Skip)          = "skip;"
+  show (S_Match m)       = show m
 
 instance LexicalVars Stmt where
   fv (S_Declare t x e) = fv e
@@ -349,6 +378,7 @@ instance LexicalVars Stmt where
   fv (S_FunCall f)     = fv f
   fv (S_Return e)      = fv e
   fv (S_Skip)          = Set.empty
+  fv (S_Match m)       = fv m
 
   subst s (S_Declare t x e) = S_Declare t x (subst s e)
   subst s b@(S_Block stmts) = S_Block (map (subst s') stmts)
@@ -359,6 +389,7 @@ instance LexicalVars Stmt where
   subst s (S_FunCall f)     = S_FunCall (subst s f)
   subst s (S_Return e)      = S_Return (subst s e)
   subst s (S_Skip)          = S_Skip
+  subst s (S_Match m)       = S_Match (subst s m)
 
 blockVars :: Stmt -> [String]
 blockVars (S_Block stmts) = foldr (\stmt vars ->

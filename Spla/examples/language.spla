@@ -11,8 +11,8 @@ data expr = e_access(access)
           | e_mtch(mtch(expr))
           ;
 
-data access = ident(string)
-            | fieldaccess(access, string)
+data access = a_ident(string)
+            | a_fieldaccess(access, string)
             ;
 
 data stmt = s_declare(typ, string, expr)
@@ -50,8 +50,8 @@ type string         = [char];
 
 (access -> [string]) afv = fun (a) {
     return match a {
-      | ident(x)          -> [x]
-      | fieldaccess(a, _) -> afv(a)
+      | a_ident(x)          -> [x]
+      | a_fieldaccess(a, _) -> afv(a)
     };
   };
 

@@ -1,4 +1,35 @@
 
+- STATIC ANALYSIS
+  - ADTs and type aliases
+   (- order of definition irrelevant)
+    - all ADTs/type aliases must have different names
+    - all constructors must have different names
+   [- positivity check]
+    - free vars on the LHS must match free vars on the RHS
+    - application: arguments lengths check
+    - type aliases
+      - circularity not allowed
+    - ADTs
+      - circularity allowed
+      - functions/variables may never shadow constructors
+     (- constructors, just as fn's, always have at least 1 arg)
+        (- parser applies it in the ADT definition)
+        - apply this in match rule expressions
+  - Variables/blocks
+    - in a block, all variables must have different names
+    - in a block, access only allowed after definition
+    - shadowing or variables in outer blocks allowed
+  - Match construct
+    - one lexical context per rule
+    - expression match rules must cover all cases
+   (- statement match rules need not cover all cases)
+    - eval'd from top to bottom
+   (- match expressions: only literals and constructor app's)
+    - match expression functions must be constructors
+
+
+
+
 - TODO
   - UNIT arg
   - clean up lexical contexts
