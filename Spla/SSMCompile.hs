@@ -487,7 +487,7 @@ fieldStoreInstructions "tl"   = [ "lds 0 // check list non-emptyness",
 
 builtinGlobalFunctions :: [Stmt]
 builtinGlobalFunctions = [
-    S_Declare (T_Fun (T_Var "a") (T_Basic "unit"))
+    S_Declare (typeFun (T_Var "a") (T_Concrete "unit"))
       "print"
       (E_Fun ["x"] (S_Block [S_Asm $
           [ "ldr MP",
@@ -498,7 +498,7 @@ builtinGlobalFunctions = [
           asm_exit_ctxt ++
           [ "ret" ]
         ])),
-    S_Declare (T_Fun (T_Var "a") (T_Basic "unit"))
+    S_Declare (typeFun (T_Var "a") (T_Concrete "unit"))
       "printchr"
       (E_Fun ["x"] (S_Block [S_Asm $
           [ "ldr MP",
@@ -509,7 +509,7 @@ builtinGlobalFunctions = [
           asm_exit_ctxt ++
           [ "ret" ]
         ])),
-    S_Declare (T_Fun (T_List (T_Var "a")) (T_Basic "bool"))
+    S_Declare (typeFun (typeList (T_Var "a")) (T_Concrete "bool"))
       "isEmpty"
       (E_Fun ["x"] (S_Block [S_Asm $
           [ "ldr MP",

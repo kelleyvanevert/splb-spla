@@ -26,13 +26,13 @@ import Spla.Parser     --(splaparse,     parse_expr, parse_type, parse_type_env,
 
 --import Spla.TypeCheck  --(typeCheck)
 
---import qualified Spla.SSMCompile  as SSM  --(compile)
+import qualified Spla.SSMCompile  as SSM  --(compile)
 --import qualified Spla.LLVMCompile as LLVM --(compile)
 
 
-{-main = do
+main = do
   [filename] <- getArgs
-  testCompileWrite filename-}
+  testCompileWrite filename
 
 
 test t f = [ t code | code <- readFile f ]
@@ -47,12 +47,11 @@ testParse          = test parseProgram
 testParseCount     = test (length . parseProgramCode)
 testParseTwice     = test ((\ps -> ps == (concat $ map (parseProgramCode . show) ps)) . parseProgramCode)
 
-{-testCompile        = test (SSM.compile . parseProgram)
+testCompile        = test (SSM.compile . parseProgram)
 testCompileWrite f = do
   code <- readFile f
   let program = parseProgram code in
     writeFile (addExtension f "ssm") (SSM.compile program)
--}
 
 parseExpr :: String -> Expr
 parseExpr = head . map fst . concat . map (parse (successful $ parse_expr "all")) . splalex

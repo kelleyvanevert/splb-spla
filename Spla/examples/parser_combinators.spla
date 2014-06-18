@@ -3,7 +3,6 @@ type parser('s, 'a) = 's -> [('a, 's)];
 type char           = int;
 type string         = [char];
 
-
 (unit -> int) main = fun (u) {
   //string input = "int -> int";
   //parser(string, string) p = mplus(pstring("in"), pstring("int"));
@@ -116,18 +115,17 @@ type string         = [char];
   };
 
 
-
 // The parser monad
 // ================
 
-(a -> parser(s, a)) mreturn =
+('a -> parser('s, 'a)) mreturn =
   fun (e) {
     return fun (input) {
       return (e, input) : [];
     };
   };
 
-(parser(s, a) -> (a -> parser(s, b)) -> parser(s, b)) mbind =
+(parser('s, 'a) -> ('a -> parser('s, 'b)) -> parser('s, 'b)) mbind =
   fun (p, f) {
     return fun (input) {
       return concat_many(map(fun (r) {
@@ -137,19 +135,19 @@ type string         = [char];
     };
   };
 
-(parser(s, a)) mzero =
+(parser('s, 'a)) mzero =
   fun (input) {
     return [];
   };
 
-(parser(s, a) -> parser(s, a) -> parser(s, a)) mplus =
+(parser('s, 'a) -> parser('s, 'a) -> parser('s, 'a)) mplus =
   fun (p, q) {
     return fun(input) {
       return concat(p(input), q(input));
     };
   };
 
-([parser(s, a)] -> parser(s, a)) mplus_list =
+([parser('s, 'a)] -> parser('s, 'a)) mplus_list =
   fun (parsers) {
     return foldl(mplus, mzero, parsers);
   };
@@ -159,7 +157,7 @@ type string         = [char];
 // Generic parser combinators
 // ==========================
 
-(parser(s, a) -> parser(s, [a]) pmost =
+(parser('s, 'a) -> parser('s, ['a])) pmost =
   fun (p) {
     return fun (input) {
       [(a, s)] results = p(input);
@@ -172,6 +170,7 @@ type string         = [char];
       return (reverse(as), input) : [];
     };
   };
+
 
 //(parser(s, a) -> parser(s, a)) pfirst =
 //  fun (p) {
@@ -212,12 +211,12 @@ type string         = [char];
 // List input parsers
 // ==================
 
-(parser([t], t)) next =
+(parser(['t], 't)) next =
   fun (input) {
     return (input.hd, input.tl) : [];
   };
 
-((t -> bool) -> parser([t], t)) sat =
+(('t -> bool) -> parser(['t], 't)) sat =
   fun (P) {
     return fun (input) {
       if (P(input.hd)) {
@@ -228,7 +227,7 @@ type string         = [char];
     };
   };
 
-(t -> parser([t], t)) element =
+('t -> parser(['t], 't)) element =
   fun (e1) {
     return sat(fun (e2) {
       return (e1 == e2);
@@ -266,13 +265,13 @@ parser(string, char) alphanum =
   mplus(alpha, digit);
 
 (string -> parser(string, string)) pstring =
-  fun (match) {
-    if (isEmpty(match)) {
+  fun (m) {
+    if (isEmpty(m)) {
       return mreturn([]);
     } else {
-      return mbind(element(match.hd), fun (x) {
-        return mbind(pstring(match.tl), fun (x) {
-          return mreturn(match);
+      return mbind(element(m.hd), fun (x) {
+        return mbind(pstring(m.tl), fun (x) {
+          return mreturn(m);
         });
       });
     }
