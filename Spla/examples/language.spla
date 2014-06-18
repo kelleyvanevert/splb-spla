@@ -1,0 +1,81 @@
+
+data mtch('a)     = mtch(expr, [mtchrule('a)]);
+type mtchrule('a) = (expr, a);
+
+data expr = e_access(access)
+          | e_lit(lit)
+          | e_app(string, [expr])
+          | e_let(string, expr, expr)
+          | e_fun([string], stmt)
+          | e_funcall(funcall)
+          | e_mtch(mtch(expr))
+          ;
+
+data access = ident(string)
+            | fieldaccess(access, string)
+            ;
+
+data stmt = s_declare(typ, string, expr)
+          | s_block([expr])
+          | s_if(expr, stmt, stmt)
+          | s_while(expr, stmt)
+          | s_assign(access, expr)
+          | s_funcall(funcall)
+          | s_return(expr)
+          | s_skip
+          | s_mtch(mtch(stmt))
+          ;
+
+data typ = t_var(string)
+         | t_concrete(string)
+         | t_app(typ, [typ])
+         ;
+
+type funcall = (string, [expr]);
+
+type parser('s, 'a) = 's -> [('a, 's)];
+type char           = int;
+type string         = [char];
+
+
+(expr -> [string]) efv = fun (e) {
+    return match e {
+      | e_access(a)         -> afv(a)
+      | e_app(args)         -> concat_many(map(efv, args))
+      | e_let(var, e1, e2)  -> concat(efv(e1), remove(var, efv(e2)))
+      | e_funcall(f)        -> ffv(f)
+      | e_fun(params, body) -> sfv(body)
+    };
+  };
+
+(access -> [string]) afv = fun (a) {
+    return match a {
+      | ident(x)          -> [x]
+      | fieldaccess(a, _) -> afv(a)
+    };
+  };
+
+(funcall -> [string]) ffv = fun (f) {
+    return concat_many(map(efv, f.snd));
+  };
+
+(stmt -> [string]) sfv = fun (a) {
+    return match a {
+      | s_declare(_, _, e) -> efv(e)
+      | s_block(stmts)     -> concat_many(map(sfv, stmts))
+      | s_if(e, s1, s2)    -> concat_many([efv(e), sfv(s1), sfv(s2)])
+      | s_while(e, s)      -> concat(efv(e), sfv(s))
+      | s_assign(a, e)     -> concat(afv(a), efv(e))
+      | s_funcall(f)       -> ffv(f)
+      | s_return(e)        -> efv(e)
+      | s_skip             -> []
+    };
+  };
+
+(typ -> [string]) tfv = fun (t) {
+    return match t {
+      | t_var(x)       -> [x]
+      | t_concrete(x)  -> []
+      | t_app(t, args) -> concat(tfv(t), concat_many(map(tfv, args)))
+    };
+  };

@@ -122,7 +122,8 @@ lexer = successful $
           lex_operator                   |> Tk_Op,
           (string "=")                   |> Tk_Symbol,
           lex_ident                      |> Tk_Ident,
-          lex_keyword                    |> Tk_Keyword
+          lex_keyword                    |> Tk_Keyword,
+          element '_' ^^> return Tk_MatchWildcard
         ]
 
 -- do { content <- readFile "facr.spl"; return (parse lexer content) }

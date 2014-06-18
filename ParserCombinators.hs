@@ -68,8 +68,8 @@ p `sepby` sep = (p `sepby1` sep) ||| return []
 sepby1 :: Parser s a -> Parser s b -> Parser s [a]
 p `sepby1` sep = [ a : as | a <- p, as <- many (do { sep; p }) ]
 
-possibly :: Parser s a -> Parser s [a]
-possibly p = [ [a] | a <- p ] |||| return []
+possibly :: Parser s a -> Parser s (Maybe a)
+possibly p = [ Just a | a <- p ] |||| return Nothing
 
 chainl1 :: Parser s a -> Parser s (a -> a -> a) -> Parser s a
 chainl1 p op = p >>= rest

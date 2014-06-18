@@ -1,18 +1,17 @@
 
-type @parser s a = s -> [(a, s)];
-type @char       = int;
-type @string     = [@char];
-
+type parser('s, 'a) = 's -> [('a, 's)];
+type char           = int;
+type string         = [char];
 
 
 (unit -> int) main = fun (u) {
-  //(@string) input = "int -> int";
-  //(@parser (@string) (@string)) p = mplus(pstring("in"), pstring("int"));
+  //string input = "int -> int";
+  //parser(string, string) p = mplus(pstring("in"), pstring("int"));
 
-  (@string) input = "int -> int";
-  //(@parser (@string) (@string)) p = pmost(lower);
+  string input = "int -> int";
+  //parser(string, string) p = pmost(lower);
   
-  [(@string, @string)] results = parse_ident(input);
+  [(string, string)] results = parse_ident(input);
   printresults(results);
 
   return 0;
@@ -24,11 +23,11 @@ type @string     = [@char];
 // Printing utils
 // ==============
 
-([(@string, @string)] -> unit) printresults = fun (results) {
+([(string, string)] -> unit) printresults = fun (results) {
     if (isEmpty(results)) {
       printlnstr("no more results");
     } else {
-      (@string, @string) first = results.hd;
+      (string, string) first = results.hd;
       printstr("* result: ");
       printlnstr(first.fst);
       printstr("  rest: ");
@@ -40,18 +39,18 @@ type @string     = [@char];
     return;
   };
 
-(@string -> unit) printstr = fun (s) {
+(string -> unit) printstr = fun (s) {
     map(printchr, s);
     return;
   };
 
-(@string -> unit) printlnstr = fun (s) {
+(string -> unit) printlnstr = fun (s) {
     map(printchr, s);
     printchr(10);
     return;
   };
 
-(@string -> unit) printlnchr = fun (c) {
+(string -> unit) printlnchr = fun (c) {
     printchr(c);
     printchr(10);
     return;
@@ -62,7 +61,7 @@ type @string     = [@char];
 // List operations
 // ===============
 
-([t] -> int) length =
+(['t] -> int) length =
   fun (list) {
     if (isEmpty(list)) {
       return 0;
@@ -71,7 +70,7 @@ type @string     = [@char];
     }
   };
 
-([t] -> [t] -> [t]) concat =
+(['t] -> ['t] -> ['t]) concat =
   fun (a, b) {
     if (isEmpty(a)) {
       return b;
@@ -80,7 +79,7 @@ type @string     = [@char];
     }
   };
 
-([[t]] -> [t]) concat_many =
+([['t]] -> ['t]) concat_many =
   fun (lists) {
     if (isEmpty(lists)) {
       return [];
@@ -89,7 +88,7 @@ type @string     = [@char];
     }
   };
 
-((a -> b) -> [a] -> [b]) map =
+(('a -> 'b) -> ['a] -> ['b]) map =
   fun (f, list) {
     if (isEmpty(list)) {
       return [];
@@ -98,7 +97,7 @@ type @string     = [@char];
     }
   };
 
-((a -> b -> a) -> a -> [b] -> a) foldl =
+(('a -> 'b -> 'a) -> 'a -> ['b] -> 'a) foldl =
   fun (f, e, list) {
     if (isEmpty(list)) {
       return e;
@@ -107,7 +106,7 @@ type @string     = [@char];
     }
   };
 
-([a] -> [a]) reverse = fun (list) {
+(['a] -> ['a]) reverse = fun (list) {
     [a] rev = [];
     while (!isEmpty(list)) {
       rev = list.hd : rev;
@@ -121,36 +120,36 @@ type @string     = [@char];
 // The parser monad
 // ================
 
-(a -> @parser s a) mreturn =
+(a -> parser(s, a)) mreturn =
   fun (e) {
     return fun (input) {
       return (e, input) : [];
     };
   };
 
-(@parser s a -> (a -> @parser s b) -> @parser s b) mbind =
+(parser(s, a) -> (a -> parser(s, b)) -> parser(s, b)) mbind =
   fun (p, f) {
     return fun (input) {
       return concat_many(map(fun (r) {
-        (@parser s b) g = f(r.fst);
+        parser(s, b) g = f(r.fst);
         return g(r.snd);
       }, p(input)));
     };
   };
 
-(@parser s a) mzero =
+(parser(s, a)) mzero =
   fun (input) {
     return [];
   };
 
-(@parser s a -> @parser s a -> @parser s a) mplus =
+(parser(s, a) -> parser(s, a) -> parser(s, a)) mplus =
   fun (p, q) {
     return fun(input) {
       return concat(p(input), q(input));
     };
   };
 
-([@parser s a] -> @parser s a) mplus_list =
+([parser(s, a)] -> parser(s, a)) mplus_list =
   fun (parsers) {
     return foldl(mplus, mzero, parsers);
   };
@@ -160,7 +159,7 @@ type @string     = [@char];
 // Generic parser combinators
 // ==========================
 
-(@parser s a -> @parser s [a]) pmost =
+(parser(s, a) -> parser(s, [a]) pmost =
   fun (p) {
     return fun (input) {
       [(a, s)] results = p(input);
@@ -174,7 +173,7 @@ type @string     = [@char];
     };
   };
 
-//(@parser s a -> @parser s a) pfirst =
+//(parser(s, a) -> parser(s, a)) pfirst =
 //  fun (p) {
 //    return fun (input) {
 //      [(a, s)] results = p(input);
@@ -186,7 +185,7 @@ type @string     = [@char];
 //    };
 //  };
 //
-//(@parser s a -> @parser s [a]) pmany =
+//(parser(s, a) -> parser(s, [a]) pmany =
 //  fun (p) {
 //    return fun (input) {
 //      [(a, s)] results = p(input);
@@ -199,7 +198,7 @@ type @string     = [@char];
 //    return mplus(pmany1(p), mreturn([]));
 //  };
 //
-//(@parser s a -> @parser s [a]) pmany1 =
+//(parser(s, a) -> parser(s, [a]) pmany1 =
 //  fun (p) {
 //    return mbind(p, fun (a) {
 //      return mbind(pmany(p), fun (as) {
@@ -213,12 +212,12 @@ type @string     = [@char];
 // List input parsers
 // ==================
 
-(@parser [t] t) next =
+(parser([t], t)) next =
   fun (input) {
     return (input.hd, input.tl) : [];
   };
 
-((t -> bool) -> @parser [t] t) sat =
+((t -> bool) -> parser([t], t)) sat =
   fun (P) {
     return fun (input) {
       if (P(input.hd)) {
@@ -229,7 +228,7 @@ type @string     = [@char];
     };
   };
 
-(t -> @parser [t] t) element =
+(t -> parser([t], t)) element =
   fun (e1) {
     return sat(fun (e2) {
       return (e1 == e2);
@@ -241,32 +240,32 @@ type @string     = [@char];
 // String input parsers
 // ====================
 
-(@char -> bool) is_digit =
+(char -> bool) is_digit =
   fun (c) {
     return c >= 48 && c <= 57;
   };
-(@parser (@string) (@char)) digit =
+parser(string, char) digit =
   sat(is_digit);
 
-(@char -> bool) is_lower =
+(char -> bool) is_lower =
   fun (c) {
     return c >= 97 && c <= 122;
   };
-(@parser (@string) (@char)) lower =
+parser(string, char) lower =
   sat(is_lower);
 
-(@parser (@string) (@char)) upper =
+parser(string, char) upper =
   sat(fun (c) {
     return c >= 65 && c <= 90;
   });
 
-(@parser (@string) (@char)) alpha =
+parser(string, char) alpha =
   mplus(lower, upper);
 
-(@parser (@string) (@char)) alphanum =
+parser(string, char) alphanum =
   mplus(alpha, digit);
 
-(@string -> @parser (@string) (@string)) pstring =
+(string -> parser(string, string)) pstring =
   fun (match) {
     if (isEmpty(match)) {
       return mreturn([]);
@@ -279,7 +278,7 @@ type @string     = [@char];
     }
   };
 
-([@string] -> @parser (@string) (@string)) pstring_any =
+([string] -> parser(string, string)) pstring_any =
   fun (match_any) {
     return mplus_list(map(pstring, match_any));
   };
@@ -288,4 +287,4 @@ type @string     = [@char];
 
 // Spla parsers
 
-(@parser (@string) (@string)) parse_ident = pmost(alpha);
+(parser(string, string)) parse_ident = pmost(alpha);

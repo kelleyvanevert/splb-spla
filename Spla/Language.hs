@@ -46,9 +46,11 @@ whitespace = [' ', '\n', '\r']
 
 keywords :: [String]
 keywords = [
+  "data",
+  "match",
   "type",
   "forall",
-  "var", "fun",
+  "fun",
   "return",
   "skip",
   "if", "else", "while",
@@ -56,7 +58,7 @@ keywords = [
   "let", "in" ]
 
 symbols :: [String]
-symbols = ["->", ":=", "=", "@", ";", ",", ".",
+symbols = ["->", ":=", "=", ";", ",", ".", "|", "'",
   "(", ")", "{", "}", "[", "]"]
 
 
@@ -68,35 +70,35 @@ symbols = ["->", ":=", "=", "@", ";", ",", ".",
 
 fieldOperatorTypes :: [(String, Type)]
 fieldOperatorTypes = [
-    ("fst", T_Fun (T_Tuple (T_Var "a") (T_Var "b")) (T_Var "a")),
-    ("snd", T_Fun (T_Tuple (T_Var "a") (T_Var "b")) (T_Var "b")),
-    ("hd",  T_Fun (T_List (T_Var "a")) (T_Var "a")),
-    ("tl",  T_Fun (T_List (T_Var "a")) (T_List (T_Var "a")))
+    ("fst", typeFun (typeTuple (T_Var "a") (T_Var "b")) (T_Var "a")),
+    ("snd", typeFun (typeTuple (T_Var "a") (T_Var "b")) (T_Var "b")),
+    ("hd",  typeFun (typeList (T_Var "a")) (T_Var "a")),
+    ("tl",  typeFun (typeList (T_Var "a")) (typeList (T_Var "a")))
   ]
 
 operatorTypes :: [(String, Type)]
 operatorTypes = [
-    ("*", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "int"))),
-    ("/", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "int"))),
-    ("%", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "int"))),
-    ("+", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "int"))),
-    ("-", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "int"))),
+    ("*", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "int"))),
+    ("/", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "int"))),
+    ("%", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "int"))),
+    ("+", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "int"))),
+    ("-", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "int"))),
 
-    ("~", T_Fun (T_Basic "int") (T_Basic "int")),
+    ("~", typeFun (T_Concrete "int") (T_Concrete "int")),
 
-    ("<=", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "bool"))),
-    (">=", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "bool"))),
-    ("==", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "bool"))),
-    ("!=", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "bool"))),
-    (">", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "bool"))),
-    ("<", T_Fun (T_Basic "int") (T_Fun (T_Basic "int") (T_Basic "bool"))),
+    ("<=", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "bool"))),
+    (">=", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "bool"))),
+    ("==", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "bool"))),
+    ("!=", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "bool"))),
+    (">", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "bool"))),
+    ("<", typeFun (T_Concrete "int") (typeFun (T_Concrete "int") (T_Concrete "bool"))),
 
-    ("&&", T_Fun (T_Basic "bool") (T_Fun (T_Basic "bool") (T_Basic "bool"))),
-    ("||", T_Fun (T_Basic "bool") (T_Fun (T_Basic "bool") (T_Basic "bool"))),
+    ("&&", typeFun (T_Concrete "bool") (typeFun (T_Concrete "bool") (T_Concrete "bool"))),
+    ("||", typeFun (T_Concrete "bool") (typeFun (T_Concrete "bool") (T_Concrete "bool"))),
 
-    ("!", T_Fun (T_Basic "bool") (T_Basic "bool")),
+    ("!", typeFun (T_Concrete "bool") (T_Concrete "bool")),
 
-    (":", T_Fun (T_Var "b") (T_Fun (T_List (T_Var "b")) (T_List (T_Var "b"))))
+    (":", typeFun (T_Var "b") (typeFun (typeList (T_Var "b")) (typeList (T_Var "b"))))
   ]
 
 operators :: [String]
@@ -105,8 +107,8 @@ operators = map fst operatorTypes
 
 languageEnv :: TypeEnv
 languageEnv = TypeEnv $ Map.fromList [
-    ("print", TypeScheme ["t"] $ T_Fun (T_Var "t") (T_Basic "unit")),
-    ("isEmpty", TypeScheme ["t"] $ T_Fun (T_List (T_Var "t")) (T_Basic "bool"))
+    ("print", TypeScheme ["t"] $ typeFun (T_Var "t") (T_Concrete "unit")),
+    ("isEmpty", TypeScheme ["t"] $ typeFun (typeList (T_Var "t")) (T_Concrete "bool"))
   ]
 
 
@@ -125,6 +127,7 @@ data Token = Tk_Ident String
            | Tk_Unit
            | Tk_Bool Bool
            | Tk_Op String
+           | Tk_MatchWildcard
   deriving (Eq, Show, Read)
 
 
@@ -201,6 +204,31 @@ explodeAccess (FieldAccess a d) =
   let (id, ds) = explodeAccess a in (id, d:ds)
 
 
+data Match a = Match Expr [MatchRule a]
+  deriving (Eq, Ord)
+
+instance (Show a) => Show (Match a) where
+  show (Match e rules) = "match " ++ (show e) ++ " {\n" ++
+    (intercalate "\n" (map show rules)) ++
+    "\n}"
+
+instance (LexicalVars a) => LexicalVars (Match a) where
+  fv (Match e rules) = (fv e) `Set.union` (Set.unions $ map fv rules)
+  subst s (Match e rules) = Match (subst s e) (map (subst s) rules)
+
+
+data MatchRule a = MatchRule Expr a
+  deriving (Eq, Ord)
+
+instance (Show a) => Show (MatchRule a) where
+  show (MatchRule e to) = "  | " ++ (show e) ++ " -> " ++ (show to)
+
+instance (LexicalVars a) => LexicalVars (MatchRule a) where
+  fv (MatchRule e to) = (fv to) `Set.difference` (fv e)
+  subst s (MatchRule e to) = MatchRule e (subst s' to)
+    where s' = foldl (.) (\x -> x) (map substRemove $ Set.elems (fv e)) $ s
+
+
 data Expr = E_Access Access
           | E_Lit Lit
           | E_Fun [String] Stmt
@@ -209,6 +237,8 @@ data Expr = E_Access Access
           | E_Tuple Expr Expr
           | E_Let String Expr Expr
           | E_FunCall FunCall
+          | E_Match (Match Expr)
+          | E_MatchWildcard
   deriving (Eq, Ord)
 
 instance Show Expr where
@@ -220,6 +250,8 @@ instance Show Expr where
   show (E_Tuple e1 e2)    = "(" ++ (show e1) ++ ", " ++ (show e2) ++ ")"
   show (E_Let id e1 e2)   = "let " ++ id ++ " = " ++ (show e1) ++ " in " ++ (show e2)
   show (E_FunCall fc)     = show fc
+  show (E_Match m)        = show m
+  show (E_MatchWildcard)  = "_"
 
 instance ShowNeedsBrackets Expr where
   showNeedsBrackets (E_BinOp _ _ _) = True
@@ -234,6 +266,8 @@ instance LexicalVars Expr where
   fv (E_FunCall f)     = fv f
   fv (E_Let id e1 e2)  = (fv e1) `Set.union` ((fv e2) `Set.difference` (Set.singleton id))
   fv (E_Fun params b)  = (fv b) `Set.difference` (Set.fromList params)
+  fv (E_Match m)       = fv m
+  fv (E_MatchWildcard) = Set.empty
   
   subst s (E_Access a)       = E_Access (subst s a)
   subst s (E_BinOp op e1 e2) = (E_BinOp op (subst s e1) (subst s e2))
@@ -245,6 +279,8 @@ instance LexicalVars Expr where
     where s' = foldl (.) (\x -> x) (map substRemove params) $ s
   subst (ExprSubst s) (E_Let id e1 e2) = (E_Let id (subst (ExprSubst s) e1) (subst (ExprSubst s') e2))
     where s' = Map.delete id s
+  subst s (E_Match m)        = E_Match (subst s m)
+  subst s (E_MatchWildcard)  = E_MatchWildcard
 
 
 data Lit = L_Int Int
@@ -260,19 +296,25 @@ instance Show Lit where
   show (L_Unit)      = "()"
 
 
-data TypeAliasDecl = TypeAliasDecl TypeAlias Type
+data TypeDecl = TypeAliasDecl Type Type
+              | ADTDecl Type [Type]
   deriving Eq
 
-instance Show TypeAliasDecl where
+instance Show TypeDecl where
   show (TypeAliasDecl alias meaning) = "type " ++ (show alias) ++ " = " ++ (show meaning) ++ ";"
+  show (ADTDecl adt constructions) =
+    let x = "data " ++ (show adt) ++ " "
+        len = length x
+    in
+      x ++ "= " ++ (intercalate ("\n" ++ replicate len ' ' ++ "| ") $ map show constructions) ++ ("\n" ++ replicate len ' ' ++ ";")
 
 
-data Program = Program [TypeAliasDecl] [Stmt]
+data Program = Program [TypeDecl] [Stmt]
   deriving Eq
 
 instance Show Program where
   show (Program tds stmts) =
-    (intercalate "\n" (map show tds)) ++ "\n\n" ++
+    (intercalate "\n\n" (map show tds)) ++ "\n\n" ++
     (intercalate "\n\n" (map show stmts))
 
 
@@ -284,6 +326,7 @@ data Stmt = S_Declare Type String Expr
           | S_FunCall FunCall
           | S_Return Expr
           | S_Skip
+          | S_Match (Match Stmt)
           | S_Asm [String]
   deriving (Eq, Ord)
 
@@ -366,37 +409,32 @@ composeTypeSubst (TypeSubst s1) (TypeSubst s2) =
   TypeSubst ((Map.map (subst_tv (TypeSubst s1)) s2) `Map.union` s1)
 
 
-data TypeAlias = TypeAlias String [Type]
-  deriving (Eq, Ord)
-
-instance Show TypeAlias where
-  show (TypeAlias s args) = "@" ++ s ++ (if (length args > 0) then (" " ++ intercalate " " (map showBracket args)) else "")
-
-instance LexicalTypeVars TypeAlias where
-  ftv (TypeAlias _ args) = Set.unions (map ftv args)
-  subst_tv s (TypeAlias t args)  = TypeAlias t (map (subst_tv s) args)
-
-
-data Type = T_Basic String
-          | T_Tuple Type Type
-          | T_List Type
+data Type = T_Concrete String
+          | T_Op Type [Type]
           | T_Var String
-          | T_Alias TypeAlias
-          | T_Fun Type Type
   deriving (Eq, Ord)
 
 instance Show Type where
-  show (T_Basic s)     = s
-  show (T_Tuple t1 t2) = intercalate "" ["(", show t1, ", ", show t2, ")"]
-  show (T_List t)      = intercalate "" ["[", show t, "]"]
-  show (T_Var x)       = x
-  show (T_Alias t)     = show t
-  show (T_Fun t1 t2)   = showBracket t1 ++ " -> " ++ showBracket t2
+  show (T_Concrete s)                       = s
+  show (T_Op (T_Concrete "tuple") [t1, t2]) = intercalate "" ["(", show t1, ", ", show t2, ")"]
+  show (T_Op (T_Concrete "list") [t])       = intercalate "" ["[", show t, "]"]
+  show (T_Op (T_Concrete "fun") [t1, t2])   = showBracket t1 ++ " -> " ++ showBracket t2
+  show (T_Op t args)                        = showBracket t ++ "(" ++ (intercalate ", " $ map show args) ++ ")"
+  show (T_Var x)                            = "'" ++ x
 
 instance ShowNeedsBrackets Type where
-  showNeedsBrackets (T_Alias _)   = True
-  showNeedsBrackets (T_Fun _ _)   = True
-  showNeedsBrackets _             = False
+  showNeedsBrackets (T_Op _ _)   = True
+  showNeedsBrackets _            = False
+
+typeFun :: Type -> Type -> Type
+typeFun t1 t2 = T_Op (T_Concrete "fun") [t1, t2]
+
+typeList :: Type -> Type
+typeList t = T_Op (T_Concrete "list") [t]
+
+typeTuple :: Type -> Type -> Type
+typeTuple t1 t2 = T_Op (T_Concrete "tuple") [t1, t2]
+
 
 data TypeScheme = TypeScheme [String] Type
   deriving (Eq, Ord)
@@ -411,22 +449,16 @@ instance ShowNeedsBrackets TypeScheme where
   showNeedsBrackets _ = False
 
 instance LexicalTypeVars Type where
-  ftv (T_Basic s)     = Set.empty
-  ftv (T_Tuple t1 t2) = (ftv t1) `Set.union` (ftv t2)
-  ftv (T_List t)      = ftv t
-  ftv (T_Var x)       = Set.singleton x
-  ftv (T_Alias t)     = ftv t
-  ftv (T_Fun t1 t2)   = (ftv t1) `Set.union` (ftv t2)
+  ftv (T_Concrete x) = Set.empty
+  ftv (T_Op t args)  = (ftv t) `Set.union` (Set.unions $ map ftv args)
+  ftv (T_Var x)      = Set.singleton x
 
-  subst_tv s (T_Tuple t1 t2)  = T_Tuple (subst_tv s t1) (subst_tv s t2)
-  subst_tv s (T_List t)       = T_List (subst_tv s t)
-  subst_tv s (T_Fun t1 t2)    = T_Fun (subst_tv s t1) (subst_tv s t2)
+  subst_tv s (T_Concrete x) = T_Concrete x
+  subst_tv s (T_Op t args)  = T_Op (subst_tv s t) (map (subst_tv s) args)
   subst_tv (TypeSubst s) (T_Var x) =
     case Map.lookup x s of
       Just t -> t
       Nothing -> T_Var x
-  subst_tv s (T_Alias t)      = T_Alias (subst_tv s t)
-  subst_tv s t                = t
 
 instance LexicalTypeVars TypeScheme where
   ftv (TypeScheme vars t) = (ftv t) `Set.difference` (Set.fromList vars)
