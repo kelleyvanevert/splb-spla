@@ -49,6 +49,9 @@ data CompileState = CompileState {
   -- fresh labels
     cNumLabels :: Int,
 
+  -- match end labels
+    cMatchEndLabels :: [String],
+
   -- data types
     -- maps constructor names to adt size and adt c #
     cConstructors :: Map.Map String (Int, Int),
@@ -65,6 +68,8 @@ data CompileState = CompileState {
 emptyCompileState :: CompileState
 emptyCompileState = CompileState {
     cNumLabels = 0,
+
+    cMatchEndLabels = [],
 
     cConstructors = Map.empty,
 
@@ -140,10 +145,101 @@ instance Compileable a => Compileable [a] where
 instance Compileable a => Compileable (Match a) where
   compile (Match e rules) = do
     ce <- compile e
-    return []
+    newEndLabel <- freshLabel "_m_end"
+    oldEndLabels <- gets cMatchEndLabels
+    modify $ \m -> m { cMatchEndLabels = newEndLabel : oldEndLabels }
+    crules <- compile rules
+    modify $ \m -> m { cMatchEndLabels = oldEndLabels }
+    return $
+      ce ++
+      [ "str R5" ] ++ -- TODO change this to allow for nested match constructs
+      crules ++
+      [ newEndLabel ++ ": ajs 0" ]
 
+
+-- TODO create local context
 instance Compileable a => Compileable (MatchRule a) where
-  compile (MatchRule m to) = return []
+  compile (MatchRule e to) = do
+    continueLabel <- freshLabel "_m"
+    (endLabel : _) <- gets cMatchEndLabels
+    ce <- compile e
+    ceq <- checkEquality e
+    cto <- compile to
+    return $
+      ce ++
+      [ "ldr R5" ] ++
+      ceq ++
+      [ "brf " ++ continueLabel ] ++
+      cto ++
+      [ "bra " ++ endLabel,
+        continueLabel ++ ": ajs 0" ]
+
+
+-- :: 2 -> 1
+checkEquality :: Expr -> Compiler Asm
+checkEquality (E_MatchWildcard) = return [ "ldc " ++ show machineTrue ]
+checkEquality (E_Lit l)         = return [ "eq" ]
+{-
+-- TODO
+-- check name first,
+--  then all args
+--  don't forget to short circuit!
+checkEquality (E_Data cName args) = do
+  constructors <- gets cConstructors
+  let (Just k) = Map.lookup cName constructors
+  return $
+    concat (mapZI chArgEq args) ++
+    replicate (length args - 1) "and" ++
+    [ "ajs -2",
+      "lds 2" ]
+  where
+    chArgEq i e =
+      [ "lds -" ++ show (i + 1),
+        "ldh " ++ show (i + 1),
+        "lds -" ++ show (i + 1),
+        "ldh " ++ show (i + 1) ] ++
+      checkEquality cons cap e
+-}
+checkEquality (E_Tuple e1 e2) = do
+  ceq1 <- checkEquality e1
+  ceq2 <- checkEquality e2
+  return $
+    [ "lds -1" ] ++
+    compileOp "fst" ++
+    [ "lds -1" ] ++
+    compileOp "fst" ++
+    ceq1 ++
+    [ "lds -2" ] ++
+    compileOp "snd" ++
+    [ "lds -2" ] ++
+    compileOp "snd" ++
+    ceq2 ++
+    [ "and",
+      "ajs -2",
+      "lds 2" ]
+checkEquality (E_BinOp ":" e1 e2) = do
+  ceq1 <- checkEquality e1
+  ceq2 <- checkEquality e2
+  return $
+    [ "lds -1" ] ++
+    compileOp "hd" ++
+    [ "lds -1" ] ++
+    compileOp "hd" ++
+    ceq1 ++
+    [ "lds -2" ] ++
+    compileOp "tl" ++
+    [ "lds -2" ] ++
+    compileOp "tl" ++
+    ceq2 ++
+    [ "and",
+      "ajs -2",
+      "lds 2" ]
+checkEquality (E_Access (Ident x)) = do
+  (_, i) <- envLookup x
+  return $
+    asm_lexical_store 0 i ++
+    [ "ajs -1",
+      "ldc " ++ show machineTrue ]
 
 
 -- [[ s ]] :: 0 -> 0
@@ -266,6 +362,14 @@ instance Compileable Stmt where
         endLabel ++ ": ajs 0 // endwhile" ]
 
 
+-- [[ l ]] :: 0 -> 1
+instance Compileable Lit where
+  compile (L_Int n)     = return $ [ "ldc " ++ show n ] -- TODO don't allow overflowing values
+  compile (L_Bool b)    = return $ [ "ldc " ++ show (if b then machineTrue else machineFalse) ]
+  compile (L_Unit)      = return $ [ "ldc " ++ show machineUnit ]
+  compile (L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
+
+
 -- [[ e ]] :: 0 -> 1
 instance Compileable Expr where
 
@@ -276,10 +380,7 @@ instance Compileable Expr where
   compile (E_Match m) = compile m
 
   -- literals
-  compile (E_Lit (L_Int n))   = return $ [ "ldc " ++ show n ] -- TODO don't allow overflowing values
-  compile (E_Lit (L_Bool b))  = return $ [ "ldc " ++ show (if b then machineTrue else machineFalse) ]
-  compile (E_Lit L_Unit)      = return $ [ "ldc " ++ show machineUnit ]
-  compile (E_Lit L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
+  compile (E_Lit l) = compile l
 
   -- access
   compile (E_Access (Ident id)) = do

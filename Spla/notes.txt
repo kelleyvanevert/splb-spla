@@ -24,15 +24,21 @@
     - eval'd from top to bottom
    (- match expressions: only literals and constructor app's)
     - match expression functions must be constructors
+    - match expression variables must have different names
 
 
 - PATTERNS
   - class TRAIT a / instances, e.g.
-    - Compileable (Program, Stmt, Expr, Let, Match)
+    - Compileable (Program, Stmt, Expr, Let, Match, Lit)
     - LexicalVars (Access, Stmt, Expr, Let, Match, MatchRule, FunCall)
     - Desugareable (...)
 
 
+- i -> j signatures for pieces of asm code
+  - [[ e ]] :: 0 -> 1
+    [[ s ]] :: 0 -> 0
+    let/match fn dependent
+    etc..
 - fn: always >= 1 arg
 
 
