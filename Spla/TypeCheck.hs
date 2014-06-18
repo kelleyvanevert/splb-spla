@@ -4,7 +4,7 @@
 -- http://fsharpcode.blogspot.nl/2010/08/hindley-milner-type-inference-sample.html
 
 module Spla.TypeCheck where
-  -- staticCheck :: AST_Program -> Program
+  -- staticCheck :: Program -> Program
   -- typeCheck :: Program -> Program   -- checks & infers types
 
 

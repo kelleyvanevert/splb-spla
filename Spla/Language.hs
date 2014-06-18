@@ -237,6 +237,7 @@ data Expr = E_Access Access
           | E_Tuple Expr Expr
           | E_Let String Expr Expr
           | E_FunCall FunCall
+          | E_Data String [Expr]
           | E_Match (Match Expr)
           | E_MatchWildcard
   deriving (Eq, Ord)
@@ -311,7 +312,9 @@ data Constructor = Constructor String [Type]
   deriving (Eq, Ord)
 
 instance Show Constructor where
-  show (Constructor name args) = show $ T_Op (T_Concrete name) args
+  show (Constructor name args) = if length args == 0
+                                 then name
+                                 else show $ T_Op (T_Concrete name) args
 
 
 data TypeAlias = TypeAlias String [String] Type
@@ -331,17 +334,11 @@ instance Show TypeDecl where
   show (TD_ADT adt) = show adt
 
 
-data Program = Program {
-    typedecls :: [TypeDecl],
-    program :: [Stmt]
-  }
-
-
-data AST_Program = AST_Program [TypeDecl] [Stmt]
+data Program = Program [TypeDecl] [Stmt]
   deriving (Eq, Ord)
 
-instance Show AST_Program where
-  show (AST_Program tds stmts) =
+instance Show Program where
+  show (Program tds stmts) =
     (intercalate "\n\n" (map show tds)) ++ "\n\n" ++
     (intercalate "\n\n" (map show stmts))
 
@@ -353,6 +350,7 @@ data Stmt = S_Declare Type String Expr
           | S_Assign Access Expr
           | S_FunCall FunCall
           | S_Return Expr
+          | S_Let String Expr Stmt
           | S_Skip
           | S_Match (Match Stmt)
           | S_Asm [String]
@@ -366,6 +364,7 @@ instance Show Stmt where
   show (S_Assign a e)    = (show a) ++ " = " ++ (show e) ++ ";"
   show (S_Return e)      = "return " ++ (showBracket e) ++ ";"
   show (S_FunCall fc)    = (show fc) ++ ";"
+  show (S_Let x e s)     = "let " ++ x ++ " = " ++ (show e) ++ " in\n" ++ indent (show s)
   show (S_Skip)          = "skip;"
   show (S_Match m)       = show m
 
@@ -377,6 +376,7 @@ instance LexicalVars Stmt where
   fv (S_Assign a e)    = (fv a) `Set.union` (fv e)
   fv (S_FunCall f)     = fv f
   fv (S_Return e)      = fv e
+  fv (S_Let x e s)     = (fv e) `Set.union` (Set.delete x $ fv s)
   fv (S_Skip)          = Set.empty
   fv (S_Match m)       = fv m
 
@@ -388,6 +388,8 @@ instance LexicalVars Stmt where
   subst s (S_Assign a e)    = S_Assign (subst s a) (subst s e)
   subst s (S_FunCall f)     = S_FunCall (subst s f)
   subst s (S_Return e)      = S_Return (subst s e)
+  subst (ExprSubst s) (S_Let id e stmt) = (S_Let id (subst (ExprSubst s) e) (subst (ExprSubst s') stmt))
+    where s' = Map.delete id s
   subst s (S_Skip)          = S_Skip
   subst s (S_Match m)       = S_Match (subst s m)
 

@@ -12,9 +12,7 @@
     - ADTs
       - circularity allowed
       - functions/variables may never shadow constructors
-     (- constructors, just as fn's, always have at least 1 arg)
-        (- parser applies it in the ADT definition)
-        - apply this in match rule expressions
+      - constructors may have no args
   - Variables/blocks
     - in a block, all variables must have different names
     - in a block, access only allowed after definition
@@ -27,6 +25,8 @@
    (- match expressions: only literals and constructor app's)
     - match expression functions must be constructors
 
+
+- fn: always >= 1 arg
 
 
 

@@ -1,0 +1,17 @@
+
+data list = nil
+          | cons(int, list)
+          ;
+
+(unit -> int) main = fun () {
+    list l = cons(3, cons(4, cons(5, cons(6, nil))));
+    mapl(print, l);
+    return 1;
+  };
+
+((int -> a) -> list -> [a]) mapl = fun (f, l) {
+    return match l {
+      | nil -> []
+      | cons(x, rest) -> f(x) : mapl(f, rest)
+    };
+  };

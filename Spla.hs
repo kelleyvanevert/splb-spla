@@ -66,10 +66,10 @@ parseMatchExpr = head . map fst . concat . map (parse (successful $ parse_expr "
 parseStmt :: String -> Stmt
 parseStmt = head . map fst . concat . map (parse (successful parse_statement)) . splalex
 
-parseProgramCode :: String -> [AST_Program]
+parseProgramCode :: String -> [Program]
 parseProgramCode = map fst . concat . map (parse splaparse) . splalex
 
-parseProgram :: String -> AST_Program
+parseProgram :: String -> Program
 parseProgram = head . parseProgramCode
 
 --parseType :: String -> Type

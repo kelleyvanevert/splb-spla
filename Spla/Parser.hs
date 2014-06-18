@@ -53,13 +53,13 @@ parse_match_rule parse_to = [ MatchRule e to | e <- parse_expr "match",
   ====================
 -}
 
-splaparse :: Parser [Token] AST_Program
+splaparse :: Parser [Token] Program
 splaparse = parse_program
 
-parse_program :: Parser [Token] AST_Program
+parse_program :: Parser [Token] Program
 parse_program =
   successful $
-  [ AST_Program typeAliasDecls stmts | typeAliasDecls <- many $ parse_type_decl,
+  [ Program typeAliasDecls stmts | typeAliasDecls <- many $ parse_type_decl,
                                        stmts <- many $ parse_statement ]
 
 parse_type_decl :: Parser [Token] TypeDecl
@@ -89,7 +89,7 @@ parse_type_decl = [ TD_TypeAlias (TypeAlias name (map (\(T_Var x) -> x) params')
                         T_Concrete name <- parse_type,
                         Tk_Symbol "=" <- next,
                         constructors <- ([ Constructor name args | (T_Op (T_Concrete name) args) <- parse_type ]
-                                         ||| [ Constructor name [T_Concrete "unit"] | T_Concrete name <- parse_type ])
+                                         ||| [ Constructor name [] | T_Concrete name <- parse_type ])
                                           `sepby` (element $ Tk_Symbol "|"),
                         Tk_Symbol ";" <- next ]
 
@@ -103,7 +103,8 @@ parse_statement = first $ list_or [
                     parse_declare,
                     (parse_funcall "all" <^^ (element $ Tk_Symbol ";")) |> S_FunCall,
                     parse_return,
-                    parse_match parse_statement |> S_Match
+                    parse_match parse_statement |> S_Match,
+                    parse_let_stmt
                   ]
 
 parse_skip :: Parser [Token] Stmt
@@ -151,6 +152,14 @@ parse_block :: Parser [Token] Stmt
 parse_block = [ S_Block stmts | Tk_Symbol "{" <- next,
                                 stmts <- many parse_statement,
                                 Tk_Symbol "}" <- next ]
+
+parse_let_stmt :: Parser [Token] Stmt
+parse_let_stmt = [ S_Let x e s | Tk_Keyword "let" <- next,
+                                 Tk_Ident x <- next,
+                                 Tk_Symbol "=" <- next,
+                                 e <- parse_expr "all",
+                                 Tk_Keyword "in" <- next,
+                                 s <- parse_statement  ]
 
 
 
@@ -301,7 +310,7 @@ parse_access "all" =  [ foldl FieldAccess (Ident id) fields
                       ]
 
 parse_funcall :: String -> Parser [Token] FunCall
-parse_funcall = \s -> [ FunCall id args
+parse_funcall = \s -> [ FunCall id (if length args == 0 then [E_Lit L_Unit] else args)
                          | Tk_Ident id <- next,
                            Tk_Symbol "(" <- next,
                            args <- parse_expr s `sepby` (element $ Tk_Symbol ","),

@@ -42,14 +42,18 @@ type Location = [String]
 
 
 data CompileState = CompileState {
+  -- fresh labels
     cNumLabels :: Int,
 
-    cLocation :: Location,
+  -- data types
+    -- maps constructor names to adt size and adt c #
+    cConstructors :: Map.Map String (Int, Int),
 
-    -- sends locals to lexical location and their position within
+  -- handling lexical scopes
+    cLocation :: Location,
     cLocalsEnv :: Map.Map String (Location, Int),
 
-    -- collect function code
+  -- collect function code
     cFunctionCode :: [Asm]
   }
   deriving (Show, Eq)
@@ -58,10 +62,10 @@ emptyCompileState :: CompileState
 emptyCompileState = CompileState {
     cNumLabels = 0,
 
-    --cLexicalContext = Map.empty,
-    cLocation = [],
+    cConstructors = Map.empty,
 
-    cLocalsEnv = Map.fromList [],
+    cLocation = [],
+    cLocalsEnv = Map.empty,
 
     cFunctionCode = []
   }
@@ -91,25 +95,35 @@ addFunctionCode asm = do
   modify $ \s -> s { cFunctionCode = asm : existingFunctionCode }
 
 
-compile :: AST_Program -> String
+compile :: Program -> String
 compile p = unlines . beautifyAsm $ evalState (compileProgram p) emptyCompileState
 
 
-compileProgram :: AST_Program -> Compiler Asm
-compileProgram (AST_Program _ stmts) =
+compileProgram :: Program -> Compiler Asm
+compileProgram (Program typedecls stmts) = do
+  collectConstructors (foldl (\adts t -> case t of { TD_ADT adt -> adt:adts; _ -> adts }) [] typedecls)
   let mainCall = S_FunCall $ FunCall "main" [E_Lit L_Unit]
-    in do
-    cb <- compileStmt (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
-    functionsCode <- gets cFunctionCode
-    return $
-      [ "ldc 0 -- DUMMY",
-        "str MP" ] ++
-      cb ++
-      [ "ldr RR",
-        "trap 0",
-        "halt" ] ++
-      concat functionsCode ++
-      builtinAsm
+  cb <- compileStmt (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
+  functionsCode <- gets cFunctionCode
+  return $
+    [ "ldc 0 -- DUMMY",
+      "str MP" ] ++
+    cb ++
+    [ "ldr RR",
+      "trap 0",
+      "halt" ] ++
+    concat functionsCode ++
+    builtinAsm
+
+
+collectConstructors :: [ADT] -> Compiler ()
+collectConstructors [] = return ()
+collectConstructors (ADT _ _ cs : adts) = do
+  let adtSize = foldl max 0 (map (\(Constructor _ args) -> length args) cs)
+  let newConstructors = Map.fromList $ mapZI (\i (Constructor name _) -> (name, (adtSize, i))) cs
+  currentConstructors <- gets cConstructors
+  modify $ \m -> m { cConstructors = currentConstructors `Map.union` newConstructors }
+  collectConstructors adts
 
 
 -- [[ s ]] :: 0 -> 0
@@ -237,9 +251,17 @@ compileExpr (E_Lit L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
 
 -- access
 compileExpr (E_Access (Ident id)) = do
-  currentLocation <- gets cLocation
-  (location, i) <- envLookup id
-  return $ asm_lexical_load (length currentLocation - length location) i
+  constructors <- gets cConstructors
+  case Map.lookup id constructors of
+    Just (adtSize, cNo) -> do
+      cd <- compileData adtSize cNo []
+      return $
+        cd ++
+        [ "ldr RR" ]
+    Nothing -> do
+      currentLocation <- gets cLocation
+      (location, i) <- envLookup id
+      return $ asm_lexical_load (length currentLocation - length location) i
 
 compileExpr (E_Access (FieldAccess a field)) = do
   c <- compileExpr (E_Access a)
@@ -365,7 +387,26 @@ compileExpr (E_Let x e1 e2) = do
 
 
 compileFunCall :: FunCall -> Compiler Asm
-compileFunCall (FunCall id args_) =
+compileFunCall f@(FunCall id args) = do
+  constructors <- gets cConstructors
+  case Map.lookup id constructors of
+    Just (adtSize, cNo) -> compileData adtSize cNo args
+    Nothing -> compileRealFunCall f
+
+
+compileData :: Int -> Int -> [Expr] -> Compiler Asm
+compileData adtSize cNo args = do
+  cargs <- foldM (\asm arg -> [ asm ++ carg | carg <- compileExpr arg ]) [] args
+  return $
+    [ "ldc " ++ show cNo ++ " // save data" ] ++
+    cargs ++
+    (replicate (adtSize - length args) "ldc 0") ++
+    asm_heapify (adtSize + 1) ++
+    [ "str RR" ]
+
+
+compileRealFunCall :: FunCall -> Compiler Asm
+compileRealFunCall f@(FunCall id args_) =
   let args = (if length args_ == 0 then [E_Lit L_Unit] else args_)
       n = length args
     in do
@@ -382,6 +423,13 @@ compileFunCall (FunCall id args_) =
       [ "ajs -" ++ show (n + 1) ] -- [0]             // clean up stack
 
 
+
+-- asm_heapify n :: n -> 1
+asm_heapify :: Int -> Asm
+asm_heapify n =
+  [ "stmh " ++ show n,
+    "ldc " ++ show (n - 1),
+    "sub" ]
 
 -- asm_enter_ctxt n :: n -> 0
 asm_enter_ctxt :: Int -> String -> Asm
