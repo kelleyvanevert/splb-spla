@@ -2,7 +2,7 @@
 (unit -> int) main = fun () {
     int x = 3;
     return match [3, 4, 5] {
-      | [_, x, 5] -> x
+      | [3, 4, 6] -> 7
       | _ -> 8
     };
   };

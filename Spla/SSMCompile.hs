@@ -36,7 +36,8 @@ machineEmptyList = 0
 
 
 class Compileable a where
-  compile :: a -> Compiler Asm
+  -- first argument: alternative compilation scheme flag
+  compile :: String -> a -> Compiler Asm
 
 
 type Asm = [String]
@@ -105,14 +106,14 @@ addFunctionCode asm = do
 
 
 compileP :: Program -> String
-compileP p = unlines . beautifyAsm $ evalState (compile p) emptyCompileState
+compileP p = unlines . beautifyAsm $ evalState (compile [] p) emptyCompileState
 
 
 instance Compileable Program where
-  compile (Program typedecls stmts) = do
+  compile flag (Program typedecls stmts) = do
     collectConstructors (foldl (\adts t -> case t of { TD_ADT adt -> adt:adts; _ -> adts }) [] typedecls)
     let mainCall = S_FunCall $ FunCall "main" [E_Lit L_Unit]
-    cb <- compile (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
+    cb <- compile flag (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
     functionsCode <- gets cFunctionCode
     return $
       [ "ldc 0 -- DUMMY",
@@ -135,23 +136,20 @@ collectConstructors (ADT _ _ cs : adts) = do
   collectConstructors adts
 
 
-concatCompile :: (a -> Compiler Asm) -> [a] -> Compiler Asm
-concatCompile compile hs = foldM (\asm h -> [ asm ++ ch | ch <- compile h ]) [] hs
-
 instance Compileable a => Compileable [a] where
-  compile = concatCompile compile
+  compile flag hs = foldM (\asm h -> [ asm ++ ch | ch <- compile flag h ]) [] hs
 
 
 --      [[ h ]] :: 0 -> k
 -- ---------------------------
 -- [[ match ... h ]] :: 0 -> k
 instance Compileable a => Compileable (Match a) where
-  compile (Match e rules) = do
-    ce <- compile e
+  compile flag (Match e rules) = do
+    ce <- compile flag e
     newEndLabel <- freshLabel "_m_end"
     oldEndLabels <- gets cMatchEndLabels
     modify $ \m -> m { cMatchEndLabels = newEndLabel : oldEndLabels }
-    crules <- compile rules
+    crules <- compile flag rules
     modify $ \m -> m { cMatchEndLabels = oldEndLabels }
     return $
       ce ++
@@ -162,7 +160,7 @@ instance Compileable a => Compileable (Match a) where
 
 -- TODO create local context
 instance Compileable a => Compileable (MatchRule a) where
-  compile (MatchRule e to) = do
+  compile flag (MatchRule e to) = do
     oldLocation <- gets cLocation
     oldLocalsEnv <- gets cLocalsEnv
 
@@ -181,9 +179,9 @@ instance Compileable a => Compileable (MatchRule a) where
       modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
 
       -- compute body asm
-      cme <- compileMatchExpr e
-      ceq <- compileMatchCheck e
-      cto <- compile to
+      cme <- compile "match_expr" e
+      ceq <- compile "match_check" e
+      cto <- compile flag to
 
       -- restore location and environment
       modify $ \s -> s { cLocation = oldLocation }
@@ -205,122 +203,24 @@ instance Compileable a => Compileable (MatchRule a) where
         asm_exit_ctxt
 
 
-compileMatchExpr :: Expr -> Compiler Asm
-compileMatchExpr (E_Lit l)             = compile l
-compileMatchExpr (E_Access (Ident id)) = return [ "ldc 0" ]
-compileMatchExpr (E_MatchWildcard)     = return [ "ldc 0" ]
-compileMatchExpr (E_BinOp ":" e1 e2) = do
-  ce1 <- compileMatchExpr e1
-  ce2 <- compileMatchExpr e2
-  return $ ce1 ++ ce2 ++ compileOp ":"
-compileMatchExpr (E_Tuple e1 e2) = do
-  ce1 <- compileMatchExpr e1
-  ce2 <- compileMatchExpr e2
-  return $
-    ce1 ++
-    ce2 ++
-    [ "ajs -1 // start save tuple",
-      "sth",
-      "ajs 1",
-      "sth",
-      "ajs -1 // end save tuple" ]
-compileMatchExpr (E_FunCall (FunCall cName args)) = do
-  constructors <- gets cConstructors
-  let Just (adtSize, cNo) = Map.lookup cName constructors
-  cargs <- concatCompile compileMatchExpr args
-  return $
-    [ "ldc " ++ show cNo ++ " // save data" ] ++
-    cargs ++
-    (replicate (adtSize - length args) "ldc 0") ++
-    asm_heapify (adtSize + 1) ++
-    [ "str RR" ]
-
-
--- :: 2 -> 1
-compileMatchCheck :: Expr -> Compiler Asm
-compileMatchCheck (E_MatchWildcard) = return [ "ajs -2", "ldc " ++ show machineTrue ]
-compileMatchCheck (E_Lit l)         = return [ "eq" ]
-{-
--- TODO
--- check name first,
---  then all args
---  don't forget to short circuit!
-compileMatchCheck (E_Data cName args) = do
-  constructors <- gets cConstructors
-  let (Just k) = Map.lookup cName constructors
-  return $
-    concat (mapZI chArgEq args) ++
-    replicate (length args - 1) "and" ++
-    [ "ajs -2",
-      "lds 2" ]
-  where
-    chArgEq i e =
-      [ "lds -" ++ show (i + 1),
-        "ldh " ++ show (i + 1),
-        "lds -" ++ show (i + 1),
-        "ldh " ++ show (i + 1) ] ++
-      compileMatchCheck cons cap e
--}
-compileMatchCheck (E_Tuple e1 e2) = do
-  ceq1 <- compileMatchCheck e1
-  ceq2 <- compileMatchCheck e2
-  return $
-    [ "lds -1" ] ++
-    compileOp "fst" ++
-    [ "lds -1" ] ++
-    compileOp "fst" ++
-    ceq1 ++
-    [ "lds -2" ] ++
-    compileOp "snd" ++
-    [ "lds -2" ] ++
-    compileOp "snd" ++
-    ceq2 ++
-    [ "and",
-      "ajs -3",
-      "lds 3" ]
-compileMatchCheck (E_BinOp ":" e1 e2) = do
-  ceq1 <- compileMatchCheck e1
-  ceq2 <- compileMatchCheck e2
-  return $
-    [ "lds -1" ] ++
-    compileOp "hd" ++
-    [ "lds -1" ] ++
-    compileOp "hd" ++
-    ceq1 ++
-    [ "lds -2" ] ++
-    compileOp "tl" ++
-    [ "lds -2" ] ++
-    compileOp "tl" ++
-    ceq2 ++
-    [ "and",
-      "ajs -3",
-      "lds 3" ]
-compileMatchCheck (E_Access (Ident x)) = do
-  (_, i) <- envLookup x
-  return $
-    asm_lexical_store 0 i ++
-    [ "ajs -1",
-      "ldc " ++ show machineTrue ]
-
-
 -- [[ s ]] :: 0 -> 0
 instance Compileable Stmt where
 
   -- match
-  compile (S_Let l) = compile l
+  compile flag (S_Let l) = compile flag l
 
   -- match
-  compile (S_Match m) = compile m
+  compile flag (S_Match m) = compile flag m
 
   -- assembly
   -- HACKY
-  compile (S_Asm asm) = return asm
+  compile flag (S_Asm asm) = return asm
 
   -- skip
-  compile S_Skip = return $ [ "ajs 0 // skip" ]
+  compile flag S_Skip = return $ [ "ajs 0 // skip" ]
 
   -- block
-  compile (S_Block stmts) = do
+  compile flag (S_Block stmts) = do
     oldLocation <- gets cLocation
     oldLocalsEnv <- gets cLocalsEnv
 
@@ -336,7 +236,7 @@ instance Compileable Stmt where
       modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
 
       -- compute body asm
-      cstmts <- compile stmts
+      cstmts <- compile flag stmts
 
       -- restore location and environment
       modify $ \s -> s { cLocation = oldLocation }
@@ -352,23 +252,23 @@ instance Compileable Stmt where
         asm_exit_ctxt
 
   -- declare
-  compile (S_Declare _ id e) = compile (S_Assign (Ident id) e)
+  compile flag (S_Declare _ id e) = compile flag (S_Assign (Ident id) e)
 
   -- assign, shallow
-  compile (S_Assign (Ident id) e) = do
+  compile flag (S_Assign (Ident id) e) = do
     currentLocation <- gets cLocation
     (varLocation, i) <- envLookup id
-    ce <- compile e
+    ce <- compile flag e
     return $
       ce ++
       asm_lexical_store (length currentLocation - length varLocation) i
 
   -- assign, deep
-  compile (S_Assign a e) =
+  compile flag (S_Assign a e) =
     let (id, d:ds) = explodeAccess a in do
       currentLocation <- gets cLocation
       (varLocation, i) <- envLookup id
-      ce <- compile e
+      ce <- compile flag e
       return $                                                          -- [0]
         ce ++                                                           -- [1] expression value
         asm_lexical_load (length currentLocation - length varLocation) i ++ -- [2] pointer to list/tuple
@@ -376,22 +276,22 @@ instance Compileable Stmt where
         fieldStoreInstructions d                                        -- save (? TODO)
 
   -- function call
-  compile (S_FunCall f) = compile f
+  compile flag (S_FunCall f) = compile flag f
 
   -- return
-  compile (S_Return e) = do
-    ce <- compile e
+  compile flag (S_Return e) = do
+    ce <- compile flag e
     return $
       ce ++
       [ "str RR" ] ++
       [ "bra __ret" ]
 
   -- if branch
-  compile (S_If e b1 b2) = do
-    ce <- compile e
+  compile flag (S_If e b1 b2) = do
+    ce <- compile flag e
     
-    thenBody <- compile b1
-    elseBody <- compile b2
+    thenBody <- compile flag b1
+    elseBody <- compile flag b2
 
     elseLabel <- freshLabel "_else"
     endLabel <- freshLabel "_end"
@@ -407,9 +307,9 @@ instance Compileable Stmt where
       [ endLabel ++ ": ajs 0 // endif" ]
 
   -- while branch
-  compile (S_While e b) = do
-    ce <- compile e
-    body <- compile b
+  compile flag (S_While e b) = do
+    ce <- compile flag e
+    body <- compile flag b
 
     whileLabel <- freshLabel "_while"
     endLabel <- freshLabel "_end"
@@ -425,26 +325,102 @@ instance Compileable Stmt where
 
 -- [[ l ]] :: 0 -> 1
 instance Compileable Lit where
-  compile (L_Int n)     = return $ [ "ldc " ++ show n ] -- TODO don't allow overflowing values
-  compile (L_Bool b)    = return $ [ "ldc " ++ show (if b then machineTrue else machineFalse) ]
-  compile (L_Unit)      = return $ [ "ldc " ++ show machineUnit ]
-  compile (L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
+  compile flag (L_Int n)     = return $ [ "ldc " ++ show n ] -- TODO don't allow overflowing values
+  compile flag (L_Bool b)    = return $ [ "ldc " ++ show (if b then machineTrue else machineFalse) ]
+  compile flag (L_Unit)      = return $ [ "ldc " ++ show machineUnit ]
+  compile flag (L_EmptyList) = return $ [ "ldc " ++ show machineEmptyList ]
 
 
 -- [[ e ]] :: 0 -> 1
 instance Compileable Expr where
 
+  -- Match Expression alternative compilation schemes
+  ---------------------------------------------------
+  compile "match_expr" (E_Access (Ident id)) = return [ "ldc 0" ]
+  compile "match_expr" (E_MatchWildcard)     = return [ "ldc 0" ]
+
+
+  -- Match Expression checkins alternative compilation schemes :: 2 -> 1
+  ----------------------------------------------------------------------
+  compile "match_check" (E_MatchWildcard) = return [ "ajs -2", "ldc " ++ show machineTrue ]
+  compile "match_check" (E_Lit l)         = return [ "eq" ]
+  {-
+  -- TODO
+  -- check name first,
+  --  then all args
+  --  don't forget to short circuit!
+  compile "match_check" (E_Data cName args) = do
+    constructors <- gets cConstructors
+    let (Just k) = Map.lookup cName constructors
+    return $
+      concat (mapZI chArgEq args) ++
+      replicate (length args - 1) "and" ++
+      [ "ajs -2",
+        "lds 2" ]
+    where
+      chArgEq i e =
+        [ "lds -" ++ show (i + 1),
+          "ldh " ++ show (i + 1),
+          "lds -" ++ show (i + 1),
+          "ldh " ++ show (i + 1) ] ++
+        compile "match_check" cons cap e
+  -}
+  compile "match_check" (E_Tuple e1 e2) = do
+    ceq1 <- compile "match_check" e1
+    ceq2 <- compile "match_check" e2
+    return $
+      [ "lds -1" ] ++
+      compileOp "fst" ++
+      [ "lds -1" ] ++
+      compileOp "fst" ++
+      ceq1 ++
+      [ "lds -2" ] ++
+      compileOp "snd" ++
+      [ "lds -2" ] ++
+      compileOp "snd" ++
+      ceq2 ++
+      [ "and",
+        "ajs -3",
+        "lds 3" ]
+  compile "match_check" (E_BinOp ":" e1 e2) = do
+    ceq1 <- compile "match_check" e1
+    ceq2 <- compile "match_check" e2
+    return $
+      [ "lds -1" ] ++
+      compileOp "hd" ++
+      [ "lds -1" ] ++
+      compileOp "hd" ++
+      ceq1 ++
+      [ "lds -2" ] ++
+      compileOp "tl" ++
+      [ "lds -2" ] ++
+      compileOp "tl" ++
+      ceq2 ++
+      [ "and",
+        "ajs -3",
+        "lds 3" ]
+  compile "match_check" (E_Access (Ident x)) = do
+    (_, i) <- envLookup x
+    return $
+      asm_lexical_store 0 i ++
+      [ "ajs -1",
+        "ldc " ++ show machineTrue ]
+
+
+  -- Normal Expressions
+  ---------------------
+
   -- let
-  compile (E_Let l) = compile l
+  compile flag (E_Let l) = compile flag l
 
   -- match
-  compile (E_Match m) = compile m
+  compile flag (E_Match m) = compile flag m
 
   -- literals
-  compile (E_Lit l) = compile l
+  compile flag (E_Lit l) = compile flag l
 
   -- access
-  compile (E_Access (Ident id)) = do
+  compile flag (E_Access (Ident id)) = do
     constructors <- gets cConstructors
     case Map.lookup id constructors of
       Just (adtSize, cNo) -> do
@@ -457,21 +433,21 @@ instance Compileable Expr where
         (location, i) <- envLookup id
         return $ asm_lexical_load (length currentLocation - length location) i
 
-  compile (E_Access (FieldAccess a field)) = do
-    c <- compile (E_Access a)
+  compile flag (E_Access (FieldAccess a field)) = do
+    c <- compile flag (E_Access a)
     return $
       c ++
       compileOp field
 
   -- function call
-  compile (E_FunCall f) = do
-    c <- compile f
+  compile flag (E_FunCall f) = do
+    c <- compile flag f
     return $
       c ++
       [ "ldr RR" ]
 
   -- function expression, take 2
-  compile (E_Fun params (S_Block stmts)) = do
+  compile flag (E_Fun params (S_Block stmts)) = do
     oldLocation <- gets cLocation
     oldLocalsEnv <- gets cLocalsEnv
 
@@ -488,7 +464,7 @@ instance Compileable Expr where
       modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
 
       -- compute body asm
-      cstmts <- compile stmts
+      cstmts <- compile flag stmts
 
       -- restore location and environment
       modify $ \s -> s { cLocation = oldLocation }
@@ -524,21 +500,21 @@ instance Compileable Expr where
           "ldc 1",  -- [2]
           "sub" ]   -- [1] pointer to function object
 
-  compile (E_Fun params s) = do
+  compile flag (E_Fun params s) = do
     error $ "should not occur, block: " ++ (show s)
 
   -- operations
-  compile (E_BinOp op e1 e2) = do
-    ce1 <- compile e1
-    ce2 <- compile e2
+  compile flag (E_BinOp op e1 e2) = do
+    ce1 <- compile flag e1
+    ce2 <- compile flag e2
     return $ ce1 ++ ce2 ++ compileOp op
-  compile (E_UnOp op e) = do
-    ce <- compile e
+  compile flag (E_UnOp op e) = do
+    ce <- compile flag e
     return $ ce ++ compileOp op
 
-  compile (E_Tuple e1 e2) = do
-    ce1 <- compile e1
-    ce2 <- compile e2
+  compile flag (E_Tuple e1 e2) = do
+    ce1 <- compile flag e1
+    ce2 <- compile flag e2
     return $
       ce1 ++
       ce2 ++
@@ -553,13 +529,13 @@ instance Compileable Expr where
 -- ----------------------------
 -- [[ let ... in h ]] :: 0 -> k
 instance Compileable a => Compileable (Let a) where
-  compile (Let x e h) = do
+  compile flag (Let x e h) = do
     oldLocation <- gets cLocation
     oldLocalsEnv <- gets cLocalsEnv
 
     letLocationLabel <- freshLabel "let"
 
-    ce <- compile e
+    ce <- compile flag e
 
     let newLocation = oldLocation ++ [letLocationLabel]
       in do
@@ -569,7 +545,7 @@ instance Compileable a => Compileable (Let a) where
       modify $ \m -> m { cLocalsEnv = Map.insert x (newLocation, 3) oldLocalsEnv }
 
       -- compute body asm
-      ch <- compile h
+      ch <- compile flag h
 
       -- restore location and environment
       modify $ \s -> s { cLocation = oldLocation }
@@ -586,7 +562,7 @@ instance Compileable a => Compileable (Let a) where
 
 
 instance Compileable FunCall where
-  compile f@(FunCall id args) = do
+  compile flag f@(FunCall id args) = do
     constructors <- gets cConstructors
     case Map.lookup id constructors of
       Just (adtSize, cNo) -> compileData adtSize cNo args
@@ -595,7 +571,7 @@ instance Compileable FunCall where
 
 compileData :: Int -> Int -> [Expr] -> Compiler Asm
 compileData adtSize cNo args = do
-  cargs <- compile args
+  cargs <- compile "" args
   return $
     [ "ldc " ++ show cNo ++ " // save data" ] ++
     cargs ++
@@ -609,8 +585,8 @@ compileRealFunCall f@(FunCall id args_) =
   let args = (if length args_ == 0 then [E_Lit L_Unit] else args_)
       n = length args
     in do
-    cid <- compile (E_Access (Ident id))
-    cargs <- compile args
+    cid <- compile "" (E_Access (Ident id))
+    cargs <- compile "" args
 
     return $                      -- [0]
       cid ++                      -- [1]             pointer to function object

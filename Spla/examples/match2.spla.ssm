@@ -106,15 +106,14 @@ _fun4:     ajs 0
            ldc 0      
            ldr MP     
            ldr MP     
-           ldc 0      
-           stmh 4     
-           annote HP -4 -4 gray "lexical match rule" 
-           ldc 3      
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
            sub        
            str MP     
-           ldc 0      
-           ldc 0      
-           ldc 5      
+           ldc 3      
+           ldc 4      
+           ldc 6      
            ldc 0      
            ajs -1     // start perform cons
            sth        
@@ -144,8 +143,7 @@ _fun4:     ajs 0
            eq         
            brt _EXCEPTION_EmptyList 
            ldh 0      // access hd
-           ajs -2     
-           ldc -1     
+           eq         
            lds -2     
            lds 0      // check list non-emptyness
            ldc 0      
@@ -170,10 +168,7 @@ _fun4:     ajs 0
            eq         
            brt _EXCEPTION_EmptyList 
            ldh 0      // access hd
-           ldr MP     
-           sta 3      
-           ajs -1     
-           ldc -1     
+           eq         
            lds -2     
            lds 0      // check list non-emptyness
            ldc 0      
@@ -222,8 +217,7 @@ _fun4:     ajs 0
            ajs -3     
            lds 3      
            brf _m6    
-           ldr MP     
-           lda 3      
+           ldc 7      
            bra _m_end5 
 _m6:       ajs 0      
            ldr MP     

@@ -32,8 +32,14 @@
     - Compileable (Program, Stmt, Expr, Let, Match, Lit)
     - LexicalVars (Access, Stmt, Expr, Let, Match, MatchRule, FunCall)
     - Desugareable (...)
+  - Three ways in which Expr can be compiled:
+    - 1. normal
+    - 2. as a match expression (_ -> True, x -> capture, True)
+    - 3. as a match checker (:: 2 -> 1, whole different meaning)
+    - instead of wrapping Expr, I added a "flag" param to [Compileable/compile]
 
 
+- TODO nested match constructs
 - i -> j signatures for pieces of asm code
   - [[ e ]] :: 0 -> 1
     [[ s ]] :: 0 -> 0
