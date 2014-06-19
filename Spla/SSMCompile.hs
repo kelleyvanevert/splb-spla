@@ -135,8 +135,11 @@ collectConstructors (ADT _ _ cs : adts) = do
   collectConstructors adts
 
 
+concatCompile :: (a -> Compiler Asm) -> [a] -> Compiler Asm
+concatCompile compile hs = foldM (\asm h -> [ asm ++ ch | ch <- compile h ]) [] hs
+
 instance Compileable a => Compileable [a] where
-  compile hs = foldM (\asm h -> [ asm ++ ch | ch <- compile h ]) [] hs
+  compile = concatCompile compile
 
 
 --      [[ h ]] :: 0 -> k
@@ -160,31 +163,89 @@ instance Compileable a => Compileable (Match a) where
 -- TODO create local context
 instance Compileable a => Compileable (MatchRule a) where
   compile (MatchRule e to) = do
+    oldLocation <- gets cLocation
+    oldLocalsEnv <- gets cLocalsEnv
+
     continueLabel <- freshLabel "_m"
     (endLabel : _) <- gets cMatchEndLabels
-    ce <- compile e
-    ceq <- checkEquality e
-    cto <- compile to
-    return $
-      ce ++
-      [ "ldr R5" ] ++
-      ceq ++
-      [ "brf " ++ continueLabel ] ++
-      cto ++
-      [ "bra " ++ endLabel,
-        continueLabel ++ ": ajs 0" ]
+
+    matchRuleLocationLabel <- freshLabel "mrule"
+
+    let newLocation = oldLocation ++ [matchRuleLocationLabel]
+        newLocals = Set.elems (fv e)
+        newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i id -> (newLocation, i + 2)) newLocals
+      in do
+
+      -- update location and environment
+      modify $ \s -> s { cLocation = newLocation }
+      modify $ \m -> m { cLocalsEnv = newLocalsEnv `Map.union` oldLocalsEnv }
+
+      -- compute body asm
+      cme <- compileMatchExpr e
+      ceq <- compileMatchCheck e
+      cto <- compile to
+
+      -- restore location and environment
+      modify $ \s -> s { cLocation = oldLocation }
+      modify $ \m -> m { cLocalsEnv = oldLocalsEnv }
+
+      return $
+        [ "ldc 0" ] ++                          -- [1] 0. (not a function)
+        [ "ldr MP" ] ++                         -- [2] 1. parent context
+        [ "ldr MP" ] ++                         -- [3] 2. return context = parent context
+        replicate (length newLocals) "ldc 0" ++
+        asm_enter_ctxt (3 + length newLocals) "lexical match rule" ++
+        cme ++
+        [ "ldr R5" ] ++
+        ceq ++
+        [ "brf " ++ continueLabel ] ++
+        cto ++
+        [ "bra " ++ endLabel,
+          continueLabel ++ ": ajs 0" ] ++
+        asm_exit_ctxt
+
+
+compileMatchExpr :: Expr -> Compiler Asm
+compileMatchExpr (E_Lit l)             = compile l
+compileMatchExpr (E_Access (Ident id)) = return [ "ldc 0" ]
+compileMatchExpr (E_MatchWildcard)     = return [ "ldc 0" ]
+compileMatchExpr (E_BinOp ":" e1 e2) = do
+  ce1 <- compileMatchExpr e1
+  ce2 <- compileMatchExpr e2
+  return $ ce1 ++ ce2 ++ compileOp ":"
+compileMatchExpr (E_Tuple e1 e2) = do
+  ce1 <- compileMatchExpr e1
+  ce2 <- compileMatchExpr e2
+  return $
+    ce1 ++
+    ce2 ++
+    [ "ajs -1 // start save tuple",
+      "sth",
+      "ajs 1",
+      "sth",
+      "ajs -1 // end save tuple" ]
+compileMatchExpr (E_FunCall (FunCall cName args)) = do
+  constructors <- gets cConstructors
+  let Just (adtSize, cNo) = Map.lookup cName constructors
+  cargs <- concatCompile compileMatchExpr args
+  return $
+    [ "ldc " ++ show cNo ++ " // save data" ] ++
+    cargs ++
+    (replicate (adtSize - length args) "ldc 0") ++
+    asm_heapify (adtSize + 1) ++
+    [ "str RR" ]
 
 
 -- :: 2 -> 1
-checkEquality :: Expr -> Compiler Asm
-checkEquality (E_MatchWildcard) = return [ "ldc " ++ show machineTrue ]
-checkEquality (E_Lit l)         = return [ "eq" ]
+compileMatchCheck :: Expr -> Compiler Asm
+compileMatchCheck (E_MatchWildcard) = return [ "ajs -2", "ldc " ++ show machineTrue ]
+compileMatchCheck (E_Lit l)         = return [ "eq" ]
 {-
 -- TODO
 -- check name first,
 --  then all args
 --  don't forget to short circuit!
-checkEquality (E_Data cName args) = do
+compileMatchCheck (E_Data cName args) = do
   constructors <- gets cConstructors
   let (Just k) = Map.lookup cName constructors
   return $
@@ -198,11 +259,11 @@ checkEquality (E_Data cName args) = do
         "ldh " ++ show (i + 1),
         "lds -" ++ show (i + 1),
         "ldh " ++ show (i + 1) ] ++
-      checkEquality cons cap e
+      compileMatchCheck cons cap e
 -}
-checkEquality (E_Tuple e1 e2) = do
-  ceq1 <- checkEquality e1
-  ceq2 <- checkEquality e2
+compileMatchCheck (E_Tuple e1 e2) = do
+  ceq1 <- compileMatchCheck e1
+  ceq2 <- compileMatchCheck e2
   return $
     [ "lds -1" ] ++
     compileOp "fst" ++
@@ -215,11 +276,11 @@ checkEquality (E_Tuple e1 e2) = do
     compileOp "snd" ++
     ceq2 ++
     [ "and",
-      "ajs -2",
-      "lds 2" ]
-checkEquality (E_BinOp ":" e1 e2) = do
-  ceq1 <- checkEquality e1
-  ceq2 <- checkEquality e2
+      "ajs -3",
+      "lds 3" ]
+compileMatchCheck (E_BinOp ":" e1 e2) = do
+  ceq1 <- compileMatchCheck e1
+  ceq2 <- compileMatchCheck e2
   return $
     [ "lds -1" ] ++
     compileOp "hd" ++
@@ -232,9 +293,9 @@ checkEquality (E_BinOp ":" e1 e2) = do
     compileOp "tl" ++
     ceq2 ++
     [ "and",
-      "ajs -2",
-      "lds 2" ]
-checkEquality (E_Access (Ident x)) = do
+      "ajs -3",
+      "lds 3" ]
+compileMatchCheck (E_Access (Ident x)) = do
   (_, i) <- envLookup x
   return $
     asm_lexical_store 0 i ++
@@ -315,7 +376,7 @@ instance Compileable Stmt where
         fieldStoreInstructions d                                        -- save (? TODO)
 
   -- function call
-  compile (S_FunCall f) = compileFunCall f
+  compile (S_FunCall f) = compile f
 
   -- return
   compile (S_Return e) = do
@@ -404,7 +465,7 @@ instance Compileable Expr where
 
   -- function call
   compile (E_FunCall f) = do
-    c <- compileFunCall f
+    c <- compile f
     return $
       c ++
       [ "ldr RR" ]
@@ -524,12 +585,12 @@ instance Compileable a => Compileable (Let a) where
         asm_exit_ctxt
 
 
-compileFunCall :: FunCall -> Compiler Asm
-compileFunCall f@(FunCall id args) = do
-  constructors <- gets cConstructors
-  case Map.lookup id constructors of
-    Just (adtSize, cNo) -> compileData adtSize cNo args
-    Nothing -> compileRealFunCall f
+instance Compileable FunCall where
+  compile f@(FunCall id args) = do
+    constructors <- gets cConstructors
+    case Map.lookup id constructors of
+      Just (adtSize, cNo) -> compileData adtSize cNo args
+      Nothing -> compileRealFunCall f
 
 
 compileData :: Int -> Int -> [Expr] -> Compiler Asm

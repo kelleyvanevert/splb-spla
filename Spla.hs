@@ -1,4 +1,4 @@
-{-# LANGUAGE MonadComprehensions #-}
+{-# LANGUAGE MonadComprehensions, FlexibleInstances, TypeSynonymInstances #-}
 
 -- For testing purposes...
 

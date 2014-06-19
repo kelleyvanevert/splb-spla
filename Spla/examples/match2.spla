@@ -1,0 +1,8 @@
+
+(unit -> int) main = fun () {
+    int x = 3;
+    return match [3, 4, 5] {
+      | [_, x, 5] -> x
+      | _ -> 8
+    };
+  };
