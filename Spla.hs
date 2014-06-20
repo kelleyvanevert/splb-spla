@@ -24,8 +24,6 @@ import Spla.Language
 import Spla.Lexer      --(splalex)
 import Spla.Parser     --(splaparse,     parse_expr, parse_type, parse_type_env, parse_type_scheme, parse_subst)
 
-import Spla.Desugar    --(desugar)
-
 --import Spla.TypeCheck  --(typeCheck)
 
 import qualified Spla.SSMCompile  as SSM  --(compile)
@@ -48,8 +46,6 @@ testLexCount       = test (length . splalex)
 testParse          = test parseProgram
 testParseCount     = test (length . parseProgramCode)
 testParseTwice     = test ((\ps -> ps == (concat $ map (parseProgramCode . show) ps)) . parseProgramCode)
-
-testDesugar        = test (desugar . parseProgram)
 
 testCompile        = test (SSM.compileP . parseProgram)
 testCompileWrite f = do

@@ -10,34 +10,3 @@
 ((int -> int) -> int) f = fun (g) {
     return g(6);
   };
-
-/*
-
-GLOBAL: ldc 0              // DUMMY
-        ldc 0              // DUMMY
-        enter_ctxt 0 2
-
-        loc _main          // code location
-        str CP             // defining context
-        stmh' 2            // pointer to function object
-        lexical_store 0 0
-
-        loc _f
-        str CP
-        stmh' 2
-        lexical_store 0 1
-
-        lexical_load 0 0
-        lda 1              // parent/defining context
-        ldc 0              // unit arg for main
-        lexical_load 0 0
-        lda 0              // code location
-        jsr                // jump into function
-        ajs -2             // clean up
-
-_main:  ldl -2             // parent/defining context
-        ldr CP             // return context
-        enter_ctxt 1 2     // "is function" flag, 2 locals
-        <CODE>
-
-*/

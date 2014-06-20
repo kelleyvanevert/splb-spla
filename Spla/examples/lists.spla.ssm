@@ -225,6 +225,9 @@ _fun4:     ajs 0
            lda 0      
            jsr        
            ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
                       
 __fun3:    ldr PC     
            ldc 6      

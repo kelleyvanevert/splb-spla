@@ -9,9 +9,10 @@
            ldc 0      
            ldc 0      
            ldc 0      
-           stmh 9     
-           annote HP -9 -9 gray "lexical block" 
-           ldc 8      
+           ldc 0      
+           stmh 10    
+           annote HP -10 -10 gray "lexical block" 
+           ldc 9      
            sub        
            str MP     
            bsr __fun1 
@@ -50,7 +51,7 @@
            sub        
            ldr MP     
            sta 6      
-           bsr __fun9 
+           bsr __fun5 
            ldr RR     
            ldr MP     
            stmh 2     
@@ -59,7 +60,7 @@
            sub        
            ldr MP     
            sta 7      
-           bsr __fun14 
+           bsr __fun10 
            ldr RR     
            ldr MP     
            stmh 2     
@@ -68,12 +69,21 @@
            sub        
            ldr MP     
            sta 8      
+           bsr __fun15 
+           ldr RR     
            ldr MP     
-           lda 5      
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 9      
+           ldr MP     
+           lda 6      
            lda 1      
            ldc 0      
            ldr MP     
-           lda 5      
+           lda 6      
            lda 0      
            jsr        
            ajs -2     
@@ -84,13 +94,13 @@
            trap 0     
            halt       
                       
-__fun14:   ldr PC     
+__fun15:   ldr PC     
            ldc 6      
            add        
            str RR     
            ret        
                       
-_fun14:    ajs 0      
+_fun15:    ajs 0      
            ldc 1      
            lds -3     
            ldr MP     
@@ -103,18 +113,18 @@ _fun14:    ajs 0
            ajs 0      // if
            ldr MP     
            lda 1      
-           lda 4      
+           lda 5      
            lda 1      
            ldr MP     
            lda 3      
            ldr MP     
            lda 1      
-           lda 4      
+           lda 5      
            lda 0      
            jsr        
            ajs -2     
            ldr RR     
-           brf _else17 // then
+           brf _else18 // then
            ldc 0      
            ldr MP     
            ldr MP     
@@ -129,8 +139,8 @@ _fun14:    ajs 0
            ldr MP     
            lda 2      
            str MP     
-           bra _end18 
-_else17:   ajs 0      // else:
+           bra _end19 
+_else18:   ajs 0      // else:
            ldc 0      
            ldr MP     
            ldr MP     
@@ -142,7 +152,7 @@ _else17:   ajs 0      // else:
            ldr MP     
            lda 1      
            lda 1      
-           lda 7      
+           lda 8      
            lda 1      
            ldr MP     
            lda 1      
@@ -155,7 +165,7 @@ _else17:   ajs 0      // else:
            ldr MP     
            lda 1      
            lda 1      
-           lda 8      
+           lda 9      
            lda 1      
            ldr MP     
            lda 1      
@@ -168,7 +178,7 @@ _else17:   ajs 0      // else:
            ldr MP     
            lda 1      
            lda 1      
-           lda 8      
+           lda 9      
            lda 0      
            jsr        
            ajs -2     
@@ -176,7 +186,7 @@ _else17:   ajs 0      // else:
            ldr MP     
            lda 1      
            lda 1      
-           lda 7      
+           lda 8      
            lda 0      
            jsr        
            ajs -3     
@@ -186,15 +196,15 @@ _else17:   ajs 0      // else:
            ldr MP     
            lda 2      
            str MP     
-_end18:    ajs 0      // endif
+_end19:    ajs 0      // endif
                       
-__fun9:    ldr PC     
+__fun10:   ldr PC     
            ldc 6      
            add        
            str RR     
            ret        
                       
-_fun9:     ajs 0      
+_fun10:    ajs 0      
            ldc 1      
            lds -4     
            ldr MP     
@@ -208,18 +218,18 @@ _fun9:     ajs 0
            ajs 0      // if
            ldr MP     
            lda 1      
-           lda 4      
+           lda 5      
            lda 1      
            ldr MP     
            lda 3      
            ldr MP     
            lda 1      
-           lda 4      
+           lda 5      
            lda 0      
            jsr        
            ajs -2     
            ldr RR     
-           brf _else12 // then
+           brf _else13 // then
            ldc 0      
            ldr MP     
            ldr MP     
@@ -236,8 +246,8 @@ _fun9:     ajs 0
            ldr MP     
            lda 2      
            str MP     
-           bra _end13 
-_else12:   ajs 0      // else:
+           bra _end14 
+_else13:   ajs 0      // else:
            ldc 0      
            ldr MP     
            ldr MP     
@@ -257,7 +267,7 @@ _else12:   ajs 0      // else:
            ldr MP     
            lda 1      
            lda 1      
-           lda 7      
+           lda 8      
            lda 1      
            ldr MP     
            lda 1      
@@ -270,6 +280,117 @@ _else12:   ajs 0      // else:
            ldr MP     
            lda 1      
            lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 8      
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end14:    ajs 0      // endif
+                      
+__fun5:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun5:     ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else8 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end9  
+_else8:    ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 7      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
            ldr MP     
            lda 1      
            lda 1      
@@ -288,7 +409,7 @@ _else12:   ajs 0      // else:
            ldr MP     
            lda 2      
            str MP     
-_end13:    ajs 0      // endif
+_end9:     ajs 0      // endif
                       
 __fun4:    ldr PC     
            ldc 6      
@@ -297,117 +418,6 @@ __fun4:    ldr PC
            ret        
                       
 _fun4:     ajs 0      
-           ldc 1      
-           lds -4     
-           ldr MP     
-           lds -5     
-           lds -5     
-           stmh 5     
-           annote HP -5 -5 gray "lexical fun" 
-           ldc 4      
-           sub        
-           str MP     
-           ajs 0      // if
-           ldr MP     
-           lda 1      
-           lda 4      
-           lda 1      
-           ldr MP     
-           lda 4      
-           ldr MP     
-           lda 1      
-           lda 4      
-           lda 0      
-           jsr        
-           ajs -2     
-           ldr RR     
-           brf _else7 // then
-           ldc 0      
-           ldr MP     
-           ldr MP     
-           stmh 3     
-           annote HP -3 -3 gray "lexical block" 
-           ldc 2      
-           sub        
-           str MP     
-           ldc 0      
-           str RR     
-           bra __ret  
-           ldr MP     
-           lda 2      
-           str MP     
-           bra _end8  
-_else7:    ajs 0      // else:
-           ldc 0      
-           ldr MP     
-           ldr MP     
-           stmh 3     
-           annote HP -3 -3 gray "lexical block" 
-           ldc 2      
-           sub        
-           str MP     
-           ldr MP     
-           lda 1      
-           lda 3      
-           lda 1      
-           ldr MP     
-           lda 1      
-           lda 4      
-           lds 0      // check list non-emptyness
-           ldc 0      
-           eq         
-           brt _EXCEPTION_EmptyList 
-           ldh 0      // access hd
-           ldr MP     
-           lda 1      
-           lda 3      
-           lda 0      
-           jsr        
-           ajs -2     
-           ldr RR     
-           ldr MP     
-           lda 1      
-           lda 1      
-           lda 6      
-           lda 1      
-           ldr MP     
-           lda 1      
-           lda 3      
-           ldr MP     
-           lda 1      
-           lda 4      
-           lds 0      // check list non-emptyness
-           ldc 0      
-           eq         
-           brt _EXCEPTION_EmptyList 
-           ldh 1      // access tl
-           ldr MP     
-           lda 1      
-           lda 1      
-           lda 6      
-           lda 0      
-           jsr        
-           ajs -3     
-           ldr RR     
-           ajs -1     // start perform cons
-           sth        
-           ajs 1      
-           sth        
-           ajs -1     // end perform cons
-           str RR     
-           bra __ret  
-           ldr MP     
-           lda 2      
-           str MP     
-_end8:     ajs 0      // endif
-                      
-__fun3:    ldr PC     
-           ldc 6      
-           add        
-           str RR     
-           ret        
-                      
-_fun3:     ajs 0      
            ldc 1      
            lds -3     
            ldr MP     
@@ -451,35 +461,7 @@ _fun3:     ajs 0
            sta 5      
            ldr MP     
            lda 1      
-           lda 6      
-           lda 1      
-           ldr MP     
-           lda 1      
-           lda 3      
-           ldr MP     
-           lda 1      
            lda 7      
-           lda 1      
-           ldr MP     
-           lda 4      
-           ldr MP     
-           lda 5      
-           ldr MP     
-           lda 1      
-           lda 7      
-           lda 0      
-           jsr        
-           ajs -3     
-           ldr RR     
-           ldr MP     
-           lda 1      
-           lda 6      
-           lda 0      
-           jsr        
-           ajs -3     
-           ldr MP     
-           lda 1      
-           lda 6      
            lda 1      
            ldr MP     
            lda 1      
@@ -487,6 +469,34 @@ _fun3:     ajs 0
            ldr MP     
            lda 1      
            lda 8      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 8      
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 7      
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr MP     
+           lda 1      
+           lda 7      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 9      
            lda 1      
            ldr MP     
            lda 4      
@@ -505,20 +515,46 @@ _fun3:     ajs 0
            ajs -1     // end perform cons
            ldr MP     
            lda 1      
-           lda 8      
+           lda 9      
            lda 0      
            jsr        
            ajs -2     
            ldr RR     
            ldr MP     
            lda 1      
-           lda 6      
+           lda 7      
            lda 0      
            jsr        
            ajs -3     
            ldc 0      
            str RR     
            bra __ret  
+                      
+__fun3:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun3:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           ldc 0      
+           eq         
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
                       
 __fun2:    ldr PC     
            ldc 6      
@@ -538,8 +574,8 @@ _fun2:     ajs 0
            str MP     
            ldr MP     
            lda 3      
+           trapchr 0  
            ldc 0      
-           eq         
            str RR     
            ldr MP     
            lda 2      

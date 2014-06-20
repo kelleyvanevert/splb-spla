@@ -2,9 +2,10 @@
 (unit -> int) main = fun (u) {
     [int] list = 2 : 3 : 4 : [];
     printList(list);
+    return;
   };
 
-([t] -> unit) printList = fun (list) {
+(['t] -> unit) printList = fun (list) {
     if (!isEmpty(list)) {
       print(list.hd);
       printList(list.tl);

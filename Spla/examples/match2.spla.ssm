@@ -72,17 +72,18 @@ __fun4:    ldr PC
                       
 _fun4:     ajs 0      
            ldc 1      
-           lds -2     
+           lds -3     
            ldr MP     
+           lds -4     
            ldc 0      
-           stmh 4     
-           annote HP -4 -4 gray "lexical fun" 
-           ldc 3      
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
            sub        
            str MP     
            ldc 3      
            ldr MP     
-           sta 3      
+           sta 4      
            ldc 3      
            ldc 4      
            ldc 5      
@@ -216,10 +217,10 @@ _fun4:     ajs 0
            and        
            ajs -3     
            lds 3      
-           brf _m6    
+           brf _mr_cont6 
            ldc 7      
            bra _m_end5 
-_m6:       ajs 0      
+_mr_cont6: ajs 0      
            ldr MP     
            lda 2      
            str MP     
@@ -235,10 +236,10 @@ _m6:       ajs 0
            ldr R5     
            ajs -2     
            ldc -1     
-           brf _m8    
+           brf _mr_cont8 
            ldc 8      
            bra _m_end5 
-_m8:       ajs 0      
+_mr_cont8: ajs 0      
            ldr MP     
            lda 2      
            str MP     

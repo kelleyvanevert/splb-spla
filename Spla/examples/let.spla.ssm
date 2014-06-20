@@ -72,21 +72,22 @@ __fun4:    ldr PC
                       
 _fun4:     ajs 0      
            ldc 1      
-           lds -2     
+           lds -3     
            ldr MP     
+           lds -4     
            ldc 0      
            ldc 0      
-           stmh 5     
-           annote HP -5 -5 gray "lexical fun" 
-           ldc 4      
+           stmh 6     
+           annote HP -6 -6 gray "lexical fun" 
+           ldc 5      
            sub        
            str MP     
            ldc 1      
            ldr MP     
-           sta 3      
+           sta 4      
            ldc 2      
            ldr MP     
-           sta 4      
+           sta 5      
            ldc 0      
            ldr MP     
            ldr MP     
@@ -110,7 +111,7 @@ _fun4:     ajs 0
            ldr MP     
            lda 1      
            lda 1      
-           lda 4      
+           lda 5      
            add        
            ldr MP     
            lda 1      

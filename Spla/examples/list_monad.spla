@@ -1,14 +1,14 @@
 
-type @listmonad a = [a];
+type listmonad('a) = [a];
 
-(unit -> int) main = fun (u) {
+(unit -> int) main = fun () {
     map(print, replicate_two(3));                                     // 3, 3
     map(print, mbind(4 : [], replicate_two));                         // 4, 4
     map(print, mbind(mbind(5 : [], replicate_two), replicate_two));   // 5, 5, 5, 5
     return 0;                                                         // 0
   };
 
-(int -> a -> [a]) replicate = fun (n, x) {
+(int -> 'a -> ['a]) replicate = fun (n, x) {
     if (n == 0) {
       return [];
     } else {
@@ -16,14 +16,14 @@ type @listmonad a = [a];
     }
   };
 
-(a -> [a]) replicate_two = fun (x) {
+('a -> ['a]) replicate_two = fun (x) {
     return replicate(2, x);
   };
 
 
 // List operations
 
-((a -> b) -> [a] -> [b]) map =
+(('a -> 'b) -> ['a] -> ['b]) map =
   fun (f, list) {
     if (isEmpty(list)) {
       return [];
@@ -32,7 +32,7 @@ type @listmonad a = [a];
     }
   };
 
-([a] -> [a] -> [a]) concat =
+(['a] -> ['a] -> ['a]) concat =
   fun (xs, ys) {
     if (isEmpty(xs)) {
       return ys;
@@ -41,7 +41,7 @@ type @listmonad a = [a];
     }
   };
 
-([[a]] -> [a]) concat_many =
+([['a]] -> ['a]) concat_many =
   fun (lists) {
     if (isEmpty(lists)) {
       return [];
@@ -54,18 +54,18 @@ type @listmonad a = [a];
 
 // Monad
 
-(a -> @listmonad a) mreturn =
+('a -> listmonad('a)) mreturn =
   fun (x) {
     return x : [];
   };
 
-(@listmonad a -> (a -> @listmonad b) -> @listmonad b) mbind =
+(listmonad('a) -> ('a -> listmonad('b)) -> listmonad('b)) mbind =
   fun (list, f) {
     return concat_many(map(f, list));
   };
 
-(@listmonad a) mzero =
+(listmonad('a)) mzero =
   [];
 
-(@listmonad a -> @listmonad a -> @listmonad a) mplus =
+(listmonad('a) -> listmonad('a) -> listmonad('a)) mplus =
   concat;

@@ -1,6 +1,0 @@
-
-(unit -> int) main = fun () {
-    (a -> a) f = fun () {
-      // TODO
-    };
-  };

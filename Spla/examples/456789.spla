@@ -1,11 +1,22 @@
 
 (unit -> int) main = fun () {
-    int x = 4;                  // 4
-    int y = 5;                  // 8
-    int z = 6;                  // 9
+    int x = 4;         
+    int y = 5;         
+    int z = 6;         
     {
-      int x = 7;                // 7
+      int x = 7;       
       y = 8;
     }
     z = 9;
+    map(print, [x, y, z]); // [4, 8 ,9]
+    return 0;
+  };
+
+(('a -> 'b) -> ['a] -> ['b]) map =
+  fun (f, list) {
+    if (isEmpty(list)) {
+      return [];
+    } else {
+      return f(list.hd) : map(f, list.tl);
+    }
   };

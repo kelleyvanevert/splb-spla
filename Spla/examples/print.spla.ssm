@@ -1,14 +1,16 @@
            ldc 0 -- DUMMY 
            str MP     
+           ldc 0      
            ldr MP     
            ldr MP     
            ldc 0      
            ldc 0      
            ldc 0      
            ldc 0      
-           stmh 6     
-           annote HP -6 -6 gray "lexical block" 
-           ldc 5      
+           ldc 0      
+           stmh 8     
+           annote HP -8 -8 gray "lexical block" 
+           ldc 7      
            sub        
            str MP     
            bsr __fun1 
@@ -19,7 +21,7 @@
            ldc 1      
            sub        
            ldr MP     
-           sta 2      
+           sta 3      
            bsr __fun2 
            ldr RR     
            ldr MP     
@@ -28,7 +30,7 @@
            ldc 1      
            sub        
            ldr MP     
-           sta 3      
+           sta 4      
            bsr __fun3 
            ldr RR     
            ldr MP     
@@ -37,7 +39,7 @@
            ldc 1      
            sub        
            ldr MP     
-           sta 4      
+           sta 5      
            bsr __fun4 
            ldr RR     
            ldr MP     
@@ -46,22 +48,64 @@
            ldc 1      
            sub        
            ldr MP     
-           sta 5      
+           sta 6      
+           bsr __fun5 
+           ldr RR     
            ldr MP     
-           lda 5      
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 7      
+           ldr MP     
+           lda 7      
            lda 1      
            ldc 0      
            ldr MP     
-           lda 5      
+           lda 7      
            lda 0      
            jsr        
            ajs -2     
            ldr MP     
-           lda 1      
+           lda 2      
            str MP     
            ldr RR     
            trap 0     
            halt       
+                      
+__fun5:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun5:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 6      
+           lda 1      
+           ldc 4      
+           ldc 5      
+           ldc 6      
+           ldr MP     
+           lda 1      
+           lda 6      
+           lda 0      
+           jsr        
+           ajs -4     
+           ldr RR     
+           str RR     
+           bra __ret  
                       
 __fun4:    ldr PC     
            ldc 6      
@@ -70,36 +114,56 @@ __fun4:    ldr PC
            ret        
                       
 _fun4:     ajs 0      
-           lds -2     
+           ldc 1      
+           lds -5     
            ldr MP     
-           lds -3     
-           stmh 3     
-           annote HP -3 -3 gray "lexical fun" 
-           ldc 2      
+           lds -6     
+           lds -6     
+           lds -6     
+           stmh 6     
+           annote HP -6 -6 gray "lexical fun" 
+           ldc 5      
            sub        
            str MP     
            ldr MP     
-           lda 0      
-           lda 4      
            lda 1      
-           ldc 4      
-           ldc 5      
-           ldc 6      
+           lda 3      
+           lda 1      
            ldr MP     
-           lda 0      
-           lda 4      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 3      
            lda 0      
            jsr        
-           ajs -4     
-           ldr RR     
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 7      
            str RR     
-           ldr MP     
-           lda 1      
-           str MP     
-           ret        
-           ldr MP     
-           lda 1      
-           str MP     
+           bra __ret  
                       
 __fun3:    ldr PC     
            ldc 6      
@@ -108,61 +172,24 @@ __fun3:    ldr PC
            ret        
                       
 _fun3:     ajs 0      
-           lds -4     
+           ldc 1      
+           lds -3     
            ldr MP     
-           lds -5     
-           lds -5     
-           lds -5     
-           stmh 5     
-           annote HP -5 -5 gray "lexical fun" 
-           ldc 4      
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
            sub        
            str MP     
            ldr MP     
-           lda 0      
-           lda 2      
-           lda 1      
-           ldr MP     
-           lda 2      
-           ldr MP     
-           lda 0      
-           lda 2      
-           lda 0      
-           jsr        
-           ajs -2     
-           ldr MP     
-           lda 0      
-           lda 2      
-           lda 1      
-           ldr MP     
            lda 3      
-           ldr MP     
-           lda 0      
-           lda 2      
-           lda 0      
-           jsr        
-           ajs -2     
-           ldr MP     
-           lda 0      
-           lda 2      
-           lda 1      
-           ldr MP     
-           lda 4      
-           ldr MP     
-           lda 0      
-           lda 2      
-           lda 0      
-           jsr        
-           ajs -2     
-           ldc 7      
+           ldc 0      
+           eq         
            str RR     
            ldr MP     
-           lda 1      
+           lda 2      
            str MP     
            ret        
-           ldr MP     
-           lda 1      
-           str MP     
                       
 __fun2:    ldr PC     
            ldc 6      
@@ -171,26 +198,24 @@ __fun2:    ldr PC
            ret        
                       
 _fun2:     ajs 0      
-           lds -2     
-           ldr MP     
+           ldc 1      
            lds -3     
-           stmh 3     
-           annote HP -3 -3 gray "lexical fun" 
-           ldc 2      
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
            sub        
            str MP     
            ldr MP     
-           lda 2      
+           lda 3      
+           trapchr 0  
            ldc 0      
-           eq         
            str RR     
            ldr MP     
-           lda 1      
+           lda 2      
            str MP     
            ret        
-           ldr MP     
-           lda 1      
-           str MP     
                       
 __fun1:    ldr PC     
            ldc 6      
@@ -199,30 +224,40 @@ __fun1:    ldr PC
            ret        
                       
 _fun1:     ajs 0      
-           lds -2     
-           ldr MP     
+           ldc 1      
            lds -3     
-           stmh 3     
-           annote HP -3 -3 gray "lexical fun" 
-           ldc 2      
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
            sub        
            str MP     
            ldr MP     
-           lda 2      
+           lda 3      
            trap 0     
+           ldc 0      
+           str RR     
            ldr MP     
-           lda 1      
+           lda 2      
            str MP     
            ret        
-           ldr MP     
-           lda 1      
-           str MP     
                       
                       // ====== BUILTINS ====== //
                       
-_EXCEPTION_EmptyList: annote SP 0 0 red "EXCEPTION empty list" 
-           trap 0     
-           halt       
-_EXCEPTION_UninitiatedVar: annote SP 0 0 red "EXCEPTION uninitialized var" 
+__ret:     ldr MP     
+           lda 0      
+           brf __ret_cont 
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+__ret_cont: ldr MP     
+           lda 1      
+           str MP     
+           bra __ret  
+                      
+_EXCEPTION_EmptyList: ajs 0      
+           annote SP 0 0 red "EXCEPTION empty list" 
            trap 0     
            halt       

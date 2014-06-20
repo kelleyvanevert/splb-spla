@@ -82,17 +82,18 @@ __fun5:    ldr PC
                       
 _fun5:     ajs 0      
            ldc 1      
-           lds -2     
+           lds -3     
            ldr MP     
+           lds -4     
            ldc 0      
-           stmh 4     
-           annote HP -4 -4 gray "lexical fun" 
-           ldc 3      
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
            sub        
            str MP     
            ldc 6      
            ldr MP     
-           sta 3      
+           sta 4      
            ldc 0      
            ldr MP     
            ldr MP     
