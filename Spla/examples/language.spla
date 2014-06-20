@@ -1,57 +1,198 @@
 
-data mtch('a)     = mtch(expr, [mtchrule('a)]);
+type char   = int;
+type string = [char];
+
+
+
+// Abstract Syntax Tree
+// ====================
+
+data mtch('a)     = Mtch(expr, [mtchrule('a)]);
 type mtchrule('a) = (expr, a);
 
-data expr = e_access(access)
-          | e_lit(lit)
-          | e_app(string, [expr])
-          | e_let(string, expr, expr)
-          | e_fun([string], stmt)
-          | e_funcall(funcall)
-          | e_mtch(mtch(expr))
+data lit = L_int(int)
+         | L_bool(bool)
+         | L_unit
+         | L_emptylist
+         ;
+
+data expr = E_access(access)
+          | E_lit(lit)
+          | E_op(string, [expr])
+          | E_let(string, expr, expr)
+          | E_fun([string], stmt)
+          | E_funcall(funcall)
+          | E_mtch(Mtch(expr))
           ;
 
-data access = a_ident(string)
-            | a_fieldaccess(access, string)
+data access = A_ident(string)
+            | A_fieldaccess(access, string)
             ;
 
-data stmt = s_declare(typ, string, expr)
-          | s_block([expr])
-          | s_if(expr, stmt, stmt)
-          | s_while(expr, stmt)
-          | s_assign(access, expr)
-          | s_funcall(funcall)
-          | s_return(expr)
-          | s_skip
-          | s_mtch(mtch(stmt))
+data stmt = S_declare(typ, string, expr)
+          | S_block([expr])
+          | S_if(expr, stmt, stmt)
+          | S_while(expr, stmt)
+          | S_assign(access, expr)
+          | S_funcall(funcall)
+          | S_return(expr)
+          | S_skip
+          | S_mtch(Mtch(stmt))
           ;
 
-data typ = t_var(string)
-         | t_concrete(string)
-         | t_app(typ, [typ])
+data typ = T_var(string)
+         | T_concrete(string)
+         | T_app(typ, [typ])
          ;
 
 type funcall = (string, [expr]);
 
-type parser('s, 'a) = 's -> [('a, 's)];
-type char           = int;
-type string         = [char];
 
+string sFLD_HD  = "hd";
+string sFLD_TL  = "tl";
+string sFLD_FST = "fst";
+string sFLD_SND = "snd";
+
+
+string sOP_MUL  = "*";
+string sOP_DIV  = "/";
+string sOP_MOD  = "%";
+string sOP_ADD  = "+";
+string sOP_SUB  = "-";
+
+string sOP_NEG  = "-";
+
+string sOP_LT   = "<";
+string sOP_LE   = "<=";
+string sOP_GT   = ">";
+string sOP_GE   = ">=";
+string sOP_EQ   = "==";
+string sOP_NE   = "!=";
+
+string sOP_AND  = "&&";
+string sOP_OR   = "||";
+
+string sOP_NOT  = "!";
+
+string sOP_CONS = ":";
+
+
+
+(unit -> int) main = fun () {
+    compile_expr(E_access(A_fieldaccess(A_ident("x"), sFLD_HD)));
+    printlnstr("");
+    compile_expr(E_op(":", [E_lit(L_int(5)), E_access(A_ident("x"))]));
+    printlnstr("");
+    return 1;
+  };
+
+
+// Compilers
+// =========
+
+(string -> unit) compile_op = fun (op) {
+    map(printlnstr, match op {
+      | "*"  -> [ "mul" ]
+      | "/"  -> [ "div" ]
+      | "%"  -> [ "mod" ]
+      | "+"  -> [ "add" ]
+      | "-"  -> [ "sub" ]
+      | "~"  -> [ "neg" ]
+      | "<"  -> [ "lt"  ]
+      | "<=" -> [ "le"  ]
+      | ">"  -> [ "gt"  ]
+      | ">=" -> [ "ge"  ]
+      | "==" -> [ "eq"  ]
+      | "!=" -> [ "ne"  ]
+      | "&&" -> [ "and" ]
+      | "||" -> [ "or"  ]
+      | "!"  -> [ "not" ]
+      | ":"  -> [ "stmh 2",
+                  "ldc 1",
+                  "sub" ]
+    });
+    return;
+  };
+
+(expr -> unit) compile_access = fun (a) {
+    match a {
+      | A_ident(x)              -> printlnstr("<load ident>");
+      | A_fieldaccess(a, field) -> {
+          compile_access(a);
+          if (field == sFLD_HD || field == sFLD_FST) {
+            printlnstr("ldh 0");
+          } else {
+            printlnstr("ldh 1");
+          }
+        }
+    }
+    return;
+  };
+
+(expr -> unit) compile_expr = fun (e) {
+    match e {
+      | E_access(a)         -> compile_access(a);
+      | E_lit(l)            -> compile_lit(l);
+      | E_op(op, args)      -> { map(compile_expr, args); compile_op(op); }
+      | E_let(x, e1, e2)    -> skip;
+      | E_fun(params, body) -> skip;
+      | E_funcall(f)        -> skip;
+      | E_mtch(m)           -> skip;
+    }
+    return;
+  };
+
+(expr -> unit) compile_lit = fun (l) {
+    match l {
+      | L_int(n)    -> { printstr("ldc "); print(n); }
+      | L_bool(b)   -> if (b) { printlnstr("ldc 1"); } else { printlnstr("ldc -1"); }
+      | L_unit      -> printlnstr("ldc 0");
+      | L_emptylist -> printlnstr("ldc 0");
+    }
+    return;
+  };
+
+
+
+// Printing utilities
+// ==================
+
+(string -> unit) printstr = fun (s) {
+    map(printchr, s);
+    return;
+  };
+
+(string -> unit) printlnstr = fun (s) {
+    map(printchr, s);
+    printchr(10);
+    return;
+  };
+
+(string -> unit) printlnchr = fun (c) {
+    printchr(c);
+    printchr(10);
+    return;
+  };
+
+
+
+// Lexical Variables
+// =================
 
 (expr -> [string]) efv = fun (e) {
     return match e {
-      | e_access(a)         -> afv(a)
-      | e_app(args)         -> concat_many(map(efv, args))
-      | e_let(var, e1, e2)  -> concat(efv(e1), remove(var, efv(e2)))
-      | e_funcall(f)        -> ffv(f)
-      | e_fun(params, body) -> sfv(body)
+      | E_access(a)         -> afv(a)
+      | E_op(args)          -> concat_many(map(efv, args))
+      | E_let(var, e1, e2)  -> concat(efv(e1), remove(var, efv(e2)))
+      | E_funcall(f)        -> ffv(f)
+      | E_fun(params, body) -> sfv(body)
     };
   };
 
 (access -> [string]) afv = fun (a) {
     return match a {
-      | a_ident(x)          -> [x]
-      | a_fieldaccess(a, _) -> afv(a)
+      | A_ident(x)          -> [x]
+      | A_fieldaccess(a, _) -> afv(a)
     };
   };
 
@@ -61,21 +202,93 @@ type string         = [char];
 
 (stmt -> [string]) sfv = fun (a) {
     return match a {
-      | s_declare(_, _, e) -> efv(e)
-      | s_block(stmts)     -> concat_many(map(sfv, stmts))
-      | s_if(e, s1, s2)    -> concat_many([efv(e), sfv(s1), sfv(s2)])
-      | s_while(e, s)      -> concat(efv(e), sfv(s))
-      | s_assign(a, e)     -> concat(afv(a), efv(e))
-      | s_funcall(f)       -> ffv(f)
-      | s_return(e)        -> efv(e)
-      | s_skip             -> []
+      | S_declare(_, _, e) -> efv(e)
+      | S_block(stmts)     -> concat_many(map(sfv, stmts))
+      | S_if(e, s1, s2)    -> concat_many([efv(e), sfv(s1), sfv(s2)])
+      | S_while(e, s)      -> concat(efv(e), sfv(s))
+      | S_assign(a, e)     -> concat(afv(a), efv(e))
+      | S_funcall(f)       -> ffv(f)
+      | S_return(e)        -> efv(e)
+      | S_skip             -> []
     };
   };
 
 (typ -> [string]) tfv = fun (t) {
     return match t {
-      | t_var(x)       -> [x]
-      | t_concrete(x)  -> []
-      | t_app(t, args) -> concat(tfv(t), concat_many(map(tfv, args)))
+      | T_var(x)       -> [x]
+      | T_concrete(x)  -> []
+      | T_app(t, args) -> concat(tfv(t), concat_many(map(tfv, args)))
     };
+  };
+
+
+
+// List operations
+// ===============
+
+(['t] -> int) length =
+  fun (list) {
+    if (isEmpty(list)) {
+      return 0;
+    } else {
+      return 1 + length(list.tl);
+    }
+  };
+
+('t -> ['t] -> ['t]) remove =
+  fun (e, l) {
+    if (isEmpty(l)) {
+      return l;
+    } else {
+      if (l.hd == e) {
+        return remove(e, l.tl);
+      } else {
+        return l.hd : remove(e, l.tl);
+      }
+    }
+  };
+
+(['t] -> ['t] -> ['t]) concat =
+  fun (a, b) {
+    if (isEmpty(a)) {
+      return b;
+    } else {
+      return a.hd : concat(a.tl, b);
+    }
+  };
+
+([['t]] -> ['t]) concat_many =
+  fun (lists) {
+    if (isEmpty(lists)) {
+      return [];
+    } else {
+      return concat(lists.hd, concat_many(lists.tl));
+    }
+  };
+
+(('a -> 'b) -> ['a] -> ['b]) map =
+  fun (f, list) {
+    if (isEmpty(list)) {
+      return [];
+    } else {
+      return f(list.hd) : map(f, list.tl);
+    }
+  };
+
+(('a -> 'b -> 'a) -> 'a -> ['b] -> 'a) foldl =
+  fun (f, e, list) {
+    if (isEmpty(list)) {
+      return e;
+    } else {
+      return foldl(f, f(e, list.hd), list.tl);
+    }
+  };
+
+(['a] -> ['a]) reverse = fun (list) {
+    [a] rev = [];
+    while (!isEmpty(list)) {
+      rev = list.hd : rev;
+      list = list.tl;
+    }
+    return rev;
   };

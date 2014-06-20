@@ -1,0 +1,5969 @@
+           ldc 0 -- DUMMY 
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 46    
+           annote HP -46 -46 gray "lexical block" 
+           ldc 45     
+           sub        
+           str MP     
+           bsr __fun1 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 3      
+           bsr __fun2 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 4      
+           bsr __fun3 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 5      
+           ldc 104    
+           ldc 100    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 6      
+           ldc 116    
+           ldc 108    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 7      
+           ldc 102    
+           ldc 115    
+           ldc 116    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 8      
+           ldc 115    
+           ldc 110    
+           ldc 100    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 9      
+           ldc 42     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 10     
+           ldc 47     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 11     
+           ldc 37     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 12     
+           ldc 43     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 13     
+           ldc 45     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 14     
+           ldc 45     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 15     
+           ldc 60     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 16     
+           ldc 60     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 17     
+           ldc 62     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 18     
+           ldc 62     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 19     
+           ldc 61     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 20     
+           ldc 33     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 21     
+           ldc 38     
+           ldc 38     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 22     
+           ldc 124    
+           ldc 124    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 23     
+           ldc 33     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 24     
+           ldc 58     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           sta 25     
+           bsr __fun4 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 26     
+           bsr __fun5 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 27     
+           bsr __fun39 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 28     
+           bsr __fun54 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 29     
+           bsr __fun85 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 30     
+           bsr __fun108 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 31     
+           bsr __fun109 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 32     
+           bsr __fun110 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 33     
+           bsr __fun111 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 34     
+           bsr __fun133 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 35     
+           bsr __fun143 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 36     
+           bsr __fun144 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 37     
+           bsr __fun178 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 38     
+           bsr __fun192 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 39     
+           bsr __fun197 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 40     
+           bsr __fun206 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 41     
+           bsr __fun211 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 42     
+           bsr __fun216 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 43     
+           bsr __fun221 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 44     
+           bsr __fun226 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 45     
+           ldr MP     
+           lda 26     
+           lda 1      
+           ldc 0      
+           ldr MP     
+           lda 26     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           ldr RR     
+           trap 0     
+           halt       
+                      
+__fun226:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun226:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 0      
+           ldr MP     
+           sta 4      
+_while228: ajs 0      // while
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           not        
+           brf _end229 // do
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 4      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           sta 4      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           sta 3      
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _while228 
+_end229:   ajs 0      // endwhile
+           ldr MP     
+           lda 4      
+           str RR     
+           bra __ret  
+                      
+__fun221:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun221:   ajs 0      
+           ldc 1      
+           lds -5     
+           ldr MP     
+           lds -6     
+           lds -6     
+           lds -6     
+           stmh 6     
+           annote HP -6 -6 gray "lexical fun" 
+           ldc 5      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else224 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end225 
+_else224:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 44     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 5      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 44     
+           lda 0      
+           jsr        
+           ajs -4     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end225:   ajs 0      // endif
+                      
+__fun216:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun216:   ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else219 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end220 
+_else219:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end220:   ajs 0      // endif
+                      
+__fun211:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun211:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else214 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end215 
+_else214:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end215:   ajs 0      // endif
+                      
+__fun206:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun206:   ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else209 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end210 
+_else209:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end210:   ajs 0      // endif
+                      
+__fun197:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun197:   ajs 0      
+           ldc 1      
+           lds -4     
+           ldr MP     
+           lds -5     
+           lds -5     
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else204 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end205 
+_else204:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 3      
+           eq         
+           brf _else202 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 40     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 40     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end203 
+_else202:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 40     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 4      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 40     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end203:   ajs 0      // endif
+           ldr MP     
+           lda 2      
+           str MP     
+_end205:   ajs 0      // endif
+                      
+__fun192:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun192:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 5      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           brf _else195 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 0      
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end196 
+_else195:  ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 39     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 39     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           add        
+           str RR     
+           bra __ret  
+           ldr MP     
+           lda 2      
+           str MP     
+_end196:   ajs 0      // endif
+                      
+__fun178:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun178:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd182 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd182 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd183 
+_mcd182:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd183:   ajs 0      // end mc (data)
+           brf _mr_cont180 
+           ldr MP     
+           lda 3      
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end179 
+_mr_cont180: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 1      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd186 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd186 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd187 
+_mcd186:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd187:   ajs 0      // end mc (data)
+           brf _mr_cont184 
+           ldc 0      
+           bra _m_end179 
+_mr_cont184: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 2      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd190 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd190 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd190 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd191 
+_mcd190:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd191:   ajs 0      // end mc (data)
+           brf _mr_cont188 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 38     
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 38     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 38     
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           bra _m_end179 
+_mr_cont188: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end179: ajs 0      
+           str RR     
+           bra __ret  
+                      
+__fun144:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun144:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd148 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ajs -2     
+           ldc -1     
+           brf _mcd148 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ajs -2     
+           ldc -1     
+           brf _mcd148 
+           lds -1     
+           ldh 3      
+           lds -1     
+           ldh 3      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd148 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd149 
+_mcd148:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd149:   ajs 0      // end mc (data)
+           brf _mr_cont146 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end145 
+_mr_cont146: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 1      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd152 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd152 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd153 
+_mcd152:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd153:   ajs 0      // end mc (data)
+           brf _mr_cont150 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end145 
+_mr_cont150: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 6     
+           annote HP -6 -6 gray "lexical match rule" 
+           ldc 5      
+           sub        
+           str MP     
+           ldc 2      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd156 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd156 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd156 
+           lds -1     
+           ldh 3      
+           lds -1     
+           ldh 3      
+           ldr MP     
+           sta 5      
+           ajs -1     
+           ldc -1     
+           brf _mcd156 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd157 
+_mcd156:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd157:   ajs 0      // end mc (data)
+           brf _mr_cont154 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end145 
+_mr_cont154: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 3      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd160 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd160 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd160 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd161 
+_mcd160:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd161:   ajs 0      // end mc (data)
+           brf _mr_cont158 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           bra _m_end145 
+_mr_cont158: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 4      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd164 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd164 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd164 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd165 
+_mcd164:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd165:   ajs 0      // end mc (data)
+           brf _mr_cont162 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 35     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 35     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           bra _m_end145 
+_mr_cont162: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 5      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd168 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd168 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd169 
+_mcd168:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd169:   ajs 0      // end mc (data)
+           brf _mr_cont166 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 36     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 36     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end145 
+_mr_cont166: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 6      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd172 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd172 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd173 
+_mcd172:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd173:   ajs 0      // end mc (data)
+           brf _mr_cont170 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end145 
+_mr_cont170: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 7      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd176 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd177 
+_mcd176:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd177:   ajs 0      // end mc (data)
+           brf _mr_cont174 
+           ldc 0      
+           bra _m_end145 
+_mr_cont174: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end145: ajs 0      
+           str RR     
+           bra __ret  
+                      
+__fun143:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun143:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 42     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 34     
+           ldr MP     
+           lda 3      
+           ldh 1      // access snd
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 42     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           str RR     
+           bra __ret  
+                      
+__fun133:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun133:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd137 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd137 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd138 
+_mcd137:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd138:   ajs 0      // end mc (data)
+           brf _mr_cont135 
+           ldr MP     
+           lda 3      
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end134 
+_mr_cont135: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 1      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd141 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd141 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ajs -2     
+           ldc -1     
+           brf _mcd141 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd142 
+_mcd141:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd142:   ajs 0      // end mc (data)
+           brf _mr_cont139 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 35     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 35     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end134 
+_mr_cont139: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end134: ajs 0      
+           str RR     
+           bra __ret  
+                      
+__fun111:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun111:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd115 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd115 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd116 
+_mcd115:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd116:   ajs 0      // end mc (data)
+           brf _mr_cont113 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 35     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 35     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end112 
+_mr_cont113: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 2      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd119 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd119 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd120 
+_mcd119:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd120:   ajs 0      // end mc (data)
+           brf _mr_cont117 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 42     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end112 
+_mr_cont117: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 6     
+           annote HP -6 -6 gray "lexical match rule" 
+           ldc 5      
+           sub        
+           str MP     
+           ldc 3      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd123 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 5      
+           ajs -1     
+           ldc -1     
+           brf _mcd123 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd123 
+           lds -1     
+           ldh 3      
+           lds -1     
+           ldh 3      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd123 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd124 
+_mcd123:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd124:   ajs 0      // end mc (data)
+           brf _mr_cont121 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 40     
+           lda 1      
+           ldr MP     
+           lda 5      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 1      
+           ldr MP     
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 34     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 40     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 41     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr RR     
+           bra _m_end112 
+_mr_cont121: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 5      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd127 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd127 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd128 
+_mcd127:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd128:   ajs 0      // end mc (data)
+           brf _mr_cont125 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 36     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 36     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end112 
+_mr_cont125: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 4      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd131 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd131 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd131 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd132 
+_mcd131:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd132:   ajs 0      // end mc (data)
+           brf _mr_cont129 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 37     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr RR     
+           bra _m_end112 
+_mr_cont129: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end112: ajs 0      
+           str RR     
+           bra __ret  
+                      
+__fun110:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun110:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldc 10     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun109:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun109:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldc 10     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun108:  ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun108:   ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun85:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun85:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           stmh 2     
+           ldc 1      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd89 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd89 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd90 
+_mcd89:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd90:    ajs 0      // end mc (data)
+           brf _mr_cont87 
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 31     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 99     
+           ldc 32     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 31     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 3      
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 3      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _m_end86 
+_mr_cont87: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 1      // save data
+           ldc 0      
+           stmh 2     
+           ldc 1      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd94 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd94 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd95 
+_mcd94:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd95:    ajs 0      // end mc (data)
+           brf _mr_cont92 
+           ajs 0      // if
+           ldr MP     
+           lda 3      
+           brf _else98 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 99     
+           ldc 32     
+           ldc 49     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end99 
+_else98:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 99     
+           ldc 32     
+           ldc 45     
+           ldc 49     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+_end99:    ajs 0      // endif
+           bra _m_end86 
+_mr_cont92: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 2      // save data
+           ldc 0      
+           stmh 2     
+           ldc 1      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd102 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd103 
+_mcd102:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd103:   ajs 0      // end mc (data)
+           brf _mr_cont100 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 99     
+           ldc 32     
+           ldc 48     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           bra _m_end86 
+_mr_cont100: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 3      // save data
+           ldc 0      
+           stmh 2     
+           ldc 1      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd106 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd107 
+_mcd106:   ajs -2     // fail mc (data)
+           ldc 0      
+_mcd107:   ajs 0      // end mc (data)
+           brf _mr_cont104 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 99     
+           ldc 32     
+           ldc 48     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           bra _m_end86 
+_mr_cont104: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end86:  ajs 0      
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun54:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun54:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd58 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd58 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd59 
+_mcd58:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd59:    ajs 0      // end mc (data)
+           brf _mr_cont56 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 28     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 28     
+           lda 0      
+           jsr        
+           ajs -2     
+           bra _m_end55 
+_mr_cont56: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 1      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd62 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd62 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd63 
+_mcd62:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd63:    ajs 0      // end mc (data)
+           brf _mr_cont60 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 30     
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 30     
+           lda 0      
+           jsr        
+           ajs -2     
+           bra _m_end55 
+_mr_cont60: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 2      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd66 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd66 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd66 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd67 
+_mcd66:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd67:    ajs 0      // end mc (data)
+           brf _mr_cont64 
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 27     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 27     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _m_end55 
+_mr_cont64: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 6     
+           annote HP -6 -6 gray "lexical match rule" 
+           ldc 5      
+           sub        
+           str MP     
+           ldc 3      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd71 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 5      
+           ajs -1     
+           ldc -1     
+           brf _mcd71 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd71 
+           lds -1     
+           ldh 3      
+           lds -1     
+           ldh 3      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd71 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd72 
+_mcd71:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd72:    ajs 0      // end mc (data)
+           brf _mr_cont69 
+           ajs 0      // skip
+           bra _m_end55 
+_mr_cont69: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 4      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd75 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd75 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd75 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd76 
+_mcd75:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd76:    ajs 0      // end mc (data)
+           brf _mr_cont73 
+           ajs 0      // skip
+           bra _m_end55 
+_mr_cont73: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 5      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd79 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd79 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd80 
+_mcd79:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd80:    ajs 0      // end mc (data)
+           brf _mr_cont77 
+           ajs 0      // skip
+           bra _m_end55 
+_mr_cont77: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 6      // save data
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd83 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd83 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd84 
+_mcd83:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd84:    ajs 0      // end mc (data)
+           brf _mr_cont81 
+           ajs 0      // skip
+           bra _m_end55 
+_mr_cont81: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end55:  ajs 0      
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun39:   ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun39:    ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           stmh 4     
+           annote HP -4 -4 gray "lexical match rule" 
+           ldc 3      
+           sub        
+           str MP     
+           ldc 0      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd43 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd43 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd44 
+_mcd43:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd44:    ajs 0      // end mc (data)
+           brf _mr_cont41 
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 60     
+           ldc 108    
+           ldc 111    
+           ldc 97     
+           ldc 100    
+           ldc 32     
+           ldc 105    
+           ldc 100    
+           ldc 101    
+           ldc 110    
+           ldc 116    
+           ldc 62     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           bra _m_end40 
+_mr_cont41: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           ldc 0      
+           ldc 0      
+           stmh 5     
+           annote HP -5 -5 gray "lexical match rule" 
+           ldc 4      
+           sub        
+           str MP     
+           ldc 1      // save data
+           ldc 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr R5     
+           lds -1     
+           ldh 0      
+           lds -1     
+           ldh 0      
+           eq         
+           brf _mcd47 
+           lds -1     
+           ldh 1      
+           lds -1     
+           ldh 1      
+           ldr MP     
+           sta 3      
+           ajs -1     
+           ldc -1     
+           brf _mcd47 
+           lds -1     
+           ldh 2      
+           lds -1     
+           ldh 2      
+           ldr MP     
+           sta 4      
+           ajs -1     
+           ldc -1     
+           brf _mcd47 
+           ajs -2     // success mc (data)
+           ldc -1     
+           bra _mcd48 
+_mcd47:    ajs -2     // fail mc (data)
+           ldc 0      
+_mcd48:    ajs 0      // end mc (data)
+           brf _mr_cont45 
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 28     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 28     
+           lda 0      
+           jsr        
+           ajs -2     
+           ajs 0      // if
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 6      
+           eq         
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 8      
+           eq         
+           or         
+           brf _else52 // then
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 104    
+           ldc 32     
+           ldc 48     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _end53 
+_else52:   ajs 0      // else:
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical block" 
+           ldc 2      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 108    
+           ldc 100    
+           ldc 104    
+           ldc 32     
+           ldc 49     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr MP     
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 2      
+           str MP     
+_end53:    ajs 0      // endif
+           ldr MP     
+           lda 2      
+           str MP     
+           bra _m_end40 
+_mr_cont45: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end40:  ajs 0      
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun5:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun5:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 32     
+           ldr MP     
+           lda 3      
+           str R5     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 42     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont7 
+           ldc 109    
+           ldc 117    
+           ldc 108    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont7: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 47     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont9 
+           ldc 100    
+           ldc 105    
+           ldc 118    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont9: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 37     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont11 
+           ldc 109    
+           ldc 111    
+           ldc 100    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont11: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 43     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont13 
+           ldc 97     
+           ldc 100    
+           ldc 100    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont13: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 45     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont15 
+           ldc 115    
+           ldc 117    
+           ldc 98     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont15: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 126    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont17 
+           ldc 110    
+           ldc 101    
+           ldc 103    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont17: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 60     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont19 
+           ldc 108    
+           ldc 116    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont19: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 60     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont21 
+           ldc 108    
+           ldc 101    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont21: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 62     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont23 
+           ldc 103    
+           ldc 116    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont23: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 62     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont25 
+           ldc 103    
+           ldc 101    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont25: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 61     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont27 
+           ldc 101    
+           ldc 113    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont27: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 33     
+           ldc 61     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont29 
+           ldc 110    
+           ldc 101    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont29: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 38     
+           ldc 38     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont31 
+           ldc 97     
+           ldc 110    
+           ldc 100    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont31: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 124    
+           ldc 124    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont33 
+           ldc 111    
+           ldc 114    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont33: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 33     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont35 
+           ldc 110    
+           ldc 111    
+           ldc 116    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont35: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+           ldc 0      
+           ldr MP     
+           ldr MP     
+           stmh 3     
+           annote HP -3 -3 gray "lexical match rule" 
+           ldc 2      
+           sub        
+           str MP     
+           ldc 58     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldr R5     
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           lds -1     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 0      // access hd
+           eq         
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           lds -2     
+           lds 0      // check list non-emptyness
+           ldc 0      
+           eq         
+           brt _EXCEPTION_EmptyList 
+           ldh 1      // access tl
+           eq         
+           and        
+           ajs -3     
+           lds 3      
+           brf _mr_cont37 
+           ldc 115    
+           ldc 116    
+           ldc 109    
+           ldc 104    
+           ldc 32     
+           ldc 50     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 108    
+           ldc 100    
+           ldc 99     
+           ldc 32     
+           ldc 49     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 115    
+           ldc 117    
+           ldc 98     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           bra _m_end6 
+_mr_cont37: ajs 0      
+           ldr MP     
+           lda 2      
+           str MP     
+_m_end6:   ajs 0      
+           ldr MP     
+           lda 1      
+           lda 43     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun4:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun4:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 29     
+           lda 1      
+           ldc 0      // save data
+           ldc 1      // save data
+           ldc 0      // save data
+           ldc 120    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 6      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 29     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 0      
+           ldr MP     
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 29     
+           lda 1      
+           ldc 2      // save data
+           ldc 58     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 1      // save data
+           ldc 0      // save data
+           ldc 5      
+           stmh 2     
+           ldc 1      
+           sub        
+           str RR     
+           ldr RR     
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldc 0      // save data
+           ldc 0      // save data
+           ldc 120    
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           ldc 0      
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ldc 0      
+           stmh 4     
+           ldc 3      
+           sub        
+           str RR     
+           ldr RR     
+           ldr MP     
+           lda 1      
+           lda 29     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 32     
+           lda 1      
+           ldc 0      
+           ldr MP     
+           lda 1      
+           lda 32     
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 1      
+           str RR     
+           bra __ret  
+                      
+__fun3:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun3:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           ldc 0      
+           eq         
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+                      
+__fun2:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun2:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           trapchr 0  
+           ldc 0      
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+                      
+__fun1:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun1:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 3      
+           trap 0     
+           ldc 0      
+           str RR     
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+                      
+                      // ====== BUILTINS ====== //
+                      
+__ret:     ldr MP     
+           lda 0      
+           brf __ret_cont 
+           ldr MP     
+           lda 2      
+           str MP     
+           ret        
+__ret_cont: ldr MP     
+           lda 1      
+           str MP     
+           bra __ret  
+                      
+_EXCEPTION_EmptyList: ajs 0      
+           annote SP 0 0 red "EXCEPTION empty list" 
+           trap 0     
+           halt       
