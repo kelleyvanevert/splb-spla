@@ -114,6 +114,9 @@
 ]{Warning}
 % http://tex.stackexchange.com/questions/52023/mdframed-put-something-on-the-start-of-one-vertical-left-rule
 
+\usepackage{minted}
+\usemintedstyle{bw}
+
 
 
 
@@ -205,7 +208,7 @@
 
 % DOCUMENT
 
-\title{Compiling the Splb and Spla languages}
+\title{Compiling the Spla language}
 \author{Kelley van Evert, s4046854}
 %\date{}
 
@@ -266,105 +269,48 @@
 
 \section{Introduction}
 
-This paper describes the implementation of a compiler for the fictional "Splb" language, and for an extension "Spla" adding higher order functions that can be arbitrarily nested.
+% what, scope
+This paper describes the implementation of a compiler for the "Spla" language, in the context of a course on compiler construction given at the Radboud University Nijmegen. The Spla language was designed by the author as an extension of the "Splb" language used in earlier parts of the course, so as to allow it to compile itself.
 
-The compilers, which are written in Haskell, consist of a parser, built upon the notion of parser combinators, a type checker, which implements the well-known Algorithm W for the Hindley-Milner type system, and a code generator, generating assembly for the "Simple Stack Machine" machine emulator.
-
-
-\section{The Splb language}
-
-\subsection{Language overview}
-
-The Splb language is a simple, C-like, imperative language. It's primary feature is a Hindley-Milner typing system, allowing for the type-safe definition of mutually recursive and polymorphic functions. It also features block-level lexical scoping, has integer and Boolean primitive types, and composed tuple and list types by reference.
-
-
-\subsection{Safety}
-
-Splb is a mostly statically type-safe language. The only runtime exceptions that can occur are the use of uninitialized variables and the access or storage of head/tail segments of empty lists.
-
-
-\subsection{Formal specification}
-
-The following ENBF-inspired grammar specifies syntactically valid Splb programs. Splb syntax is written in bold monotype, and regular expressions are used for convenience.
-
-%\newcommand{\nonterm}[2]{#1 & $#2$}
-%\newcommand{\alt}{$|$}
-%\begin{tabular}{@{}lll@{}}
-%\nonterm{Unary operator}{-} \texttt{"!"} \alt \texttt{"-"}
-%\end{tabular}
-
-\begin{Block}{Formal grammar of Splb}
-
-\begin{grammar}
-
-<Unary operator \hfill $\&$> ::= "!" | "-"
-\hfill \emph{boolean not, resp. integer negation}
-
-<Binary operator \hfill $\otimes$> ::= "+" | "-" | "*" | "/" | "%"
-\hfill \emph{arithmetic operations}
-\Alt "==" | "!=" \hfill \emph{boolean/integer equality}
-\Alt ">=" | "<=" | ">" | "<" \hfill \emph{integer comparing}
-\Alt "&&" | "||" \hfill \emph{boolean operations}
-\Alt ":" \hfill \emph{list construction}
-
-<Integer \hfill $n$> ::= ["0"-"9"]$^+$
-
-<Boolean \hfill $b$> ::= "true" | "false"
-
-<Identifier \hfill $x,y$> ::= ["a"-"z"]["_""a"-"z""0"-"9""'"]*
-
-<Type \hfill $\tau$> ::= $x$ | "unit" | "bool" | "int" | "[" $\tau$ "]" | "(" $\tau$ "," $\tau$ ")"
-
-<Polymorphic type \hfill $\sigma$> ::= $\tau$ | "forall" $x$ (\textvisiblespace\,$x$)*"." $\sigma$
-
-<Function declaration \hfill $F$> ::= $\tau$ $x$ "(" ($\tau$ $x$ ("," $\tau$ $x$)*)? ")" $B$
-
-<Literal \hfill $\ell$> ::= $b$ | $n$ | "[]" | "()"
-\hfill \emph{\lit*{[]} is the empty list, \lit*{()} is unit}
-
-<Expression \hfill $E$> ::= $a$ | $f$ | $\ell$ | $E \otimes E$ | $\&E$
-\Alt "(" $E$ "," $E$ ")"
-\Alt "(" $E$ ")"
-\Alt "let" $x$ ":=" $E$ "in" $E$
-\hfill \emph{included for Hindley-Milner typing}
-
-<Function call \hfill $f$> ::= $x$ "(" ($E$ ("," $E$)*)? ")"
-
-<Field \hfill $d$> ::= "hd" | "tl" | "fst" | "snd"
-
-<Access \hfill $a$> ::= $x$ ["." $d$]*
-
-<Block \hfill $B$> ::= "{" ($\tau$ $x$ ";")* $S$* "}"
-
-<Statement \hfill $S$> ::= "skip;"
-            \Alt "if" "(" $E$ ")" $B$ ("else" $B$)?
-            \Alt "while" "(" $E$ ")" $B$
-            \Alt $a$ ":=" $E$ ";"
-            \Alt $f$ ";"
-            \Alt "return" $E$? ";"
-            \Alt B
-
-<Program \hfill $P$> ::= $F$*
-\end{grammar}
-
-\end{Block}
+% compiler
+The compiler is written in Haskell and consist of a parser, built upon the notion of parser combinators, and a code generator, generating assembly for the "Simple Stack Machine" machine emulator by Atze Dijkstra. A type checker was available for the Splb language, implementing the well-known Algorithm W, but time constraints did not allow for its extension to Spla.
 
 
 \section{The Spla language}
 
 \subsection{Language overview}
 
-The Splb language extends Spla by treating functions as first-class values, than can be passed around freely, and defined in nested manners. The compiling complexity thus introduced is that of properly handling lexical scope, and the issue of variables outliving execution of functions in which they were defined.
+The Spla language was designed by the author as an extension of the Splb language used in earlier parts of the course, adding \emph{whichever features were deemed neccessary or useful} so as to allow it to compile itself. Where Splb was a straight-forward C-like low-level imperative language, Spla now features the extensions and modifications:
 
-The goal of this extension was to be able to parse Spla in Spla itself. This might still be achieved, but as of yet is pragmatically infeasible (due to wildly inefficient generated machine code, and slow execution of SSM).
+\subsubsection*{New language constructs}
 
-The Spla language, being on the one hand functional enough to handle higher order functions in many manners, but on the other hand not supporting partial application and closely resembling the Splb language, including the C-like syntax, makes it easy to think of as a "little brother" of Javascript. The author is aware that this might not be regarded as a popular choice.
+\begin{itemize}
+\item \emph{Higher-order functions}, as values, allowing for the programming of constructs such as parser combinators, etc.
+\item \emph{Nested function definitions}, where functions are expressed as values, allowing for easier programming.
+\item \emph{Algebraic data types and pattern matching}, allowing for complex data structures and operations, typically useful for the definition and usage of abstract syntax trees, etc.
+\item \emph{Type aliases}.
+\item \emph{Strings}, though through the simple and inefficient hack of treating the string type as an alias for lists of integers, where each integer denotes the corresponding ASCII character.
+\end{itemize}
 
-Spla supports string notation, but regards this as syntactical sugar for integer lists, where characters as regarded as their ASCII-codes. The author also slightly extended SSM to include a \lit*{trapchr} instruction, and Spla includes a \lit*{printchr} function, to allow for the printing of string output.
+\subsubsection*{Semantic differences from Splb}
+
+\begin{itemize}
+\item Equality is now structural equality, where Splb treated list/tuple equality by-reference.
+\end{itemize}
+
+\subsubsection*{Oddities}
+
+As such the language has become a weird, and frankly somewhat uninformed, hybrid of the functional en imperative paradigms. The following key points explain this:
+
+\begin{itemize}
+\item Strict evaluation, allowing for stately imperative programs to be written.
+\item Aggregate data types (lists, tuples, and algebraic data types) are passed by reference, though equality is checked structurally.
+\item Functions are expressed and passed around as values, allowing for complex functional programs to be written, though partial function application is not allowed.
+\end{itemize}
 
 \subsection{Safety}
 
-Spla is as (un)safe as Splb is.
+Spla is type-safe, and the only dynamic exception that can occur is that of accessing head or tail segments of empty lists.
 
 
 \subsection{Formal specification}
@@ -382,14 +328,11 @@ The following ENBF-inspired grammar specifies syntactically valid Spla programs.
 \begin{grammar}
 
 <Unary operator \hfill $\&$> ::= "!" | "-"
-\hfill \emph{boolean not, resp. integer negation}
 
 <Binary operator \hfill $\otimes$> ::= "+" | "-" | "*" | "/" | "%"
-\hfill \emph{arithmetic operations}
-\Alt "==" | "!=" \hfill \emph{boolean/integer equality}
-\Alt ">=" | "<=" | ">" | "<" \hfill \emph{integer comparing}
-\Alt "&&" | "||" \hfill \emph{boolean operations}
-\Alt ":" \hfill \emph{list construction}
+| "==" | "!="
+| ">=" | "<=" | ">" | "<"
+| "&&" | "||"
 
 <Integer \hfill $n$> ::= ["0"-"9"]$^+$
 
@@ -397,25 +340,38 @@ The following ENBF-inspired grammar specifies syntactically valid Spla programs.
 
 <Identifier \hfill $x,y$> ::= ["a"-"z"]["_""a"-"z""0"-"9""'"]*
 
-<Type \hfill $\tau$> ::= $x$ | "unit" | "bool" | "int" | "[" $\tau$ "]" | "(" $\tau$ "," $\tau$ ")" | $\tau$ "->" $\tau$
+<Constructor \hfill $c$> ::= ["A"-"Z"]["_""a"-"z""0"-"9""'"]*
+
+<Type \hfill $\tau$> ::= "'"$x$ | "unit" | "bool" | "int" | "[" $\tau$ "]" | "(" $\tau$ "," $\tau$ ")" | $\tau$ "->" $\tau$
+\Alt $c$ | $c$ "(" $\tau$ ("," $\tau$)* ")"
 
 <Polymorphic type \hfill $\sigma$> ::= $\tau$ | "forall" $x$ (\textvisiblespace\,$x$)*"." $\sigma$
 
 <Literal \hfill $\ell$> ::= $b$ | $n$ | "[]" | "()"
-\hfill \emph{\lit*{[]} is the empty list, \lit*{()} is unit}
 
-<Expression \hfill $E$> ::= $a$ | $f$ | $\ell$ | $E \otimes E$ | $\&E$
+<Expression \hfill $E$> ::= $a$ | $d$ | $f$ | $\ell$ | $E \otimes E$ | $\&E$
+\Alt $E$ ":" $E$
 \Alt "(" $E$ "," $E$ ")"
 \Alt "(" $E$ ")"
 \Alt "fun (" ($x$ ("," $x$)$^*$)? ")" $B$
 \Alt "let" $x$ "=" $E$ "in" $E$
 \hfill \emph{included for Hindley-Milner typing}
+\Alt "match" $E$ "{" $R_\textit{Expr}$* "}"
+
+<Match rule \hfill $R_\textit{Expr}$> ::= "|" $E_\textit{Pattern}$ "->" $E$
+
+<Pattern \hfill $E_\textit{Pattern}$> ::= $x$ | $d$ | $\ell$
+\Alt $E$ ":" $E$
+\Alt "(" $E$ "," $E$ ")"
+\Alt "(" $E$ ")"
 
 <Function call \hfill $f$> ::= $x$ "(" ($E$ ("," $E$)*)? ")"
 
-<Field \hfill $d$> ::= "hd" | "tl" | "fst" | "snd"
+<Data \hfill $d$> ::= $c$ | $c$ "(" $E$ ("," $E$)* ")"
 
-<Access \hfill $a$> ::= $x$ ["." $d$]*
+<Field \hfill $h$> ::= "hd" | "tl" | "fst" | "snd"
+
+<Access \hfill $a$> ::= $x$ ["." $h$]*
 
 <Block \hfill $B$> ::= "{" $S$* "}"
 
@@ -426,16 +382,25 @@ The following ENBF-inspired grammar specifies syntactically valid Spla programs.
             \Alt $f$ ";"
             \Alt "return" $E$? ";"
             \Alt B
+            \Alt "let" $x$ "=" $S$ "in" $S$
+            \hfill \emph{included for Hindley-Milner typing}
+            \Alt "match" $E$ "{" $R_\textit{Stmt}$* "}"
+
+<Match rule \hfill $R_\textit{Stmt}$> ::= "|" $E_\textit{Pattern}$ "->" $S$
 
 <Program \hfill $P$> ::= $F$*
 \end{grammar}
 
 \end{Block}
 
+Semantically valid Spla programs are those that are syntactically valid, satisfy certain static criteria, see Subsection \ref{staticcheck}, and are found valid by the type system expounded in Subsection \ref{typesystem}.
 
-\section{Notation and conventions}
 
-Although the above specified grammar of Splb is its concrete grammar, we will use it throughout this paper as its abstract syntax tree as well, to facilitate reading, taking into account the following points:
+\section{Notation, terminology and conventions}
+
+\subsection{Abstract concrete grammar}
+
+Although the above specified grammar of Spla is its concrete grammar, we will use it throughout this paper as its abstract syntax tree as well, to facilitate reading, taking into account the following points:
 
 \begin{itemize}
 
@@ -444,7 +409,8 @@ Although the above specified grammar of Splb is its concrete grammar, we will us
 \lit*{($E$)} &\xmapsto{\phantom{....}} E \\
 \lit*{if ($E$) then $B$} &\xmapsto{\phantom{....}} \lit*{if ($E$) then $B$ else \{ skip; \}} \\
 \lit*{return;} &\xmapsto{\phantom{....}} \lit*{return ();} \\
-\lit*{$\tau$ $x$ () $B$} &\xmapsto{\phantom{....}} \lit*{$\tau$ $x$ (unit $x_\textrm{\normalfont fresh}$) $B$}
+\lit*{$\tau$ $x$ () $B$} &\xmapsto{\phantom{....}} \lit*{$\tau$ $x$ (unit $x_\textrm{\normalfont fresh}$) $B$} \\
+\lit*{$c$} &\xmapsto{\phantom{....}} \lit*{$c$()}
 %\\ \lit*{$\tau$} &\xmapsto{\phantom{....}} \lit*{forall $x_1 \dots x_n$. $\tau$}\quad\textit{where~~}\textrm{fv}(\tau) = \{x_1 \dots x_n\}
 %\\ \lit*{forall $\overline{x}$. forall $\overline{y}$. $\sigma$} &\xmapsto{\phantom{....}} \lit*{forall $\overline{x}$ $\overline{y}$. $\sigma$}
 \end{align*}
@@ -463,36 +429,102 @@ Although the above specified grammar of Splb is its concrete grammar, we will us
 \end{itemize}
 
 
+\subsection{Assembly signatures}
+
+We denote the effect of arbitrary pieces of assembly code on the stack by assigning it an \emph{assembly signature}. An assembly signature has the shape \lit*{$n$ -> $m$}, and means that the given bit a assembly uses the top $n$ elements of the stack as arguments, and results in the new top $m$ elements of the stack. (The stack size now being positively changed by $m-n$.) If $A$ is a piece of assembly, we write \lit*{$A$ :: $n$ -> $m$}.
+
+
+\subsection{Terminology}
+
+\begin{description}
+\item[Access (variable)] An access variable is the \emph{normal} kind of variable used in Spla code, and \emph{access} stands for the act of accessing a value it implies. It is mainly terminology used to contrast with the notion of a \emph{capturing variable}.
+\item[Capturing variable] A capturing variable is a variable in a match pattern (expression), which therefore is not an access variable, but declares a (captured) local in the lexical scope of its match rule if the match rule applies.
+\item[Lexical scope/context] A lexical scope is a textual range in Spla code in which a variable lives. A lexical context is an execution environment in which variables of a lexical scope are assigned values.
+\end{description}
+
+
 \section{Semantics}
 
-\subsection{Valid programs}
 
-Valid programs are those that:
+\subsection{Lexical scoping}
+
+Spla features lexical scoping through the following language constructs:
 \begin{itemize}
-\item are syntactically valid as by the above stated grammar;
-\item contain a function \lit*{main} of type \lit*{unit -> int} (a criterion that is included in the type system);
-\item are found valid by the Splb typing system.
+\item global scope;
+\item let construct;
+\item block;
+\item function body;
+\item match rule;
 \end{itemize}
+
+Function an variable shadowing is allowed, but constructor shadowing is not. Variables are visible everywhere in their declaring lexical scope, though may not be accessed until declared.
+
+It must be noted that the notion of a \emph{lexical context} is different than that of a \emph{lexical scope}. A lexical scope is a textual range in Spla code in which a variable lives. A lexical context is an execution environment in which variables of a lexical scope are assigned values. Lexical contexts are created at runtime whenever execution enters a lexical scope or a function is called.
+
+
+\subsection{Static check}
+\label{staticcheck}
+
+Aside from being well-typed, a syntactically valid program must first satisfy the following (statically checkable) criteria to be found a valid Spla program. Parenthesized items are not criteria, but remarks.
+
+
+\subsubsection*{Type declarations}
+
+A declared type is either a type alias or an ADT.
+
+\begin{itemize}
+\item (Order of type declarations does not matter.)
+\item Type aliases declarations may not be circular.
+\item All constructors must have different names.
+\item All declared types must have different names.
+\item Declared types must not have free type variables (that is, free type variables must be captured as type arguments to the declared type).
+\item A constructor can be used as a function, but otherwise a data expression must have the right amount of arguments, i.e. partial application does not exist.
+\end{itemize}
+
+
+\subsubsection*{Lexical issues}
+
+\begin{itemize}
+\item All variables declared in a lexical scope must have different names.
+\item (Shadowing variables or functions in outer lexical scopes is allowed.)
+\item Shadowing constructors is not allowed.
+\item In a given lexical scope, access to a variable may only occur \emph{after} its declaration. This also means that if the variable is not yet declared, but another variable with the same name is defined in an outer scope, the access does not reach out to the other variable, but is invalid.
+\end{itemize}
+
+
+\subsubsection*{Match construct}
+
+\begin{itemize}
+\item An expression match must cover all cases. (Whereas a statement match need not.)
+\item (As each match rule defines a new lexical scope, and capturing variables are not access variables but define locals in this lexical scope, they must all have different names.)
+\end{itemize}
+
+
+\subsubsection*{Returning}
+
+\begin{itemize}
+\item Each function must have a returning statement. A returning statement is a return statement, or a statement that always returns. E.g., an if statement always returns iff both branches always return, etc.
+\end{itemize}
+
+
+\subsubsection*{Miscellaneous}
+
+\begin{itemize}
+\item Each program must contain a function \lit*{main} of type \lit*{unit -> int}.
+\end{itemize}
+
 
 \subsection{Dynamic exceptions}
 
-Note that above stated criteria do not guarantee dynamic safety. The two dynamic exceptions that can occur are as follows, and will be caught at runtime by jumping to respective exception labels.
-\begin{itemize}
-\item Use of uninitialized variables. Program will then jump to the \lit*{_EXCEPTION_UninitiatedVar} label and halt.
-\item Access or storage of \lit*{hd} or \lit*{tl} segments of empty lists. Program will then jump to the \lit*{_EXCEPTION_EmptyList} label and halt.
-\end{itemize}
+Note that above stated criteria do not guarantee dynamic safety. The only dynamic exception that can occur in Spla is that of access or storage of \lit*{hd} or \lit*{tl} segments of empty lists. Program will then jump to the \lit*{_EXCEPTION_EmptyList} label and halt.
 
-Moreover, heap storage is as of yet not garbage collected, so it can happen that the heap overflows. What happens then is left unspecified.
+Moreover, heap storage is as of yet not garbage collected.
 
-\subsection{Variable lifetime and lexical scoping}
-
-Variables live in blocks and let-expressions, and their lifetime ends when the block/let computations end. As a corollary, variables never outlive a function computation.
-
-Splb features lexical scoping through variables introduced in blocks and let expressions. Function shadowing, as well as variable shadowing, is allowed. Variables are declared at the beginning of each block to avoid further complications. (It is not neccessary to make decisions as to what some variable $x$ might refer to, if that variable were to be declared later on in the same block, as such declarations are not permitted.)
 
 \subsection{Typing system}
+\label{typesystem}
 
-Splb features a Hindley-Milner polymorphic type system. The possible function types are those admitted by the grammar as a \textit{(Polynorphic type)} of the form $\sigma = \lit*{forall $\dots$. $\tau_1$ -> $\tau_2$}$. These are not included in the concrete grammar of Splb, instead they are implicitly generalized as in, for example, Haskell. This means that a function $x$, concretely defined as
+Spla features a Hindley-Milner polymorphic type system. The possible function types are those admitted by the grammar as a \textit{(Polynorphic type)} of the form $\sigma = \lit*{forall $\dots$. $\tau_1$ -> $\tau_2$}$. These are not included in the concrete grammar of Spla, instead they are implicitly generalized as in, for example, Haskell. This means that a function $x$, concretely defined as
 \begin{equation*}
 \lit*{$\tau_{n+1}$ $x$ ($\tau_1$ $x_1$, $\dots \tau_n$ $x_n$) $B$}
 \end{equation*}
@@ -505,704 +537,95 @@ where
 \bigcup_{j=1}^{n+1}\,\textrm{fv}(\tau_j) = \{y_1 \dots y_k\}\textrm{.}
 \end{equation*}
 
-For the rest of this section, $\Gamma$ will serve as an environment of the form $x_1 : \sigma_1, \dots x_n : \sigma_n$, including local variables, let-introduced variables, user-defined functions and the following language builtin functions and operators:
-\begin{align*}
-  \lit*{isEmpty} &: \lit*{forall $x$. [$x$] -> bool}
-& ~
-\\\lit*{print} &: \lit*{forall $x$. $x$ -> unit}
-& ~
-\\[5pt]\lit*{!} &: \lit*{bool -> bool}
-& ~
-\\ \lit*{-} &: \lit*{int -> int}
-& ~
-\\[5pt]\lit*{+} &: \lit*{int -> int -> int}
-& \lit*{-} &: \lit*{int -> int -> int}
-\\\lit*{*} &: \lit*{int -> int -> int}
-& \lit*{/} &: \lit*{int -> int -> int}
-\\\lit*{\%} &: \lit*{int -> int -> int}
-& ~
-\\[5pt]\lit*{==} &: \lit*{int -> int -> bool}
-& \lit*{!=} &: \lit*{int -> int -> bool}
-\\\lit*{<=} &: \lit*{int -> int -> bool}
-& \lit*{>=} &: \lit*{int -> int -> bool}
-\\\lit*{<} &: \lit*{int -> int -> bool}
-& \lit*{>} &: \lit*{int -> int -> bool}
-\\[5pt]\lit*{\&\&} &: \lit*{bool -> bool -> bool}
-& ~
-\\\lit*{||} &: \lit*{bool -> bool -> bool}
-& ~
-\\[5pt]\lit*{:} &: \lit*{forall $x$. $x$ -> [$x$] -> [$x$]}
-& ~
-\end{align*}
+The type system of Spla is pretty much exactly the same as that of Splb. As we have not yet completed its implementation, we haven't included any specifics of it in this document. Refer to the Splb document for the general idea.
 
-\subsubsection{Expressions}
 
-The binary relation $(\sqsubseteq)$ on polymorphic types expresses when one type is more general than another, e.g. $\sigma' \sqsubseteq \sigma$ states that $\sigma'$ is more general than $\sigma$.
 
-\begin{Block}{Expression typing judgements}
+\section{Implementation notes}
 
-\begin{align*}
-\AxiomC{}
-\LeftLabel{(int) \labelspace}
-\UnaryInfC{$\Gamma \vdash n : \lit*{int}$}
-\DisplayProof
-&\quad\quad
-\AxiomC{}
-\LeftLabel{(bool) \labelspace}
-\UnaryInfC{$\Gamma \vdash b : \lit*{bool}$}
-\DisplayProof
-\end{align*}
 
-\begin{align*}
-\AxiomC{}
-\LeftLabel{(unit) \labelspace}
-\UnaryInfC{$\Gamma \vdash \lit*{()} : \lit*{unit}$}
-\DisplayProof
-&\quad\quad
-\AxiomC{}
-\LeftLabel{(emptylist) \labelspace}
-\UnaryInfC{$\Gamma \vdash \lit*{[]} : \lit*{[$\tau$]}$}
-\DisplayProof
-\end{align*}
+\subsection{Code infrastructure}
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash a : \lit*{[$\tau$]}$}
-\LeftLabel{(hd) \labelspace}
-\UnaryInfC{$\Gamma \vdash a\lit*{.hd} : \tau$}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash a : \lit*{[$\tau$]}$}
-\LeftLabel{(tl) \labelspace}
-\UnaryInfC{$\Gamma \vdash a\lit*{.tl} : \lit*{[$\tau$]}$}
-\DisplayProof
-\end{align*}
+Code is divided into groups of modules as follows.
+\begin{description}
+\item[Language]\hfill
+  \begin{description}
+  \item[\lit*{Spla.Language}] Describes language in terms of syntax fragments, AST, operators, lexing tokens, type theory, and basic as well as general operations on these data.
+  \end{description}
+\item[Parser]\hfill
+  \begin{description}
+  \item[\lit*{ParserCombinators}] A basic parser combinator library.
+  \item[\lit*{Spla.Lexer}] Defines \lit*{splalex :: String -> [Tokens]}.
+  \item[\lit*{Spla.Parser}] Defines \lit*{splaparse :: [Tokens] -> Program}.
+  \end{description}
+\item[Static analysis]\hfill
+  \begin{description}
+  \item[\lit*{Spla.TypeCheck}] Defines the function \lit*{staticCheck :: Program -> Program}, which enforces static semantic criteria on syntactically valid Spla programs, as well as the function \lit*{typecheck :: Program -> Program}, which does actual type checking (and inferring). Note that this module is not completed, due to time constraints, but can, in principle, be easily extended from the static analysis module of Spla.
+  \end{description}
+\item[Code generation]\hfill
+  \begin{description}
+  \item[\lit*{Spla.SSMCompile}] Defines \lit*{compileP :: Program -> Asm}.
+  \end{description}
+\end{description}
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash a : \lit*{($\tau_1$,$\tau_2$)}$}
-\LeftLabel{(fst) \labelspace}
-\UnaryInfC{$\Gamma \vdash a\lit*{.fst} : \tau_1$}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash a : \lit*{($\tau_1$,$\tau_2$)}$}
-\LeftLabel{(snd) \labelspace}
-\UnaryInfC{$\Gamma \vdash a\lit*{.snd} : \tau_2$}
-\DisplayProof
-\end{align*}
+All groups depend on the language group, through for the rest they are fully independent.
 
-\begin{align*}
-\AxiomC{\phantom{kelley}}
-\LeftLabel{(var) \labelspace}
-\UnaryInfC{$\Gamma, x:\tau \vdash x : \tau$}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash \& : \tau_1 \to \tau_2$}
-\AxiomC{$\Gamma \vdash E : \tau_1$}
-\LeftLabel{(unop) \labelspace}
-\BinaryInfC{$\Gamma \vdash \&E : \tau_2$}
-\DisplayProof
-\end{align*}
+\subsection{Coding patterns}
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash \otimes : \tau_1 \to \tau_2 \to \tau_3$}
-\AxiomC{$\Gamma \vdash E_1 : \tau_1$}
-\AxiomC{$\Gamma \vdash E_2 : \tau_2$}
-\LeftLabel{(binop) \labelspace}
-\TrinaryInfC{$\Gamma \vdash E_1 \otimes E_2 : \tau_3$}
-\DisplayProof
-\end{align*}
+\subsubsection{Traits}
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash x : \tau_1 \to \dots \to \tau_n \to \tau_\text{res}$}
-\AxiomC{$\forall_{i = 1 \dots n}:\;\Gamma \vdash E_i : \tau_i$}
-\LeftLabel{(funcall) \labelspace}
-\BinaryInfC{$\Gamma \vdash \lit*{$x$($E_1 \dots E_n$)} : \tau_\text{res}$}
-\DisplayProof
-\end{align*}
+The AST is defined with ADTs such as \lit*{Program}, \lit*{Stmt} and \lit*{Expr}. As the AST is often traversed to perform a specific action, such as compiling or checking for free variables, we have often used what we call the "trait" pattern, where a Haskell class defines a specific trait (compileable, having lexical meaning, etc), and applicable ADTs implement this class. As such we have, for example, the following traits:
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash E_1 : \tau_1$}
-\AxiomC{$\Gamma \vdash E_2 : \tau_2$}
-\LeftLabel{(tuple) \labelspace}
-\BinaryInfC{$\Gamma \vdash \lit*{($E_1$,$E_2$)} : \lit*{($\tau_1$,$\tau_2$)}$}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash E_1 : \tau_1$}
-\AxiomC{$\Gamma, x : \tau_1 \vdash E_2 : \tau_2$}
-\LeftLabel{(let) \labelspace}
-\BinaryInfC{$\Gamma \vdash \{\lit*{let $x$ := $E_1$ in $E_2$}\} : \tau_2$}
-\DisplayProof
-\end{align*}
-
-\begin{align*}
-\AxiomC{$\Gamma \vdash E : \sigma'$}
-\AxiomC{$\sigma' \sqsubseteq \sigma$}
-\LeftLabel{(instantiate) \labelspace}
-\BinaryInfC{$\Gamma \vdash E : \sigma$}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash E : \sigma$}
-\AxiomC{$x \not\in \textrm{fv}(\Gamma)$}
-\LeftLabel{(generalize) \labelspace}
-\BinaryInfC{$\Gamma \vdash E : \lit*{forall $x$. $\sigma$}$}
-\DisplayProof
-\end{align*}
-
-\end{Block}
-
-\subsubsection{Statements and blocks}
-
-Typing of statements (and blocks) proceeds with two types of judgements.
 \begin{itemize}
-\item The first, $\bottomAlignProof\AxiomC{}\UnaryInfC{$\Gamma \vdash$ block/stmt $\{\,\square\,\}$ OK[$\tau$]}\DisplayProof$, tells us that, given environment $\Gamma$, the block/statement $\square$ returns a result of type $\tau$ (if at all). These inferences are listed below.
-\item The second, $\bottomAlignProof\AxiomC{}\UnaryInfC{$\Gamma \vdash$ block/stmt $\{\,\square\,\}$ ret}\DisplayProof$, tells us that block/statement $\square$ will definitively return.
+\item To deal with compilation (implemented by \lit*{Program}, \lit*{Stmt}, \lit*{Expr}, \lit*{Let}, \lit*{Match} and \lit*{Lit})
+  \begin{minted}{haskell}
+  class Compileable a where
+    compile :: String -> a -> Compiler Asm
+  \end{minted}
+\item To deal with lexical issues (implemented by \lit*{Access}, \lit*{Stmt}, \lit*{Expr}, \lit*{Let}, \lit*{Match}, \lit*{MatchRule} and \lit*{FunCall})
+  \begin{minted}{haskell}
+  class LexicalVars a where
+    fv :: a -> Set String
+    subst :: Subst -> a -> a
+  \end{minted}
 \end{itemize}
 
-\begin{Block}{Block/stmt OK}
+\subsubsection{Alternative compilation schemes}
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash $ block \{$B$\} OK[$\tau$]}
-\LeftLabel{(blockstmt) \labelspace}
-\UnaryInfC{$\Gamma \vdash $ stmt \{$B$\} OK[$\tau$]}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash E : \lit*{bool}$}
-\AxiomC{$\Gamma \vdash $ block \{$B$\} OK[$\tau$]}
-\LeftLabel{(while) \labelspace}
-\BinaryInfC{$\Gamma \vdash $ stmt \{\lit*{while ($E$) $B$}\} OK[$\tau$]}
-\DisplayProof
-\end{align*}
+Instead of defining a separate ADT, we decided to use the normal expression ADT to represent match pattern expressions. This approach avoids a lot of (messy) code duplication in the compiler (which we would have had by defining a new ADT, or boxing), but also introduces an obvious problem with regard to the "trait" approach explained above. Therefore we adopted an approach in which we pass a flag to the \lit*{compile} function indicating what alternative compilation scheme should be used. For example, the expression ADT has three different compilation schemes:
+\begin{description}
+\item[Normal] Compiles expressions as values, as usual.
+\item[Match pattern expression] Allows compiling match wildcards (\lit*{_}) as well, and doesn't compile identifiers (as they are now to be regarded as capture variables instead of access variables).
+\item[Match check expression] Regards given expression as a match pattern expression. Instead of compiling to assembly producing a single element on the heap, it compiles to assembly that compares the top two elements on the heap via its input, capturing expressions in the current match rule lexical context when encountering capture variables, and producing a boolean answer on the stack.
+\end{description}
 
-\begin{align*}
-\AxiomC{\phantom{kelley}}
-\LeftLabel{(skip) \labelspace}
-\UnaryInfC{$\Gamma \vdash $ stmt \{\lit*{skip}\} OK[$\tau$]}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash E : \tau$}
-\LeftLabel{(return) \labelspace}
-\UnaryInfC{$\Gamma \vdash $ stmt \{\lit*{return $E$}\} OK[$\tau$]}
-\DisplayProof
-\end{align*}
+As an illustration of this approach, here is an outline of the implementation of the \lit*{Compileable} trait by the \lit*{Expr} ADT:
+\begin{minted}{haskell}
+instance Compileable Expr where
+  -- don't compile as access variable, instead just load dummy value
+  compile "match_expr" (E_Access (Ident id))
+  -- allow this compilation, just load dummy value
+  compile "match_expr" (E_MatchWildcard)
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash E : \texttt{bool}$}
-\AxiomC{$\Gamma \vdash $ block \{$B_1$\} OK[$\tau$]}
-\AxiomC{$\Gamma \vdash $ block \{$B_2$\} OK[$\tau$]}
-\LeftLabel{(if) \labelspace}
-\TrinaryInfC{$\Gamma \vdash $ stmt \{\lit*{if ($E$) $B_1$ else $B_2$}\} OK[$\tau$]}
-\DisplayProof
-\end{align*}
+  compile "match_check" (E_MatchWildcard) -- always true
+  compile "match_check" (E_Lit l)
+  compile "match_check" (E_Data (Data cName args))
+  compile "match_check" (E_Tuple e1 e2)
+  compile "match_check" (E_BinOp ":" e1 e2)
+  compile "match_check" (E_Access (Ident x)) -- capture
 
-\begin{align*}
-\AxiomC{$\Gamma \vdash a : \tau'$}
-\AxiomC{$\Gamma \vdash E : \tau'$}
-\LeftLabel{(assign) \labelspace}
-\BinaryInfC{$\Gamma \vdash $ stmt \{\lit*{$a$ := $E$}\} OK[$\tau$]}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\Gamma \vdash f : \tau'$}
-\LeftLabel{(funcall) \labelspace}
-\UnaryInfC{$\Gamma \vdash $ stmt \{\lit*{$f$}\} OK[$\tau$]}
-\DisplayProof
-\end{align*}
-
-\begin{gather*}
-\AxiomC{$\forall i\in \{1 \dots n\}:\;\Gamma, x_1 : \tau_1, \dots x_k : \tau_k \vdash$ stmt \{$S_i$\} OK[$\tau$]}
-\LeftLabel{(block) \labelspace}
-\UnaryInfC{$\Gamma \vdash $ block \{\lit*{\{$\tau_1$ $x_1 \dots \tau_k$ $x_k$; $S_1 \dots S_n$\}}\} OK[$\tau$]}
-\DisplayProof
-\end{gather*}
-
-\end{Block}
-
-\begin{Block}{Block/stmt returning}
-
-\begin{align*}
-\AxiomC{$\vdash $ block \{$B_1$\} ret}
-%\LeftLabel{(if$_1$) \quad}
-\UnaryInfC{$\vdash $ stmt \{\lit*{if ($E$) $B_1$ else $B_2$}\} ret}
-\DisplayProof
-&\quad\quad
-\AxiomC{$\vdash $ block \{$B_2$\} ret}
-%\LeftLabel{(if$_2$) \quad}
-\UnaryInfC{$\vdash $ stmt \{\lit*{if ($E$) $B_1$ else $B_2$}\} ret}
-\DisplayProof
-\end{align*}
-
-\begin{align*}
-\AxiomC{$\vdash $ block \{$B$\} ret}
-%\LeftLabel{(blockstmt) \quad}
-\UnaryInfC{$\vdash $ stmt \{$B$\} ret}
-\DisplayProof
-&\quad\quad
-\AxiomC{\phantom{kelley}}
-%\LeftLabel{(return$_2$) \quad}
-\UnaryInfC{$\vdash $ stmt \{\lit*{return $E$}\} ret}
-\DisplayProof
-\end{align*}
-
-\begin{gather*}
-\AxiomC{$\exists j \in \{1 \dots n\}:\;\Gamma' \vdash$ stmt \{$S_i$\} ret}
-%\LeftLabel{(block) \quad}
-\UnaryInfC{$\vdash $ block \{\lit*{\{$\dots$; $S_1 \dots S_n$\}}\} ret}
-\DisplayProof
-\end{gather*}
-
-\end{Block}
-
-\subsubsection{Wrapping up}
-
-Concluding, we type check function declarations and the whole program using the judgements $\bottomAlignProof\AxiomC{}\UnaryInfC{$\Gamma \vdash$ fundecl $\{\,F\,\}$ OK}\DisplayProof$ and $\bottomAlignProof\AxiomC{}\UnaryInfC{$\vdash$ program $\{\,P\,\}$ OK}\DisplayProof$.
-
-\begin{Block}{Program/function declaration OK}
-
-\begin{align*}
-\AxiomC{$\Gamma, x_1 : \tau_1 \dots x_n : \tau_n \vdash$ block $\{B\}$ OK[$\tau$]}
-\AxiomC{$\Gamma, x_1 : \tau_1 \dots x_n : \tau_n \vdash$ block $\{B\}$ ret}
-%\LeftLabel{(return$_2$) \quad}
-\BinaryInfC{$\Gamma \vdash$ fundecl $\{\lit*{$\tau$ $x$ ($\tau_1$ $x_1$, $\dots \tau_n$ $x_n$) $B$}\}$ OK}
-\DisplayProof
-\end{align*}
-
-\begin{gather*}
-\AxiomC{$\exists j\in\{1 \dots n\}:\; (\lit*{main} : \lit*{unit} \to \lit*{int}) \in \Gamma$}
-\AxiomC{$\forall j\in\{1 \dots n\}:\; \Gamma \vdash$ fundecl $F_j$ OK}
-%\LeftLabel{(return$_2$) \quad}
-\BinaryInfC{$\vdash$ program $\{F_1 \dots F_n\}$ OK}
-\DisplayProof
-\\[5pt]
-\textit{where~~}\Gamma = \begin{array}{@{}l}
-\textrm{\fragment{Language builtins, as described above}}, \\
-\textrm{ident}(F_1) : \textrm{sig}(F_1), \\
-\vdots \\
-\textrm{ident}(F_n) : \textrm{sig}(F_n)
-\end{array} \\[5pt]
-\textit{and~~}\textrm{ident}(\lit*{$\tau$ $x$ ($\dots$) $B$}) = x \\[5pt]
-\textit{and~~}\textrm{sig}(\lit*{$\tau_{n+1}$ $x$ ($\tau_x$ $i_1$, $\dots \tau_n$ $x_n$) $B$}) = \lit*{forall $y_1 \dots y_k$. $\tau_1$ -> $\dots$ -> $\tau_{n+1}$} \\[5pt]
-\textit{and~~}\bigcup_{j=1}^{n+1}\,\textrm{fv}(\tau_j) = \{y_1 \dots y_k\}
-\end{gather*}
-
-\end{Block}
+  -- normal expression compilation...
+\end{minted}
 
 
-\section{SSM compilation}
 
-In this section I explain how Splb code is translated to SSM assembly. SSM (Simple Stack Machine) is a stack machine emulator developed for educational purposes. It is described at \url{http://www.staff.science.uu.nl/~dijks106/SSM/}.
-
-
-\subsection{Compilation schemes}
-
-\begin{align*}
-\textrm{numLocals}_\textrm{block}(\lit*{$V_1 \dots V_k$ $S_1 \dots S_n$}) &= k + \sum_{i=1}^n\,\textrm{numLocals}_\textrm{stmt}(S_i)
-\\[15pt]
-\textrm{numLocals}_\textrm{stmt}(\lit*{skip;}) &= 0 \\
-\textrm{numLocals}_\textrm{stmt}(\lit*{if ($E$) $B_1$ else $B_2$}) &= \textrm{numLocals}_\textrm{block}(B_1) + \textrm{numLocals}_\textrm{block}(B_2) \\
-& + \textrm{numLocals}_\textrm{expr}(E) \\
-\textrm{numLocals}_\textrm{stmt}(\lit*{while ($E$) $B$}) &= \textrm{numLocals}_\textrm{block}(B) + \textrm{numLocals}_\textrm{expr}(E) \\
-\textrm{numLocals}_\textrm{stmt}(\lit*{$a$ := $E$;}) &= 0 + \textrm{numLocals}_\textrm{expr}(E) \\
-\textrm{numLocals}_\textrm{stmt}(\lit*{$f$;}) &= 0 \\
-\textrm{numLocals}_\textrm{stmt}(\lit*{return $E$;}) &= \textrm{numLocals}_\textrm{expr}(E) \\
-\textrm{numLocals}_\textrm{stmt}(\lit*{$B$}) &= \textrm{numLocals}_\textrm{block}(B)
-\\[15pt]
-\textrm{numLocals}_\textrm{expr}(\lit*{$a$}) &= 0 \\
-\textrm{numLocals}_\textrm{expr}(\lit*{$f$}) &= 0 \\
-\textrm{numLocals}_\textrm{expr}(\lit*{$\ell$}) &= 0 \\
-\textrm{numLocals}_\textrm{expr}(\lit*{$E_1 \otimes E_2$}) &= \textrm{numLocals}_\textrm{expr}(E_1) + \textrm{numLocals}_\textrm{expr}(E_2) \\
-\textrm{numLocals}_\textrm{expr}(\lit*{$\&E$}) &= \textrm{numLocals}_\textrm{expr}(E) \\
-\textrm{numLocals}_\textrm{expr}(\lit*{($E_1$,$E_2$)}) &= \textrm{numLocals}_\textrm{expr}(E_1) + \textrm{numLocals}_\textrm{expr}(E_2) \\
-\textrm{numLocals}_\textrm{expr}(\lit*{let $i$ := $E_1$ in $E_2$}) &= 1 + \textrm{numLocals}_\textrm{expr}(E_1) + \textrm{numLocals}_\textrm{expr}(E_2)
-\end{align*}
-
-\setlength{\jot}{15pt}
-
-\begin{Block}{Program/fundecl/funcall}
-
-\begin{align*}
-\tag{Program}
-\compile{}{program}{F_1 \dots F_n} =
-& \begin{asmcode}
-link 0 \\
-ldc 0 \\
-bsr _main \\
-ldr RR \\
-trap 0 \\
-halt \\
-$\compile{}{fundecl}{F_1}$ \\
-$\vdots$ \\
-$\compile{}{fundecl}{F_n}$ \\
-\fragment{Language builtins}
-\end{asmcode}
-\\
-\tag{Function declaration}
-\compile{}{fundecl}{\lit*{$\tau$ $i$($\tau_1$ $i_1 \dots \tau_n$ $i_n$) $B$}} =
-& \begin{asmcode}
-_$i$: & link $2\cdot\textrm{numLocals}(B)$ \\
-& $\compile{\Gamma}{block}{B}$
-\end{asmcode}
-\\[-10pt]
-\textit{where~~}\Gamma =&~[i_j \mapsto -2-n+j] \textit{ for $j \in \{1 \dots n\}$}
-\\
-\tag{Function call}
-\compile{\Gamma}{funcall}{\lit*{$i$($E_1 \dots E_n$)}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E_1}$ \\
-$\vdots$ \\
-$\compile{\Gamma}{expr}{E_n}$ \\
-bsr _$i$ \\
-ajs $-n$
-\end{asmcode}
-\end{align*}
-
-\end{Block}
-
-\begin{Block}{Block/statement compilation}
-
-\begin{align*}
-\tag{block}
-\compile{\Gamma}{block}{\lit*{$\tau_1$ $i_1$; $\dots$ $\tau_k$ $i_k$; $S_1 \dots S_n$}} =
-& \begin{asmcode}
-$\compile{\Gamma'}{stmt}{S_1}$ \\
-$\vdots$ \\
-$\compile{\Gamma'}{stmt}{S_n}$
-\end{asmcode}
-\\[-10pt]
-\textit{where~~}\textrm{locals}(\Gamma) =&~\{(i, n) \in \Gamma \mid n \ge 0 \}
-\\[-10pt]
-\textit{and~~}\Gamma' =&~\Gamma[i_j \mapsto 2\cdot|\textrm{locals}(\Gamma)| + 2j-1] \textit{ for $j \in \{1 \dots k\}$}
-%  j  1 2 3 ...  k
-% 2j  2 4 6 ... 2k
-%  r  1 3 5 ... 2k-1
-% r = 2j-1
-\\
-\tag{skip}
-\compile{\Gamma}{stmt}{\lit*{skip;}} =
-& \begin{asmcode}
-ajs 0
-\end{asmcode}
-\\
-\tag{blockstmt}
-\compile{\Gamma}{stmt}{B} =
-& \begin{asmcode}
-$\compile{\Gamma}{block}{B}$
-\end{asmcode}
-\\
-\tag{return}
-\compile{\Gamma}{stmt}{\lit*{return $E$;}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E}$ \\
-str RR \\
-unlink \\
-ret
-\end{asmcode}
-\\
-\tag{funcall}
-\compile{\Gamma}{stmt}{f} =
-& \begin{asmcode}
-$\compile{\Gamma}{funcall}{f}$
-\end{asmcode}
-\\
-\tag{assign$_1$}
-\compile{\Gamma}{stmt}{\lit*{$i$ := $E$;}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E}$ \\
-stl $\Gamma(i)$ \\
-ldc 1 \\
-stl $\Gamma(i) + 1$ \asmcomment{mark variable as initialized}
-\end{asmcode}
-\\
-\tag{assign$_2$}
-\compile{\Gamma}{stmt}{\lit*{$a$.$d$ := $E$;}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E}$ \\
-$\compile{\Gamma}{expr}{a}$ \\
-$\compile{}{fieldstorage}{d}$
-\end{asmcode}
-\\
-\tag{if}
-\compile{\Gamma}{stmt}{\lit*{if ($E$) $B_1$ else $B_2$}} =
-& \begin{asmcode}
-& $\compile{\Gamma}{expr}{E}$ \\
-& brf \asmlbl{else} \\
-& $\compile{\Gamma}{block}{B_1}$ \\
-& bra \asmlbl{end} \\
-\asmlbl{else}: & ajs 0 \\
-& $\compile{\Gamma}{block}{B_2}$ \\
-\asmlbl{end}: & ajs 0
-\end{asmcode}
-\\
-\tag{while}
-\compile{\Gamma}{stmt}{\lit*{while ($E$) $B$}} =
-& \begin{asmcode}
-\asmlbl{while}: & ajs 0 \\
-& $\compile{\Gamma}{expr}{E}$ \\
-& brf \asmlbl{end} \\
-& $\compile{\Gamma}{block}{B}$ \\
-& bra \asmlbl{while} \\
-\asmlbl{end}: & ajs 0
-\end{asmcode}
-\end{align*}
-
-\end{Block}
-
-\begin{Block}{Expression compilation}
-
-\begin{align*}
-\tag{int}
-\compile{\Gamma}{expr}{n} =
-& \begin{asmcode}
-ldc $n$
-\end{asmcode}
-\\
-\tag{true}
-\compile{\Gamma}{expr}{\lit*{true}} =
-& \begin{asmcode}
-ldc 0xFFFFFFFF
-\end{asmcode}
-\\
-\tag{false}
-\compile{\Gamma}{expr}{\lit*{false}} =
-& \begin{asmcode}
-ldc 0
-\end{asmcode}
-\\
-\tag{unit}
-\compile{\Gamma}{expr}{\lit*{()}} =
-& \begin{asmcode}
-ldc 0
-\end{asmcode}
-\\
-\tag{emptylist}
-\compile{\Gamma}{expr}{\lit*{[]}} =
-& \begin{asmcode}
-ldc 0
-\end{asmcode}
-\\
-\tag{unop}
-\compile{\Gamma}{expr}{\&E} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E}$ \\
-$\compile{}{unop}{\&}$
-\end{asmcode}
-\\
-\tag{binop}
-\compile{\Gamma}{expr}{E_1 \otimes E_2} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E_1}$ \\
-$\compile{\Gamma}{expr}{E_2}$ \\
-$\compile{}{binop}{\otimes}$
-\end{asmcode}
-\\
-\tag{funcall}
-\compile{\Gamma}{expr}{f} =
-& \begin{asmcode}
-$\compile{\Gamma}{funcall}{f}$
-\end{asmcode}
-\\
-\tag{access$_1$}
-\compile{\Gamma}{expr}{i} =
-& \begin{asmcode}
-ldl $\Gamma(i) + 1$ \\
-brf _EXCEPTION_UninitiatedVar \\
-ldl $\Gamma(i)$
-\end{asmcode}
-\\
-\tag{access$_2$}
-\compile{\Gamma}{expr}{\lit*{$a$.$d$}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{a}$ \\
-$\compile{}{fieldaccess}{d}$
-\end{asmcode}
-\\
-\tag{tuple}
-\compile{\Gamma}{expr}{\lit*{($E_1$,$E_2$)}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E_1}$ \\
-$\compile{\Gamma}{expr}{E_2}$ \\
-ajs -1 \\
-sth \\
-ajs 1 \\
-sth \\
-ajs -1
-\end{asmcode}
-\\
-\tag{let}
-% TODO
-\compile{\Gamma}{expr}{\lit*{let $i$ := $E_1$ in $E_2$}} =
-& \begin{asmcode}
-$\compile{\Gamma}{expr}{E_1}$ \\
-stl $\Gamma(i)$ \\
-ldc 1 \\
-stl $\Gamma(i) + 1$ \asmcomment{mark variable as initialized} \\
-$\compile{\Gamma[i := \dots]}{expr}{E_2}$
-\end{asmcode}
-\end{align*}
-
-\end{Block}
-
-\begin{Block}{Field storage}
-
-\begin{align*}
-\tag{fst}
-\compile{}{fieldstorage}{\lit*{fst}} =
-& \begin{asmcode}
-sta 0 \\
-lds 2
-\end{asmcode}
-\\
-\tag{snd}
-\compile{}{fieldstorage}{\lit*{snd}} =
-& \begin{asmcode}
-sta 1 \\
-lds 2
-\end{asmcode}
-\\
-\tag{hd}
-\compile{}{fieldstorage}{\lit*{hd}} =
-& \begin{asmcode}
-lds 0 \asmcomment{first check list non-emptyness} \\
-ldc 0 \\
-eq \\
-brt _EXCEPTION_EmptyList \\
-sta 0 \asmcomment{then store hd} \\
-lds 2
-\end{asmcode}
-\\
-\tag{tl}
-\compile{}{fieldstorage}{\lit*{tl}} =
-& \begin{asmcode}
-lds 0 \asmcomment{first check list non-emptyness} \\
-ldc 0 \\
-eq \\
-brt _EXCEPTION_EmptyList \\
-sta 1 \asmcomment{then store tl} \\
-lds 2
-\end{asmcode}
-\end{align*}
-
-\end{Block}
-
-\begin{Block}{Field access}
-
-\begin{align*}
-\tag{fst}
-\compile{}{fieldaccess}{\lit*{fst}} =
-& \begin{asmcode}
-ldh 0
-\end{asmcode}
-\\
-\tag{snd}
-\compile{}{fieldaccess}{\lit*{snd}} =
-& \begin{asmcode}
-ldh 1
-\end{asmcode}
-\\
-\tag{hd}
-\compile{}{fieldaccess}{\lit*{hd}} =
-& \begin{asmcode}
-lds 0 \asmcomment{first check list non-emptyness} \\
-ldc 0 \\
-eq \\
-brt _EXCEPTION_EmptyList \\
-ldh 0 \asmcomment{then access hd}
-\end{asmcode}
-\\
-\tag{tl}
-\compile{}{fieldaccess}{\lit*{tl}} =
-& \begin{asmcode}
-lds 0 \asmcomment{first check list non-emptyness} \\
-ldc 0 \\
-eq \\
-brt _EXCEPTION_EmptyList \\
-ldh 1 \asmcomment{then access tl}
-\end{asmcode}
-\end{align*}
-
-\end{Block}
-
-\begin{Block}{Operations}
-
-\begin{align*}
-  \compile{}{unop}{\lit*{!}} = & \begin{asmcode}not\end{asmcode}
-& \compile{}{unop}{\lit*{-}} = & \begin{asmcode}neg\end{asmcode}
-%
-\\\compile{}{binop}{\lit*{+}} = & \begin{asmcode}add\end{asmcode}
-& \compile{}{binop}{\lit*{-}} = & \begin{asmcode}sub\end{asmcode}
-\\\compile{}{binop}{\lit*{*}} = & \begin{asmcode}mul\end{asmcode}
-& \compile{}{binop}{\lit*{/}} = & \begin{asmcode}div\end{asmcode}
-\\\compile{}{binop}{\lit*{\%}} = & \begin{asmcode}mod\end{asmcode}
-%
-\\\compile{}{binop}{\lit*{==}} = & \begin{asmcode}eq\end{asmcode}
-& \compile{}{binop}{\lit*{!=}} = & \begin{asmcode}ne\end{asmcode}
-%
-\\\compile{}{binop}{\lit*{>=}} = & \begin{asmcode}ge\end{asmcode}
-& \compile{}{binop}{\lit*{<=}} = & \begin{asmcode}ge\end{asmcode}
-\\\compile{}{binop}{\lit*{>}} = & \begin{asmcode}gt\end{asmcode}
-& \compile{}{binop}{\lit*{<}} = & \begin{asmcode}le\end{asmcode}
-%
-\\\compile{}{binop}{\lit*{\&\&}} = & \begin{asmcode}and\end{asmcode}
-& \compile{}{binop}{\lit*{||}} = & \begin{asmcode}or\end{asmcode}
-%
-\\\compile{}{binop}{\lit*{:}} = & \begin{asmcode}
-ajs -1 \\
-sth \\
-ajs 1 \\
-sth \\
-ajs -1
-\end{asmcode}
-\end{align*}
-
-\end{Block}
-
-\subsection{Calling convention}
-
-To call a function $i$, first we put its arguments on the stack, then we branch to \texttt{_$i$}, and when the function returns (via \texttt{unlink} and \texttt{ret}) we retrieve the return value from \texttt{RR} and put it on the place where the first argument was originally put. This subsequently becomes the new stack pointer.
-
-\begin{Block}{Stack after link}
-
-\begin{tabular}{@{}lll@{}}
-  & --- & \asmcomment{formal argument \#$1$} \\
-  & & $\vdots$ \\
-  & --- & \asmcomment{formal argument \#$k$} \\
-  & --- & \asmcomment{PC return address} \\
-  \midrule
-  \asmpointer{MP} & --- & \asmcomment{previous MP} \\
-  & 0 & \asmcomment{local variable \#$1$} \\
-  & 0 & \asmcomment{local variable \#$1$ initialized?} \\
-  &   & $\vdots$ \\
-  & 0 & \asmcomment{local variable \#$n$} \\
-  \asmpointer{SP} & 0 & \asmcomment{local variable \#$n$ initialized?}
-\end{tabular}
-
-\end{Block}
-
-
-\subsection{Heap / by-reference data types}
-
-Lists and tuples are treated by reference. References point to a stack location, or are `0' in case of an empty list.
-
-We implement lists as linked lists, where each node consists of two adjacent heap cells, the first containing the value of the node, the second being the address of the next node (or `0' for the empty list / final node). Tuples are also simply two adjacent heap cells. References to lists and tuples always point to the first of the two cells.
-
-There is currently no garbage collection, however runtime exceptions are generated when an emptylist segment is accesses or written to.
-
-
-\section{LLVM IR compilation}
-
-
-\begin{appendix}
-
-\section{Code}
-
-dependence etc
-
-\end{appendix}
-
-\cleardoublepage
-\phantomsection
-\addcontentsline{toc}{section}{References}
-\nocite{*}
-\raggedright
-\bibliographystyle{plainnat}
-\bibliography{status1}{}
+%\cleardoublepage
+%\phantomsection
+%\addcontentsline{toc}{section}{References}
+%\nocite{*}
+%\raggedright
+%\bibliographystyle{plainnat}
+%\bibliography{status1}{}
 
 
 \end{document}
