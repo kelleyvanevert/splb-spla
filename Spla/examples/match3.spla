@@ -1,0 +1,13 @@
+
+(unit -> int) main = fun () {
+    [int] l = [3, 4, 5, 6];
+    map(print, l);
+    return 1;
+  };
+
+((int -> a) -> list -> [a]) map = fun (f, l) {
+    return match l {
+      | [] -> []
+      | x:rest -> f(x) : map(f, rest)
+    };
+  };

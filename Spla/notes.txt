@@ -39,6 +39,7 @@
     - instead of wrapping Expr, I added a "flag" param to [Compileable/compile]
 
 
+- getting the address of fun code (trick)
 - TODO nested match constructs
 - i -> j signatures for pieces of asm code
   - [[ e ]] :: 0 -> 1

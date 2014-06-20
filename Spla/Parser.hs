@@ -17,6 +17,7 @@ import Data.Char
 import Data.List
 import Control.Monad
 import qualified Data.Map as Map
+import qualified Data.Set as Set
 -- import Debug.Trace
 
 import ParserCombinators
@@ -32,6 +33,9 @@ import Spla.Language
 
 parse_identifier :: Parser [Token] String
 parse_identifier = [ id | Tk_Ident id <- next ]
+
+parse_constructor :: Parser [Token] String
+parse_constructor = [ id | Tk_Constructor id <- next ]
 
 parse_match :: Parser [Token] a -> Parser [Token] (Match a)
 parse_match parse_to = [ Match e rules | Tk_Keyword "match" <- next,
@@ -64,10 +68,10 @@ splaparse :: Parser [Token] Program
 splaparse = parse_program
 
 parse_program :: Parser [Token] Program
-parse_program =
-  successful $
-  [ Program typeAliasDecls stmts | typeAliasDecls <- many $ parse_type_decl,
-                                       stmts <- many $ parse_statement ]
+parse_program = successful $ do
+  typeAliasDecls <- many $ parse_type_decl
+  stmts <- many $ parse_statement
+  return $ Program typeAliasDecls stmts
 
 parse_type_decl :: Parser [Token] TypeDecl
 parse_type_decl = [ TD_TypeAlias (TypeAlias name (map (\(T_Var x) -> x) params') meaning)
@@ -88,7 +92,8 @@ parse_type_decl = [ TD_TypeAlias (TypeAlias name (map (\(T_Var x) -> x) params')
                         T_Op (T_Concrete name) params' <- parse_type,
                         all (\p -> case p of { T_Var _ -> True; _ -> False }) params',
                         Tk_Symbol "=" <- next,
-                        constructors <- [ Constructor name args | (T_Op (T_Concrete name) args) <- parse_type ]
+                        constructors <- ([ Constructor name args | (T_Op (T_Concrete name) args) <- parse_type ]
+                                         ||| [ Constructor name [] | T_Concrete name <- parse_type ])
                                           `sepby` (element $ Tk_Symbol "|"),
                         Tk_Symbol ";" <- next ]
               ||| [ TD_ADT (ADT name [] constructors)
@@ -316,6 +321,16 @@ parse_funcall = \s -> [ FunCall id (if length args == 0 then [E_Lit L_Unit] else
                            Tk_Symbol ")" <- next
                       ]
 
+parse_data :: String -> Parser [Token] Data
+parse_data = \s -> [ Data c args
+                         | Tk_Constructor c <- next,
+                           Tk_Symbol "(" <- next,
+                           args <- parse_expr s `sepby` (element $ Tk_Symbol ","),
+                           Tk_Symbol ")" <- next
+                      ]
+                      ||||
+                    [ Data c [] | Tk_Constructor c <- next ]
+
 parse_closed :: String -> Parser [Token] Expr
 parse_closed = \s -> first $ list_or [
     -- character literal
@@ -343,7 +358,11 @@ parse_closed = \s -> first $ list_or [
     -- let
     if s == "match" then mzero else
     parse_let (parse_expr s) |> E_Let,
+    -- funcall
     (parse_funcall s |> E_FunCall),
+    -- data
+    (parse_data s |> E_Data),
+    -- access
     (parse_access s |> E_Access),
     -- tuple
     [ E_Tuple e1 e2 | Tk_Symbol "(" <- next,
@@ -354,8 +373,10 @@ parse_closed = \s -> first $ list_or [
     -- match
     if s == "match" then mzero else
     (parse_match (parse_expr s) |> E_Match),
+    -- match wildcard
     if s /= "match" then mzero else
     [ E_MatchWildcard | Tk_MatchWildcard <- next ],
+    -- (e)
     [ e | Tk_Symbol "(" <- next, e <- parse_expr s, Tk_Symbol ")" <- next ]
   ]
 
@@ -407,6 +428,7 @@ parse_t_closed = first $ list_or [
     [ T_Var id        | Tk_Symbol "'" <- next,
                         id <- parse_identifier ],
     [ T_Concrete id   | id <- parse_identifier ],
+    [ T_Concrete id   | id <- parse_constructor ],
     [ typeTuple t1 t2 | Tk_Symbol "(" <- next,
                         t1 <- parse_t,
                         Tk_Symbol "," <- next,
@@ -417,9 +439,9 @@ parse_t_closed = first $ list_or [
                         t <- parse_t,
                         Tk_Symbol "]" <- next
     ],
-    [ t             | Tk_Symbol "(" <- next,
-                      t <- parse_t,
-                      Tk_Symbol ")" <- next
+    [ t               | Tk_Symbol "(" <- next,
+                        t <- parse_t,
+                        Tk_Symbol ")" <- next
     ]
   ]
 

@@ -1,17 +1,27 @@
 
-data list = nil
-          | cons(int, list)
+data list = Nil
+          | Cons(int, list)
           ;
 
 (unit -> int) main = fun () {
-    list l = cons(3, cons(4, cons(5, cons(6, nil))));
-    mapl(print, l);
+    list l1 = Cons(4, Cons(5, Cons(6, Nil)));
+    [int] l2 = [7, 8, 9];
+    mapl(print, l1);
+    map(print, l2);
     return 1;
   };
 
-((int -> a) -> list -> [a]) mapl = fun (f, l) {
+
+((int -> 'a) -> list -> ['a]) mapl = fun (f, l) {
     return match l {
-      | nil -> []
-      | cons(x, rest) -> f(x) : mapl(f, rest)
+      | Nil -> []
+      | Cons(x, rest) -> f(x) : mapl(f, rest)
+    };
+  };
+
+((int -> 'a) -> [int] -> ['a]) map = fun (f, l) {
+    return match l {
+      | [] -> []
+      | x:rest -> f(x) : map(f, rest)
     };
   };

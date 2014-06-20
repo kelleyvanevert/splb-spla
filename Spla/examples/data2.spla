@@ -1,0 +1,46 @@
+
+data list('a) = Nil
+              | Cons('a, list('a))
+              ;
+
+(unit -> int) main = fun () {
+    list(int) l1 = Cons("hello ", Cons("happy ", Cons("world!", Nil)));
+    //[int] l2 = [7, 8, 9];
+    mapl(printstr, l1);
+    printlnstr("");
+    //map(print, l2);
+    return 1;
+  };
+
+
+(string -> unit) printstr = fun (s) {
+    map(printchr, s);
+    return;
+  };
+
+(string -> unit) printlnstr = fun (s) {
+    map(printchr, s);
+    printchr(10);
+    return;
+  };
+
+(string -> unit) printlnchr = fun (c) {
+    printchr(c);
+    printchr(10);
+    return;
+  };
+
+
+(('a -> 'b) -> list('a) -> list('b)) mapl = fun (f, l) {
+    return match l {
+      | Nil -> Nil
+      | Cons(x, rest) -> Cons(f(x), mapl(f, rest))
+    };
+  };
+
+(('a -> 'b) -> ['a] -> ['b]) map = fun (f, l) {
+    return match l {
+      | [] -> []
+      | x:rest -> f(x) : map(f, rest)
+    };
+  };

@@ -18,13 +18,20 @@ parse :: Parser s a -> s -> [(a, s)]
 parse (Parser p) i = p i
 
 instance Monad (Parser s) where
-  return a  = Parser $ \cs -> [(a, cs)]
-  p >>= f   = Parser $ \cs -> concat [parse (f a) cs' | (a, cs') <- parse p cs]
-  fail _    = Parser $ \cs -> []
+  return a  = Parser $ \s -> [(a, s)]
+  p >>= f   = Parser $ \s -> concat [parse (f a) s' | (a, s') <- parse p s]
+  fail _    = Parser $ \s -> []
 
 instance MonadPlus (Parser s) where
-  mzero     = Parser $ \cs -> []
-  mplus p q = Parser $ \cs -> parse p cs ++ parse q cs
+  mzero     = Parser $ \s -> []
+  mplus p q = Parser $ \s -> parse p s ++ parse q s
+
+
+getinput :: Parser s s
+getinput = Parser $ \s -> [(s, s)]
+
+putinput :: s -> Parser s ()
+putinput input = Parser $ \s -> [((), s)]
 
 
 --- generic parser combinators

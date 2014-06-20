@@ -111,7 +111,9 @@ compileP p = unlines . beautifyAsm $ evalState (compile [] p) emptyCompileState
 
 instance Compileable Program where
   compile flag (Program typedecls stmts) = do
+    -- collect constructors
     collectConstructors (foldl (\adts t -> case t of { TD_ADT adt -> adt:adts; _ -> adts }) [] typedecls)
+
     let mainCall = S_FunCall $ FunCall "main" [E_Lit L_Unit]
     cb <- compile flag (S_Block (builtinGlobalFunctions ++ stmts ++ [ mainCall ]))
     functionsCode <- gets cFunctionCode
@@ -164,13 +166,13 @@ instance Compileable a => Compileable (MatchRule a) where
     oldLocation <- gets cLocation
     oldLocalsEnv <- gets cLocalsEnv
 
-    continueLabel <- freshLabel "_m"
+    continueLabel <- freshLabel "_mr_cont"
     (endLabel : _) <- gets cMatchEndLabels
 
     matchRuleLocationLabel <- freshLabel "mrule"
 
     let newLocation = oldLocation ++ [matchRuleLocationLabel]
-        newLocals = Set.elems (fv e)
+        newLocals = Set.elems (fv e) -- TODO remove constructors
         newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i id -> (newLocation, i + 2)) newLocals
       in do
 
@@ -334,14 +336,27 @@ instance Compileable Lit where
 -- [[ e ]] :: 0 -> 1
 instance Compileable Expr where
 
-  -- Match Expression alternative compilation schemes
+  {- Match Expression alternative compilation schemes
   ---------------------------------------------------
+    Compiling a match expression (structure) differs
+    from compiling a normal expression in that
+      1. match variables are just placeholders, and must
+         not be evaluated
+      2. wildcards may exist---also just placeholders
+  -}
   compile "match_expr" (E_Access (Ident id)) = return [ "ldc 0" ]
   compile "match_expr" (E_MatchWildcard)     = return [ "ldc 0" ]
 
 
-  -- Match Expression checkins alternative compilation schemes :: 2 -> 1
+  {- Match Expression checkins alternative compilation schemes :: 2 -> 1
   ----------------------------------------------------------------------
+    Stack vars:
+      1. match expression (structure)
+      2. actual expresstion
+    Returns:
+      1. Boolean, whether the actual expression matches,
+         and if so -> having captured match vars in current lexical scope
+  -}
   compile "match_check" (E_MatchWildcard) = return [ "ajs -2", "ldc " ++ show machineTrue ]
   compile "match_check" (E_Lit l)         = return [ "eq" ]
   {-
@@ -349,22 +364,35 @@ instance Compileable Expr where
   -- check name first,
   --  then all args
   --  don't forget to short circuit!
-  compile "match_check" (E_Data cName args) = do
-    constructors <- gets cConstructors
-    let (Just k) = Map.lookup cName constructors
-    return $
-      concat (mapZI chArgEq args) ++
-      replicate (length args - 1) "and" ++
-      [ "ajs -2",
-        "lds 2" ]
-    where
-      chArgEq i e =
-        [ "lds -" ++ show (i + 1),
-          "ldh " ++ show (i + 1),
-          "lds -" ++ show (i + 1),
-          "ldh " ++ show (i + 1) ] ++
-        compile "match_check" cons cap e
   -}
+  compile "match_check" (E_Data (Data cName args)) = do
+    constructors <- gets cConstructors
+    let (Just (adtSize, cNo)) = Map.lookup cName constructors
+    failLabel <- freshLabel "_mcd"
+    endLabel <- freshLabel "_mcd"
+
+    -- the prepended "unit arg" is just a little hack
+    --  to check the equality of constructors
+    eqs <- mapM (checkComponent failLabel) (zip [0 .. length args] (E_Lit L_Unit : args))
+    return $
+      concat eqs ++
+      [ "ajs -2 // success mc (data)", -- getting here: success
+        "ldc " ++ show machineTrue,
+        "bra " ++ endLabel,
+        failLabel ++ ": ajs -2 // fail mc (data)",
+        "ldc " ++ show machineFalse,
+        endLabel ++ ": ajs 0 // end mc (data)" ]
+    where
+      checkComponent failLabel (i, e) = do
+        ce <- compile "match_check" e
+        return $
+          [ "lds -1",
+            "ldh " ++ show i,
+            "lds -1",
+            "ldh " ++ show i ] ++
+          ce ++
+          [ "brf " ++ failLabel ]
+
   compile "match_check" (E_Tuple e1 e2) = do
     ceq1 <- compile "match_check" e1
     ceq2 <- compile "match_check" e2
@@ -382,6 +410,7 @@ instance Compileable Expr where
       [ "and",
         "ajs -3",
         "lds 3" ]
+
   compile "match_check" (E_BinOp ":" e1 e2) = do
     ceq1 <- compile "match_check" e1
     ceq2 <- compile "match_check" e2
@@ -399,6 +428,12 @@ instance Compileable Expr where
       [ "and",
         "ajs -3",
         "lds 3" ]
+
+  -- TODO error:
+  --  Treats "match3/nil" as capturing variable
+  --   instead of constructor.
+  --  Problem lies in this fn (relay to "match_check" E_Data...),
+  --   and .. in the (fv e)
   compile "match_check" (E_Access (Ident x)) = do
     (_, i) <- envLookup x
     return $
@@ -407,8 +442,9 @@ instance Compileable Expr where
         "ldc " ++ show machineTrue ]
 
 
-  -- Normal Expressions
+  {- Normal Expressions
   ---------------------
+  -}
 
   -- let
   compile flag (E_Let l) = compile flag l
@@ -421,17 +457,9 @@ instance Compileable Expr where
 
   -- access
   compile flag (E_Access (Ident id)) = do
-    constructors <- gets cConstructors
-    case Map.lookup id constructors of
-      Just (adtSize, cNo) -> do
-        cd <- compileData adtSize cNo []
-        return $
-          cd ++
-          [ "ldr RR" ]
-      Nothing -> do
-        currentLocation <- gets cLocation
-        (location, i) <- envLookup id
-        return $ asm_lexical_load (length currentLocation - length location) i
+    currentLocation <- gets cLocation
+    (location, i) <- envLookup id
+    return $ asm_lexical_load (length currentLocation - length location) i
 
   compile flag (E_Access (FieldAccess a field)) = do
     c <- compile flag (E_Access a)
@@ -446,17 +474,25 @@ instance Compileable Expr where
       c ++
       [ "ldr RR" ]
 
+  -- function call
+  compile flag (E_Data d) = do
+    c <- compile flag d
+    return $
+      c ++
+      [ "ldr RR" ]
+
   -- function expression, take 2
-  compile flag (E_Fun params (S_Block stmts)) = do
+  compile flag (E_Fun params_ (S_Block stmts)) = do
     oldLocation <- gets cLocation
     oldLocalsEnv <- gets cLocalsEnv
 
     functionLabel <- freshLabel "fun"
 
-    let newLocation = oldLocation ++ [functionLabel]
+    let params = if length params_ == 0 then ["_"] else params_
+        newLocation = oldLocation ++ [functionLabel]
         blockLocals = blockVars (S_Block stmts)
         newLocals = params ++ blockLocals
-        newLocalsEnv = Map.fromList $ zip newLocals $ mapI (\i x -> (newLocation, i + 2)) newLocals
+        newLocalsEnv = Map.fromList $ mapI (\i x -> (x, (newLocation, i + 2))) newLocals
       in do
 
       -- update location and environment
@@ -562,40 +598,35 @@ instance Compileable a => Compileable (Let a) where
 
 
 instance Compileable FunCall where
-  compile flag f@(FunCall id args) = do
+  compile flag (FunCall id args_) =
+    let args = (if length args_ == 0 then [E_Lit L_Unit] else args_)
+        n = length args
+      in do
+      cid <- compile "" (E_Access (Ident id))
+      cargs <- compile "" args
+
+      return $                      -- [0]
+        cid ++                      -- [1]             pointer to function object
+        [ "lda 1" ] ++              -- [1]     0.      pointer to function defining context (to be pulled in by function)
+        cargs ++                    -- [n + 1] 1 .. n. formal arguments                     (to be pulled in by function)
+        cid ++                      -- [n + 2]         pointer to function object
+        [ "lda 0" ] ++              -- [n + 2]         pointer to function code
+        [ "jsr" ] ++                -- [n + 1]
+        [ "ajs -" ++ show (n + 1) ] -- [0]             // clean up stack
+
+
+instance Compileable Data where
+  compile flag (Data c args) = do
     constructors <- gets cConstructors
-    case Map.lookup id constructors of
-      Just (adtSize, cNo) -> compileData adtSize cNo args
-      Nothing -> compileRealFunCall f
+    let Just (adtSize, cNo) = Map.lookup c constructors
+    cargs <- compile flag args
+    return $
+      [ "ldc " ++ show cNo ++ " // save data" ] ++
+      cargs ++
+      (replicate (adtSize - length args) "ldc 0") ++
+      asm_heapify (adtSize + 1) ++
+      [ "str RR" ]
 
-
-compileData :: Int -> Int -> [Expr] -> Compiler Asm
-compileData adtSize cNo args = do
-  cargs <- compile "" args
-  return $
-    [ "ldc " ++ show cNo ++ " // save data" ] ++
-    cargs ++
-    (replicate (adtSize - length args) "ldc 0") ++
-    asm_heapify (adtSize + 1) ++
-    [ "str RR" ]
-
-
-compileRealFunCall :: FunCall -> Compiler Asm
-compileRealFunCall f@(FunCall id args_) =
-  let args = (if length args_ == 0 then [E_Lit L_Unit] else args_)
-      n = length args
-    in do
-    cid <- compile "" (E_Access (Ident id))
-    cargs <- compile "" args
-
-    return $                      -- [0]
-      cid ++                      -- [1]             pointer to function object
-      [ "lda 1" ] ++              -- [1]     0.      pointer to function defining context (to be pulled in by function)
-      cargs ++                    -- [n + 1] 1 .. n. formal arguments                     (to be pulled in by function)
-      cid ++                      -- [n + 2]         pointer to function object
-      [ "lda 0" ] ++              -- [n + 2]         pointer to function code
-      [ "jsr" ] ++                -- [n + 1]
-      [ "ajs -" ++ show (n + 1) ] -- [0]             // clean up stack
 
 
 

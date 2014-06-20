@@ -119,6 +119,7 @@ languageEnv = TypeEnv $ Map.fromList [
 -}
 
 data Token = Tk_Ident String
+           | Tk_Constructor String
            | Tk_Keyword String
            | Tk_Symbol String
            | Tk_Int Int
@@ -249,7 +250,7 @@ data Expr = E_Access Access
           | E_Tuple Expr Expr
           | E_Let (Let Expr)
           | E_FunCall FunCall
-          | E_Data String [Expr]
+          | E_Data Data
           | E_Match (Match Expr)
           | E_MatchWildcard
   deriving (Eq, Ord)
@@ -264,6 +265,7 @@ instance Show Expr where
   show (E_Let l)          = show l
   show (E_FunCall fc)     = show fc
   show (E_Match m)        = show m
+  show (E_Data d)         = show d
   show (E_MatchWildcard)  = "_"
 
 instance ShowNeedsBrackets Expr where
@@ -280,6 +282,7 @@ instance LexicalVars Expr where
   fv (E_Let l)         = fv l
   fv (E_Fun params b)  = (fv b) `Set.difference` (Set.fromList params)
   fv (E_Match m)       = fv m
+  fv (E_Data d)        = fv d
   fv (E_MatchWildcard) = Set.empty
   
   subst s (E_Access a)       = E_Access (subst s a)
@@ -292,6 +295,7 @@ instance LexicalVars Expr where
     where s' = foldl (.) (\x -> x) (map substRemove params) $ s
   subst s (E_Let l)          = E_Let (subst s l)
   subst s (E_Match m)        = E_Match (subst s m)
+  subst s (E_Data d)         = E_Data (subst s d)
   subst s (E_MatchWildcard)  = E_MatchWildcard
 
 
@@ -420,6 +424,17 @@ instance Show FunCall where
 instance LexicalVars FunCall where
   fv (FunCall _ args) = Set.unions $ map fv args
   subst s (FunCall a args) = FunCall a (map (subst s) args)
+
+
+data Data = Data String [Expr]
+  deriving (Eq, Ord)
+
+instance Show Data where
+  show (Data id es) = id ++ if length es == 0 then "" else "(" ++ (intercalate ", " $ map show es) ++ ")"
+
+instance LexicalVars Data where
+  fv (Data _ args) = Set.unions $ map fv args
+  subst s (Data a args) = Data a (map (subst s) args)
 
 
 

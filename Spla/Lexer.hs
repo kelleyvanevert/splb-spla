@@ -62,11 +62,17 @@ lex_junk = do
 
 lex_ident :: Parser String String
 lex_ident = do
-  c <- alpha
+  c <- lower
   cs <- first $ many (element '_' ||| element '\'' ||| alphanum)
   if (c:cs) `elem` keywords
     then mzero
     else return (c:cs)
+
+lex_constructor :: Parser String String
+lex_constructor = do
+  c <- upper
+  cs <- first $ many (element '_' ||| element '\'' ||| alphanum)
+  return (c:cs)
 
 lex_keyword :: Parser String String
 lex_keyword = strings keywords
@@ -122,6 +128,7 @@ lexer = successful $
           lex_operator                   |> Tk_Op,
           (string "=")                   |> Tk_Symbol,
           lex_ident                      |> Tk_Ident,
+          lex_constructor                |> Tk_Constructor,
           lex_keyword                    |> Tk_Keyword,
           element '_' ^^> return Tk_MatchWildcard
         ]

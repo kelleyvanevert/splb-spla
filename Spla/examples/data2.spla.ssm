@@ -9,9 +9,12 @@
            ldc 0      
            ldc 0      
            ldc 0      
-           stmh 9     
-           annote HP -9 -9 gray "lexical block" 
-           ldc 8      
+           ldc 0      
+           ldc 0      
+           ldc 0      
+           stmh 12    
+           annote HP -12 -12 gray "lexical block" 
+           ldc 11     
            sub        
            str MP     
            bsr __fun1 
@@ -59,7 +62,7 @@
            sub        
            ldr MP     
            sta 7      
-           bsr __fun15 
+           bsr __fun6 
            ldr RR     
            ldr MP     
            stmh 2     
@@ -68,6 +71,33 @@
            sub        
            ldr MP     
            sta 8      
+           bsr __fun7 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 9      
+           bsr __fun8 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 10     
+           bsr __fun18 
+           ldr RR     
+           ldr MP     
+           stmh 2     
+           annote HP -2 -2 gray "fun object" 
+           ldc 1      
+           sub        
+           ldr MP     
+           sta 11     
            ldr MP     
            lda 6      
            lda 1      
@@ -84,13 +114,13 @@
            trap 0     
            halt       
                       
-__fun15:   ldr PC     
+__fun18:   ldr PC     
            ldc 6      
            add        
            str RR     
            ret        
                       
-_fun15:    ajs 0      
+_fun18:    ajs 0      
            ldc 1      
            lds -4     
            ldr MP     
@@ -115,10 +145,10 @@ _fun15:    ajs 0
            ldc 0      
            ldr R5     
            eq         
-           brf _mr_cont17 
+           brf _mr_cont20 
            ldc 0      
-           bra _m_end16 
-_mr_cont17: ajs 0      
+           bra _m_end19 
+_mr_cont20: ajs 0      
            ldr MP     
            lda 2      
            str MP     
@@ -175,7 +205,7 @@ _mr_cont17: ajs 0
            and        
            ajs -3     
            lds 3      
-           brf _mr_cont19 
+           brf _mr_cont22 
            ldr MP     
            lda 1      
            lda 3      
@@ -192,7 +222,7 @@ _mr_cont17: ajs 0
            ldr MP     
            lda 1      
            lda 1      
-           lda 8      
+           lda 11     
            lda 1      
            ldr MP     
            lda 1      
@@ -202,7 +232,7 @@ _mr_cont17: ajs 0
            ldr MP     
            lda 1      
            lda 1      
-           lda 8      
+           lda 11     
            lda 0      
            jsr        
            ajs -3     
@@ -212,22 +242,22 @@ _mr_cont17: ajs 0
            ajs 1      
            sth        
            ajs -1     // end perform cons
-           bra _m_end16 
-_mr_cont19: ajs 0      
+           bra _m_end19 
+_mr_cont22: ajs 0      
            ldr MP     
            lda 2      
            str MP     
-_m_end16:  ajs 0      
+_m_end19:  ajs 0      
            str RR     
            bra __ret  
                       
-__fun5:    ldr PC     
+__fun8:    ldr PC     
            ldc 6      
            add        
            str RR     
            ret        
                       
-_fun5:     ajs 0      
+_fun8:     ajs 0      
            ldc 1      
            lds -4     
            ldr MP     
@@ -263,17 +293,24 @@ _fun5:     ajs 0
            lds -1     
            ldh 0      
            eq         
-           brf _mcd9  
+           brf _mcd12 
            ajs -2     // success mc (data)
            ldc -1     
-           bra _mcd10 
-_mcd9:     ajs -2     // fail mc (data)
+           bra _mcd13 
+_mcd12:    ajs -2     // fail mc (data)
            ldc 0      
-_mcd10:    ajs 0      // end mc (data)
-           brf _mr_cont7 
+_mcd13:    ajs 0      // end mc (data)
+           brf _mr_cont10 
+           ldc 0      // save data
            ldc 0      
-           bra _m_end6 
-_mr_cont7: ajs 0      
+           ldc 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           bra _m_end9 
+_mr_cont10: ajs 0      
            ldr MP     
            lda 2      
            str MP     
@@ -301,7 +338,7 @@ _mr_cont7: ajs 0
            lds -1     
            ldh 0      
            eq         
-           brf _mcd13 
+           brf _mcd16 
            lds -1     
            ldh 1      
            lds -1     
@@ -310,7 +347,7 @@ _mr_cont7: ajs 0
            sta 4      
            ajs -1     
            ldc -1     
-           brf _mcd13 
+           brf _mcd16 
            lds -1     
            ldh 2      
            lds -1     
@@ -319,14 +356,15 @@ _mr_cont7: ajs 0
            sta 3      
            ajs -1     
            ldc -1     
-           brf _mcd13 
+           brf _mcd16 
            ajs -2     // success mc (data)
            ldc -1     
-           bra _mcd14 
-_mcd13:    ajs -2     // fail mc (data)
+           bra _mcd17 
+_mcd16:    ajs -2     // fail mc (data)
            ldc 0      
-_mcd14:    ajs 0      // end mc (data)
-           brf _mr_cont11 
+_mcd17:    ajs 0      // end mc (data)
+           brf _mr_cont14 
+           ldc 1      // save data
            ldr MP     
            lda 1      
            lda 3      
@@ -343,7 +381,7 @@ _mcd14:    ajs 0      // end mc (data)
            ldr MP     
            lda 1      
            lda 1      
-           lda 7      
+           lda 10     
            lda 1      
            ldr MP     
            lda 1      
@@ -353,22 +391,146 @@ _mcd14:    ajs 0      // end mc (data)
            ldr MP     
            lda 1      
            lda 1      
-           lda 7      
+           lda 10     
            lda 0      
            jsr        
            ajs -3     
            ldr RR     
-           ajs -1     // start perform cons
-           sth        
-           ajs 1      
-           sth        
-           ajs -1     // end perform cons
-           bra _m_end6 
-_mr_cont11: ajs 0      
+           stmh 3     
+           ldc 2      
+           sub        
+           str RR     
+           ldr RR     
+           bra _m_end9 
+_mr_cont14: ajs 0      
            ldr MP     
            lda 2      
            str MP     
-_m_end6:   ajs 0      
+_m_end9:   ajs 0      
+           str RR     
+           bra __ret  
+                      
+__fun7:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun7:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldc 10     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun6:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun6:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 11     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 11     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 1      
+           ldc 10     
+           ldr MP     
+           lda 1      
+           lda 4      
+           lda 0      
+           jsr        
+           ajs -2     
+           ldc 0      
+           str RR     
+           bra __ret  
+                      
+__fun5:    ldr PC     
+           ldc 6      
+           add        
+           str RR     
+           ret        
+                      
+_fun5:     ajs 0      
+           ldc 1      
+           lds -3     
+           ldr MP     
+           lds -4     
+           stmh 4     
+           annote HP -4 -4 gray "lexical fun" 
+           ldc 3      
+           sub        
+           str MP     
+           ldr MP     
+           lda 1      
+           lda 11     
+           lda 1      
+           ldr MP     
+           lda 1      
+           lda 4      
+           ldr MP     
+           lda 3      
+           ldr MP     
+           lda 1      
+           lda 11     
+           lda 0      
+           jsr        
+           ajs -3     
+           ldc 0      
            str RR     
            bra __ret  
                       
@@ -384,18 +546,125 @@ _fun4:     ajs 0
            ldr MP     
            lds -4     
            ldc 0      
-           ldc 0      
-           stmh 6     
-           annote HP -6 -6 gray "lexical fun" 
-           ldc 5      
+           stmh 5     
+           annote HP -5 -5 gray "lexical fun" 
+           ldc 4      
            sub        
            str MP     
            ldc 1      // save data
-           ldc 4      
+           ldc 104    
+           ldc 101    
+           ldc 108    
+           ldc 108    
+           ldc 111    
+           ldc 32     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
            ldc 1      // save data
-           ldc 5      
+           ldc 104    
+           ldc 97     
+           ldc 112    
+           ldc 112    
+           ldc 121    
+           ldc 32     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
            ldc 1      // save data
-           ldc 6      
+           ldc 119    
+           ldc 111    
+           ldc 114    
+           ldc 108    
+           ldc 100    
+           ldc 33     
+           ldc 0      
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
+           ajs -1     // start perform cons
+           sth        
+           ajs 1      
+           sth        
+           ajs -1     // end perform cons
            ldc 0      // save data
            ldc 0      
            ldc 0      
@@ -421,39 +690,18 @@ _fun4:     ajs 0
            ldr RR     
            ldr MP     
            sta 4      
-           ldc 7      
-           ldc 8      
-           ldc 9      
-           ldc 0      
-           ajs -1     // start perform cons
-           sth        
-           ajs 1      
-           sth        
-           ajs -1     // end perform cons
-           ajs -1     // start perform cons
-           sth        
-           ajs 1      
-           sth        
-           ajs -1     // end perform cons
-           ajs -1     // start perform cons
-           sth        
-           ajs 1      
-           sth        
-           ajs -1     // end perform cons
            ldr MP     
-           sta 5      
+           lda 1      
+           lda 10     
+           lda 1      
            ldr MP     
            lda 1      
            lda 7      
-           lda 1      
-           ldr MP     
-           lda 1      
-           lda 3      
            ldr MP     
            lda 4      
            ldr MP     
            lda 1      
-           lda 7      
+           lda 10     
            lda 0      
            jsr        
            ajs -3     
@@ -461,17 +709,13 @@ _fun4:     ajs 0
            lda 1      
            lda 8      
            lda 1      
-           ldr MP     
-           lda 1      
-           lda 3      
-           ldr MP     
-           lda 5      
+           ldc 0      
            ldr MP     
            lda 1      
            lda 8      
            lda 0      
            jsr        
-           ajs -3     
+           ajs -2     
            ldc 1      
            str RR     
            bra __ret  
